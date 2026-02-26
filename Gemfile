@@ -19,6 +19,11 @@ gem "turbo-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+gem "devise", "~> 5.0"
+gem "devise-jwt", "~> 0.12"
+
+gem "rack-cors"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
