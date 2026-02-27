@@ -8,5 +8,5 @@ Rails.application.routes.draw do
 
   get "/sw.js", to: proc { [ 404, {}, [ "" ] ] }
 
-  # root "posts#index"
+  root "home#index"
 end
