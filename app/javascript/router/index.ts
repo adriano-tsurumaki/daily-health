@@ -5,22 +5,31 @@ const routes = [
   { path: "/", name: "home", component: () => import("../views/Home.vue") },
   { path: "/login", name: "login", component: () => import("../views/Login.vue") },
   {
-    path: "/food",
-    name: "food",
-    component: () => import("../views/Food.vue"),
+    path: "/",
+    component: () => import("../layouts/AppLayout.vue"),
     meta: { requiresAuth: true },
-  },
-  {
-    path: "/food/new",
-    name: "food-new",
-    component: () => import("../views/FoodForm.vue"),
-    meta: { requiresAuth: true },
-  },
-  {
-    path: "/food/:id/edit",
-    name: "food-edit",
-    component: () => import("../views/FoodForm.vue"),
-    meta: { requiresAuth: true },
+    children: [
+      {
+        path: "food",
+        name: "food",
+        component: () => import("../views/Food.vue"),
+      },
+      {
+        path: "food/new",
+        name: "food-new",
+        component: () => import("../views/FoodForm.vue"),
+      },
+      {
+        path: "food/:id/edit",
+        name: "food-edit",
+        component: () => import("../views/FoodForm.vue"),
+      },
+      {
+        path: "settings",
+        name: "settings",
+        component: () => import("../views/Settings.vue"),
+      },
+    ],
   },
 ]
 

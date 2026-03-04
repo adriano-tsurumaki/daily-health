@@ -1,0 +1,12 @@
+{
+    "REGISTER": {
+        "NAME": "Name",
+        "EMAIL": "Email",
+        "PASSWORD": "Password",
+        "CONFIRM_PASSWORD": "Confirm password",
+        "SUBMIT": "Sign Up",
+        "SUBMITTING": "Creating account...",
+        "HAS_ACCOUNT": "Already have an account?",
+        "LOGIN_LINK": "Sign In"
+    }
+}

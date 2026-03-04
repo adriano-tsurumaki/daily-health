@@ -8,6 +8,9 @@ import {
   type FoodItem,
   type FoodItemPayload,
 } from '@/services/food'
+import i18n from '@/plugins/i18n'
+
+const { t } = i18n.global
 
 export const useFoodStore = defineStore('food', () => {
   const items = ref<FoodItem[]>([])
@@ -20,7 +23,7 @@ export const useFoodStore = defineStore('food', () => {
     try {
       items.value = await fetchFoodItems()
     } catch {
-      error.value = 'Erro ao carregar alimentos'
+      error.value = t('errors.food_load')
     } finally {
       loading.value = false
     }
@@ -66,7 +69,7 @@ export const useFoodStore = defineStore('food', () => {
       await deleteFoodItem(id)
       items.value = items.value.filter(i => i.id !== id)
     } catch {
-      error.value = 'Erro ao remover alimento'
+      error.value = t('errors.food_delete')
     } finally {
       loading.value = false
     }
@@ -79,7 +82,7 @@ export const useFoodStore = defineStore('food', () => {
         return response.data.errors.join('. ')
       }
     }
-    return 'Erro desconhecido'
+    return t('errors.unknown')
   }
 
   return { items, loading, error, loadItems, create, update, remove }

@@ -1,72 +1,57 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useFoodStore } from '@/stores/food'
-import { useAuthStore } from '@/stores/auth'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell
 } from '@/components/ui/table'
 
-const router = useRouter()
+const { t } = useI18n()
 const foodStore = useFoodStore()
-const authStore = useAuthStore()
 
 onMounted(() => {
   foodStore.loadItems()
 })
 
 async function handleDelete(id: number) {
-  if (!confirm('Remover este alimento?')) return
+  if (!confirm(t('FOOD.CONFIRM_DELETE'))) return
   await foodStore.remove(id)
-}
-
-async function handleLogout() {
-  await authStore.logout()
-  router.push({ name: 'login' })
 }
 </script>
 
 <template>
-  <div class="max-w-4xl mx-auto px-4">
-    <header class="flex items-center justify-between py-4 border-b border-border mb-8">
-      <h1 class="text-2xl font-bold text-primary m-0">Daily Health</h1>
-      <nav class="flex gap-3 items-center">
-        <Button as-child>
-          <RouterLink :to="{ name: 'food-new' }">+ Novo Alimento</RouterLink>
-        </Button>
-        <Button variant="secondary" @click="handleLogout" :disabled="authStore.loading">
-          {{ authStore.loading ? 'Saindo...' : 'Sair' }}
-        </Button>
-      </nav>
-    </header>
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold">{{ t('FOOD.TITLE') }}</h1>
+      <Button as-child>
+        <RouterLink :to="{ name: 'food-new' }">{{ t('FOOD.NEW') }}</RouterLink>
+      </Button>
+    </div>
 
-    <main>
-      <h2 class="text-xl font-semibold mb-6">Meus Alimentos</h2>
-
-      <div v-if="foodStore.loading" class="text-center py-8 text-muted-foreground">Carregando...</div>
+      <div v-if="foodStore.loading" class="text-center py-8 text-muted-foreground">{{ t('FOOD.LOADING') }}</div>
 
       <Alert v-else-if="foodStore.error" variant="destructive">
         <AlertDescription>{{ foodStore.error }}</AlertDescription>
       </Alert>
 
       <div v-else-if="foodStore.items.length === 0" class="text-center py-8 text-muted-foreground">
-        Nenhum alimento cadastrado ainda.
+        {{ t('FOOD.EMPTY') }}
       </div>
 
       <div v-else class="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>Marca</TableHead>
-              <TableHead>Unidade</TableHead>
-              <TableHead>Calorias</TableHead>
-              <TableHead>Prot</TableHead>
-              <TableHead>Carbo</TableHead>
-              <TableHead>Gord</TableHead>
-              <TableHead class="text-right">Ações</TableHead>
+              <TableHead>{{ t('FOOD.NAME') }}</TableHead>
+              <TableHead>{{ t('FOOD.BRAND') }}</TableHead>
+              <TableHead>{{ t('FOOD.UNIT') }}</TableHead>
+              <TableHead>{{ t('FOOD.CALORIES') }}</TableHead>
+              <TableHead>{{ t('FOOD.PROTEIN') }}</TableHead>
+              <TableHead>{{ t('FOOD.CARBO') }}</TableHead>
+              <TableHead>{{ t('FOOD.FAT') }}</TableHead>
+              <TableHead class="text-right">{{ t('FOOD.ACTIONS') }}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -80,16 +65,15 @@ async function handleLogout() {
               <TableCell>{{ item.food_nutrition?.fat ?? '-' }}</TableCell>
               <TableCell class="text-right whitespace-nowrap">
                 <Button variant="link" as-child class="p-0 h-auto mr-3">
-                  <RouterLink :to="{ name: 'food-edit', params: { id: item.id } }">Editar</RouterLink>
+                  <RouterLink :to="{ name: 'food-edit', params: { id: item.id } }">{{ t('FOOD.EDIT') }}</RouterLink>
                 </Button>
                 <Button variant="link" class="p-0 h-auto text-destructive" @click="handleDelete(item.id)" :disabled="foodStore.loading">
-                  Remover
+                  {{ t('FOOD.DELETE') }}
                 </Button>
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </div>
-    </main>
   </div>
 </template>

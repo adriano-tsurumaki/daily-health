@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { signIn as authSignIn, signOut as authSignOut, signUp as authSignUp, getStoredToken } from '@/services/auth'
+import i18n from '@/plugins/i18n'
+
+const { t } = i18n.global
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(null)
@@ -20,7 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       token.value = await authSignIn(email, password)
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Erro ao fazer login'
+      const message = e instanceof Error ? e.message : t('errors.login')
       error.value = message
       throw e
     } finally {
@@ -34,9 +37,9 @@ export const useAuthStore = defineStore('auth', () => {
     loading.value = true
     try {
       await authSignUp(name, email, password, passwordConfirmation)
-      success.value = 'Conta criada com sucesso! Verifique seu email para confirmar.'
+      success.value = t('success.register')
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Erro ao criar conta'
+      const message = e instanceof Error ? e.message : t('errors.register')
       error.value = message
       throw e
     } finally {

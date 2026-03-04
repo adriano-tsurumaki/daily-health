@@ -1,0 +1,19 @@
+{
+    "FOOD": {
+        "TITLE": "My Foods",
+        "NEW": "+ New Food",
+        "LOADING": "Loading...",
+        "EMPTY": "No foods registered yet.",
+        "NAME": "Name",
+        "BRAND": "Brand",
+        "UNIT": "Unit",
+        "CALORIES": "Calories",
+        "PROTEIN": "Prot",
+        "CARBO": "Carbs",
+        "FAT": "Fat",
+        "ACTIONS": "Actions",
+        "EDIT": "Edit",
+        "DELETE": "Delete",
+        "CONFIRM_DELETE": "Delete this food?"
+    }
+}

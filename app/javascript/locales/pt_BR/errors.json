@@ -1,0 +1,11 @@
+{
+    "ERRORS": {
+        "LOGIN": "Erro ao fazer login",
+        "REGISTER": "Erro ao criar conta",
+        "FOOD_LOAD": "Erro ao carregar alimentos",
+        "FOOD_DELETE": "Erro ao remover alimento",
+        "FOOD_FETCH": "Erro ao carregar alimento",
+        "FOOD_SAVE": "Erro ao salvar",
+        "UNKNOWN": "Erro desconhecido"
+    }
+}

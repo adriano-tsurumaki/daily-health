@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/stores/auth'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 
+const { t } = useI18n()
 const router = useRouter()
 const authStore = useAuthStore()
 
@@ -46,18 +49,21 @@ async function handleRegister() {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center p-4">
+  <div class="min-h-screen flex items-center justify-center p-4 relative">
+    <div class="absolute top-4 right-4">
+      <ThemeToggle />
+    </div>
     <Card class="w-full max-w-sm shadow-card">
       <CardContent class="pt-10 pb-10 px-8">
-        <h1 class="text-center text-3xl font-bold text-primary mb-8">Daily Health</h1>
+        <h1 class="text-center text-3xl font-bold text-primary mb-8">{{ t('APP.TITLE') }}</h1>
 
         <!-- Login -->
         <form v-if="mode === 'login'" @submit.prevent="handleLogin">
           <div class="mb-4">
-            <Input v-model="email" type="email" placeholder="Email" required />
+            <Input v-model="email" type="email" :placeholder="t('LOGIN.EMAIL')" required />
           </div>
           <div class="mb-4">
-            <Input v-model="password" type="password" placeholder="Senha" required />
+            <Input v-model="password" type="password" :placeholder="t('LOGIN.PASSWORD')" required />
           </div>
           <Alert v-if="authStore.error" variant="destructive" class="mb-3">
             <AlertDescription>{{ authStore.error }}</AlertDescription>
@@ -66,35 +72,35 @@ async function handleRegister() {
             <AlertDescription>{{ authStore.success }}</AlertDescription>
           </Alert>
           <Button type="submit" class="w-full py-3 text-base mt-2" :disabled="authStore.loading">
-            {{ authStore.loading ? 'Entrando...' : 'Entrar' }}
+            {{ authStore.loading ? t('LOGIN.SUBMITTING') : t('LOGIN.SUBMIT') }}
           </Button>
           <p class="text-center text-sm text-muted-foreground mt-5 mb-0">
-            Não tem conta? <a href="#" @click.prevent="switchMode('register')" class="text-primary font-semibold no-underline hover:underline">Cadastre-se</a>
+            {{ t('LOGIN.NO_ACCOUNT') }} <a href="#" @click.prevent="switchMode('register')" class="text-primary font-semibold no-underline hover:underline">{{ t('LOGIN.REGISTER_LINK') }}</a>
           </p>
         </form>
 
         <!-- Register -->
         <form v-else @submit.prevent="handleRegister">
           <div class="mb-4">
-            <Input v-model="name" type="text" placeholder="Nome" required />
+            <Input v-model="name" type="text" :placeholder="t('REGISTER.NAME')" required />
           </div>
           <div class="mb-4">
-            <Input v-model="email" type="email" placeholder="Email" required />
+            <Input v-model="email" type="email" :placeholder="t('REGISTER.EMAIL')" required />
           </div>
           <div class="mb-4">
-            <Input v-model="password" type="password" placeholder="Senha" required minlength="6" />
+            <Input v-model="password" type="password" :placeholder="t('REGISTER.PASSWORD')" required minlength="6" />
           </div>
           <div class="mb-4">
-            <Input v-model="passwordConfirmation" type="password" placeholder="Confirmar senha" required minlength="6" />
+            <Input v-model="passwordConfirmation" type="password" :placeholder="t('REGISTER.CONFIRM_PASSWORD')" required minlength="6" />
           </div>
           <Alert v-if="authStore.error" variant="destructive" class="mb-3">
             <AlertDescription>{{ authStore.error }}</AlertDescription>
           </Alert>
           <Button type="submit" class="w-full py-3 text-base mt-2" :disabled="authStore.loading">
-            {{ authStore.loading ? 'Criando conta...' : 'Cadastrar' }}
+            {{ authStore.loading ? t('REGISTER.SUBMITTING') : t('REGISTER.SUBMIT') }}
           </Button>
           <p class="text-center text-sm text-muted-foreground mt-5 mb-0">
-            Já tem conta? <a href="#" @click.prevent="switchMode('login')" class="text-primary font-semibold no-underline hover:underline">Entrar</a>
+            {{ t('REGISTER.HAS_ACCOUNT') }} <a href="#" @click.prevent="switchMode('login')" class="text-primary font-semibold no-underline hover:underline">{{ t('REGISTER.LOGIN_LINK') }}</a>
           </p>
         </form>
       </CardContent>
