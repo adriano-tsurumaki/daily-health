@@ -3,6 +3,10 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useFoodStore } from '@/stores/food'
 import { fetchFoodItem, type FoodItemPayload } from '@/services/food'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 const router = useRouter()
 const route = useRoute()
@@ -93,229 +97,101 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="app">
-    <header class="app-header">
-      <h1 class="app-logo">Daily Health</h1>
-      <RouterLink :to="{ name: 'food' }" class="btn btn-secondary">Voltar</RouterLink>
+  <div class="max-w-xl mx-auto px-4">
+    <header class="flex items-center justify-between py-4 border-b border-border mb-8">
+      <h1 class="text-2xl font-bold text-primary m-0">Daily Health</h1>
+      <Button variant="secondary" as-child>
+        <RouterLink :to="{ name: 'food' }">Voltar</RouterLink>
+      </Button>
     </header>
 
-    <main class="main-content">
-      <h2>{{ isEditing ? 'Editar Alimento' : 'Novo Alimento' }}</h2>
+    <main>
+      <h2 class="text-xl font-semibold mb-6">{{ isEditing ? 'Editar Alimento' : 'Novo Alimento' }}</h2>
 
-      <div v-if="loadingItem" class="status-message">Carregando...</div>
+      <div v-if="loadingItem" class="text-center py-8 text-muted-foreground">Carregando...</div>
 
-      <form v-else @submit.prevent="handleSubmit" class="food-form">
-        <fieldset>
-          <legend>Informações do Alimento</legend>
+      <form v-else @submit.prevent="handleSubmit">
+        <fieldset class="border border-border rounded-lg p-5 mb-6">
+          <legend class="font-semibold text-sm text-foreground px-2">Informações do Alimento</legend>
 
-          <div class="form-group">
-            <label for="name">Nome *</label>
-            <input id="name" v-model="name" type="text" placeholder="Ex: Banana" required>
+          <div class="mb-4">
+            <Label for="name">Nome *</Label>
+            <Input id="name" v-model="name" type="text" placeholder="Ex: Banana" required class="mt-1" />
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="brand">Marca</label>
-              <input id="brand" v-model="brand" type="text" placeholder="Ex: Prata">
+          <div class="flex gap-4">
+            <div class="mb-4 flex-1">
+              <Label for="brand">Marca</Label>
+              <Input id="brand" v-model="brand" type="text" placeholder="Ex: Prata" class="mt-1" />
             </div>
-            <div class="form-group">
-              <label for="defaultUnit">Unidade Padrão *</label>
-              <input id="defaultUnit" v-model="defaultUnit" type="text" placeholder="Ex: g, ml, un" required>
-            </div>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Informações Nutricionais</legend>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="basisAmount">Quantidade Base *</label>
-              <input id="basisAmount" v-model.number="basisAmount" type="number" step="0.1" min="0.1" required>
-            </div>
-            <div class="form-group">
-              <label for="basisUnit">Unidade Base *</label>
-              <input id="basisUnit" v-model="basisUnit" type="text" placeholder="Ex: g, ml" required>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="calories">Calorias (kcal) *</label>
-              <input id="calories" v-model.number="calories" type="number" step="0.1" min="0" required>
-            </div>
-            <div class="form-group">
-              <label for="protein">Proteína (g) *</label>
-              <input id="protein" v-model.number="protein" type="number" step="0.1" min="0" required>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="carbo">Carboidratos (g) *</label>
-              <input id="carbo" v-model.number="carbo" type="number" step="0.1" min="0" required>
-            </div>
-            <div class="form-group">
-              <label for="fat">Gordura (g) *</label>
-              <input id="fat" v-model.number="fat" type="number" step="0.1" min="0" required>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="fiber">Fibra (g) *</label>
-              <input id="fiber" v-model.number="fiber" type="number" step="0.1" min="0" required>
-            </div>
-            <div class="form-group">
-              <label for="sugar">Açúcar (g) *</label>
-              <input id="sugar" v-model.number="sugar" type="number" step="0.1" min="0" required>
+            <div class="mb-4 flex-1">
+              <Label for="defaultUnit">Unidade Padrão *</Label>
+              <Input id="defaultUnit" v-model="defaultUnit" type="text" placeholder="Ex: g, ml, un" required class="mt-1" />
             </div>
           </div>
         </fieldset>
 
-        <p v-if="formError" class="message error">{{ formError }}</p>
+        <fieldset class="border border-border rounded-lg p-5 mb-6">
+          <legend class="font-semibold text-sm text-foreground px-2">Informações Nutricionais</legend>
 
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary" :disabled="saving">
+          <div class="flex gap-4">
+            <div class="mb-4 flex-1">
+              <Label for="basisAmount">Quantidade Base *</Label>
+              <Input id="basisAmount" v-model.number="basisAmount" type="number" step="0.1" min="0.1" required class="mt-1" />
+            </div>
+            <div class="mb-4 flex-1">
+              <Label for="basisUnit">Unidade Base *</Label>
+              <Input id="basisUnit" v-model="basisUnit" type="text" placeholder="Ex: g, ml" required class="mt-1" />
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="mb-4 flex-1">
+              <Label for="calories">Calorias (kcal) *</Label>
+              <Input id="calories" v-model.number="calories" type="number" step="0.1" min="0" required class="mt-1" />
+            </div>
+            <div class="mb-4 flex-1">
+              <Label for="protein">Proteína (g) *</Label>
+              <Input id="protein" v-model.number="protein" type="number" step="0.1" min="0" required class="mt-1" />
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="mb-4 flex-1">
+              <Label for="carbo">Carboidratos (g) *</Label>
+              <Input id="carbo" v-model.number="carbo" type="number" step="0.1" min="0" required class="mt-1" />
+            </div>
+            <div class="mb-4 flex-1">
+              <Label for="fat">Gordura (g) *</Label>
+              <Input id="fat" v-model.number="fat" type="number" step="0.1" min="0" required class="mt-1" />
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="mb-4 flex-1">
+              <Label for="fiber">Fibra (g) *</Label>
+              <Input id="fiber" v-model.number="fiber" type="number" step="0.1" min="0" required class="mt-1" />
+            </div>
+            <div class="mb-4 flex-1">
+              <Label for="sugar">Açúcar (g) *</Label>
+              <Input id="sugar" v-model.number="sugar" type="number" step="0.1" min="0" required class="mt-1" />
+            </div>
+          </div>
+        </fieldset>
+
+        <Alert v-if="formError" variant="destructive" class="mb-4">
+          <AlertDescription>{{ formError }}</AlertDescription>
+        </Alert>
+
+        <div class="flex gap-3 mt-2">
+          <Button type="submit" :disabled="saving">
             {{ saving ? 'Salvando...' : (isEditing ? 'Salvar Alterações' : 'Criar Alimento') }}
-          </button>
-          <RouterLink :to="{ name: 'food' }" class="btn btn-secondary">Cancelar</RouterLink>
+          </Button>
+          <Button variant="secondary" as-child>
+            <RouterLink :to="{ name: 'food' }">Cancelar</RouterLink>
+          </Button>
         </div>
       </form>
     </main>
   </div>
 </template>
-
-<style scoped>
-.app {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 0;
-  border-bottom: 1px solid #e5e7eb;
-  margin-bottom: 2rem;
-}
-
-.app-logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #4f46e5;
-  margin: 0;
-}
-
-.main-content h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 0 0 1.5rem;
-}
-
-.status-message {
-  text-align: center;
-  padding: 2rem;
-  color: #6b7280;
-}
-
-.food-form fieldset {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 1.25rem;
-  margin: 0 0 1.5rem;
-}
-
-.food-form legend {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #374151;
-  padding: 0 0.5rem;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-  flex: 1;
-}
-
-.form-group label {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #374151;
-  margin-bottom: 0.25rem;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.6rem 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  box-sizing: border-box;
-  transition: border-color 0.2s;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-}
-
-.form-row {
-  display: flex;
-  gap: 1rem;
-}
-
-.message.error {
-  color: #991b1b;
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 6px;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-}
-
-.form-actions {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-}
-
-.btn {
-  padding: 0.6rem 1.25rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  border: none;
-  transition: background-color 0.2s;
-  text-align: center;
-}
-
-.btn-primary {
-  background-color: #4f46e5;
-  color: #fff;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background-color: #4338ca;
-}
-
-.btn-primary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn-secondary {
-  background-color: #f3f4f6;
-  color: #374151;
-}
-
-.btn-secondary:hover {
-  background-color: #e5e7eb;
-}
-</style>
