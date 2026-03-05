@@ -4,6 +4,18 @@ import i18nMessages from '@/locales'
 const savedLocale = localStorage.getItem('locale') ?? 'pt-BR'
 
 const i18n = createI18n({
+  numberFormats: {
+    'en': {
+      currency: {
+        style: 'currency', currency: 'USD'
+      }
+    },
+    'pt-BR': {
+      currency: {
+        style: 'currency', currency: 'BRL'
+      }
+    }
+  },
   legacy: false,
   locale: savedLocale,
   fallbackLocale: 'en',

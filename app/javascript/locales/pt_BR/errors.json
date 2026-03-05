@@ -6,6 +6,8 @@
         "FOOD_DELETE": "Erro ao remover alimento",
         "FOOD_FETCH": "Erro ao carregar alimento",
         "FOOD_SAVE": "Erro ao salvar",
+        "FINANCE_LOAD": "Erro ao carregar dados financeiros",
+        "FINANCE_DELETE": "Erro ao remover registro",
         "UNKNOWN": "Erro desconhecido"
     }
 }

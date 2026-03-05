@@ -7,10 +7,14 @@ import profile from './profile.json'
 import register from './register.json'
 import settings from './settings.json'
 import sidebar from './sidebar.json'
+import finance from './finance.json'
+import finance_form from './finance_form.json'
 
 export default {
     ...app,
     ...errors,
+    ...finance,
+    ...finance_form,
     ...food_form,
     ...food,
     ...login,

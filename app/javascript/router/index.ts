@@ -25,6 +25,36 @@ const routes = [
         component: () => import("../views/FoodForm.vue"),
       },
       {
+        path: "finance",
+        name: "finance",
+        component: () => import("../views/Finance.vue"),
+      },
+      {
+        path: "finance/transactions/new",
+        name: "finance-transactions-new",
+        component: () => import("../views/TransactionForm.vue"),
+      },
+      {
+        path: "finance/transactions/:id/edit",
+        name: "finance-transactions-edit",
+        component: () => import("../views/TransactionForm.vue"),
+      },
+      {
+        path: "finance/categories",
+        name: "finance-categories",
+        component: () => import("../views/Categories.vue"),
+      },
+      {
+        path: "finance/tags",
+        name: "finance-tags",
+        component: () => import("../views/Tags.vue"),
+      },
+      {
+        path: "finance/payment-methods",
+        name: "finance-payment-methods",
+        component: () => import("../views/PaymentMethods.vue"),
+      },
+      {
         path: "settings",
         name: "settings",
         component: () => import("../views/Settings.vue"),

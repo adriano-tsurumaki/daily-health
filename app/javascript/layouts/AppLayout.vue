@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { UtensilsCrossed, Settings, LogOut, ChevronsUpDown, Moon, Sun, User } from 'lucide-vue-next'
+import { UtensilsCrossed, Wallet, Tag, CreditCard, FolderOpen, Settings, LogOut, ChevronsUpDown, Moon, Sun, User } from 'lucide-vue-next'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -53,6 +53,50 @@ function isActive(name: string) {
         >
           <UtensilsCrossed class="size-4" />
           {{ t('SIDEBAR.FOODS') }}
+        </RouterLink>
+
+        <RouterLink
+          :to="{ name: 'finance' }"
+          class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium no-underline transition-colors"
+          :class="isActive('finance')
+            ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+            : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'"
+        >
+          <Wallet class="size-4" />
+          {{ t('SIDEBAR.FINANCE') }}
+        </RouterLink>
+
+        <RouterLink
+          :to="{ name: 'finance-categories' }"
+          class="flex items-center gap-3 px-3 py-2 pl-10 rounded-md text-sm font-medium no-underline transition-colors"
+          :class="isActive('finance-categories')
+            ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+            : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'"
+        >
+          <FolderOpen class="size-4" />
+          {{ t('SIDEBAR.CATEGORIES') }}
+        </RouterLink>
+
+        <RouterLink
+          :to="{ name: 'finance-tags' }"
+          class="flex items-center gap-3 px-3 py-2 pl-10 rounded-md text-sm font-medium no-underline transition-colors"
+          :class="isActive('finance-tags')
+            ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+            : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'"
+        >
+          <Tag class="size-4" />
+          {{ t('SIDEBAR.TAGS') }}
+        </RouterLink>
+
+        <RouterLink
+          :to="{ name: 'finance-payment-methods' }"
+          class="flex items-center gap-3 px-3 py-2 pl-10 rounded-md text-sm font-medium no-underline transition-colors"
+          :class="isActive('finance-payment-methods')
+            ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+            : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'"
+        >
+          <CreditCard class="size-4" />
+          {{ t('SIDEBAR.PAYMENT_METHODS') }}
         </RouterLink>
 
         <RouterLink
