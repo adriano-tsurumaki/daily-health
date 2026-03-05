@@ -1,11 +1,21 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+one:
+  food_item: one
+  basis_amount: 100.0
+  basis_unit: "g"
+  calories: 130.0
+  carbo: 28.0
+  protein: 2.7
+  fat: 0.3
+  fiber: 0.4
+  sugar: 0.0
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+two:
+  food_item: two
+  basis_amount: 100.0
+  basis_unit: "g"
+  calories: 77.0
+  carbo: 14.0
+  protein: 5.0
+  fat: 0.5
+  fiber: 8.6
+  sugar: 0.0
