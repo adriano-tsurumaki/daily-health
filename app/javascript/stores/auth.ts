@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       token.value = await authSignIn(email, password)
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : t('errors.login')
+      const message = e instanceof Error ? e.message : t('ERRORS.LOGIN')
       error.value = message
       throw e
     } finally {
@@ -37,9 +37,9 @@ export const useAuthStore = defineStore('auth', () => {
     loading.value = true
     try {
       await authSignUp(name, email, password, passwordConfirmation)
-      success.value = t('success.register')
+      success.value = t('SUCCESS.REGISTER')
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : t('errors.register')
+      const message = e instanceof Error ? e.message : t('ERRORS.REGISTER')
       error.value = message
       throw e
     } finally {

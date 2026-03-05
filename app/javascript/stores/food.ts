@@ -23,7 +23,7 @@ export const useFoodStore = defineStore('food', () => {
     try {
       items.value = await fetchFoodItems()
     } catch {
-      error.value = t('errors.food_load')
+      error.value = t('ERRORS.FOOD_LOAD')
     } finally {
       loading.value = false
     }
@@ -69,7 +69,7 @@ export const useFoodStore = defineStore('food', () => {
       await deleteFoodItem(id)
       items.value = items.value.filter(i => i.id !== id)
     } catch {
-      error.value = t('errors.food_delete')
+      error.value = t('ERRORS.FOOD_DELETE')
     } finally {
       loading.value = false
     }
@@ -82,7 +82,7 @@ export const useFoodStore = defineStore('food', () => {
         return response.data.errors.join('. ')
       }
     }
-    return t('errors.unknown')
+    return t('ERRORS.UNKNOWN')
   }
 
   return { items, loading, error, loadItems, create, update, remove }
