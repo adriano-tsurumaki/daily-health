@@ -7,6 +7,7 @@ class Transaction < ApplicationRecord
   belongs_to :recurrence, optional: true
   belongs_to :installment_plan, optional: true
   has_many :transaction_items, dependent: :destroy, inverse_of: :financial_transaction
+  accepts_nested_attributes_for :transaction_items, allow_destroy: true, reject_if: :all_blank
   has_many :transaction_tags, dependent: :destroy, inverse_of: :financial_transaction
   has_many :tags, through: :transaction_tags
 

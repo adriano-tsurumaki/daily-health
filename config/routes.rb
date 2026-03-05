@@ -13,6 +13,11 @@ Rails.application.routes.draw do
         end
       end
       resources :food, only: [ :index, :show, :create, :update, :destroy ]
+      resources :transactions, only: [ :index, :show, :create, :update, :destroy ]
+      resources :categories, only: [ :index, :create, :update, :destroy ]
+      resources :tags, only: [ :index, :create, :update, :destroy ]
+      resources :payment_methods, only: [ :index, :create, :update, :destroy ]
+      resource :dashboard, only: [ :show ], controller: "dashboard"
     end
   end
 
