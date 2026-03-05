@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :day_logs, dependent: :destroy
   has_many :food_items, dependent: :destroy
   has_many :recipes, dependent: :destroy
+  has_many :categories, dependent: :destroy
+  has_many :transactions, dependent: :destroy
 
   def confirmed_at
     self[:confirmed_at]

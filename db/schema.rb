@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_01_015234) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_05_015124) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["deleted_at"], name: "ix_categories_deleted_at"
+    t.index ["user_id"], name: "index_categories_on_user_id"
+  end
 
   create_table "day_logs", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -58,6 +69,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_01_015234) do
     t.check_constraint "fiber >= 0::double precision", name: "chk_fn_fiber_non_negative"
     t.check_constraint "protein >= 0::double precision", name: "chk_fn_protein_non_negative"
     t.check_constraint "sugar >= 0::double precision", name: "chk_fn_sugar_non_negative"
+  end
+
+  create_table "installment_plans", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.datetime "end_date", null: false
+    t.integer "interval_in_months", null: false
+    t.datetime "start_date", null: false
+    t.decimal "total_amount", precision: 10, scale: 2, null: false
+    t.integer "total_installments", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["deleted_at"], name: "ix_installment_plans_deleted_at"
   end
 
   create_table "jwt_denylist", force: :cascade do |t|
@@ -110,6 +134,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_01_015234) do
     t.check_constraint "quantity > 0::double precision", name: "chk_mi_quantity_positive"
   end
 
+  create_table "payment_methods", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.integer "identifier", default: 0, null: false
+    t.string "locale", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["deleted_at"], name: "ix_payment_methods_deleted_at"
+  end
+
   create_table "recipe_ingredients", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "food_item_id", null: false
@@ -157,6 +192,75 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_01_015234) do
     t.check_constraint "servings > 0::double precision", name: "chk_servings_positive"
   end
 
+  create_table "recurrences", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.datetime "end_date"
+    t.integer "frequency", null: false
+    t.boolean "is_active", null: false
+    t.datetime "next_due_date", null: false
+    t.integer "recurrence_interval", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["deleted_at"], name: "ix_recurrences_deleted_at"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["deleted_at"], name: "ix_tags_deleted_at"
+    t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
+  create_table "transaction_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.bigint "installment_plan_id"
+    t.string "name", null: false
+    t.decimal "quantity", precision: 10, scale: 4, null: false
+    t.bigint "transaction_id"
+    t.string "unit_of_measure", null: false
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["deleted_at"], name: "ix_transaction_items_deleted_at"
+    t.index ["installment_plan_id"], name: "index_transaction_items_on_installment_plan_id"
+    t.index ["transaction_id"], name: "index_transaction_items_on_transaction_id"
+  end
+
+  create_table "transaction_tags", id: false, force: :cascade do |t|
+    t.bigint "tag_id", null: false
+    t.bigint "transaction_id", null: false
+    t.index ["tag_id"], name: "index_transaction_tags_on_tag_id"
+    t.index ["transaction_id", "tag_id"], name: "ux_transaction_tags", unique: true
+    t.index ["transaction_id"], name: "index_transaction_tags_on_transaction_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.bigint "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.bigint "installment_plan_id"
+    t.datetime "payment_date", null: false
+    t.bigint "payment_method_id", null: false
+    t.bigint "recurrence_id"
+    t.integer "status", default: 0, null: false
+    t.integer "transaction_type", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["category_id"], name: "index_transactions_on_category_id"
+    t.index ["deleted_at"], name: "ix_transactions_deleted_at"
+    t.index ["installment_plan_id"], name: "index_transactions_on_installment_plan_id"
+    t.index ["payment_method_id"], name: "index_transactions_on_payment_method_id"
+    t.index ["recurrence_id"], name: "index_transactions_on_recurrence_id"
+    t.index ["user_id"], name: "index_transactions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "confirmation_sent_at"
     t.string "confirmation_token"
@@ -175,6 +279,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_01_015234) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "categories", "users", on_delete: :cascade
   add_foreign_key "day_logs", "users", on_delete: :cascade
   add_foreign_key "food_items", "users", on_delete: :cascade
   add_foreign_key "food_nutritions", "food_items", on_delete: :cascade
@@ -185,4 +290,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_01_015234) do
   add_foreign_key "recipe_ingredients", "recipes", on_delete: :cascade
   add_foreign_key "recipe_nutrition_caches", "recipes", on_delete: :cascade
   add_foreign_key "recipes", "users", on_delete: :cascade
+  add_foreign_key "transaction_items", "installment_plans", on_delete: :cascade
+  add_foreign_key "transaction_items", "transactions", on_delete: :cascade
+  add_foreign_key "transaction_tags", "tags", on_delete: :cascade
+  add_foreign_key "transaction_tags", "transactions", on_delete: :cascade
+  add_foreign_key "transactions", "categories", on_delete: :nullify
+  add_foreign_key "transactions", "installment_plans", on_delete: :cascade
+  add_foreign_key "transactions", "payment_methods"
+  add_foreign_key "transactions", "recurrences", on_delete: :nullify
+  add_foreign_key "transactions", "users", on_delete: :cascade
 end
