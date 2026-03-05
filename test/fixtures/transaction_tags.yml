@@ -1,0 +1,3 @@
+grocery_essential:
+  transaction_id: <%= ActiveRecord::FixtureSet.identify(:grocery_expense) %>
+  tag: essential

@@ -1,0 +1,13 @@
+rice:
+  name: "Arroz 5kg"
+  quantity: 1.0
+  unit_of_measure: "un"
+  unit_price: 25.90
+  transaction_id: <%= ActiveRecord::FixtureSet.identify(:grocery_expense) %>
+
+beans:
+  name: "Feijão 1kg"
+  quantity: 2.0
+  unit_of_measure: "un"
+  unit_price: 8.50
+  transaction_id: <%= ActiveRecord::FixtureSet.identify(:grocery_expense) %>

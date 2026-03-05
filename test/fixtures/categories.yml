@@ -1,0 +1,7 @@
+food_category:
+  name: "Alimentação"
+  user: user_email_confirmed
+
+transport_category:
+  name: "Transporte"
+  user: user_email_confirmed
