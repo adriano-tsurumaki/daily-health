@@ -1,0 +1,31 @@
+{
+  "FINANCE_FORM": {
+    "NEW_TITLE": "New Transaction",
+    "EDIT_TITLE": "Edit Transaction",
+    "AMOUNT": "Amount",
+    "AMOUNT_PLACEHOLDER": "0.00",
+    "PAYMENT_DATE": "Payment Date",
+    "TRANSACTION_TYPE": "Type",
+    "STATUS": "Status",
+    "PAYMENT_METHOD": "Payment Method",
+    "CATEGORY": "Category",
+    "CATEGORY_OPTIONAL": "Category (optional)",
+    "SELECT_CATEGORY": "Select a category",
+    "SELECT_PAYMENT_METHOD": "Select a payment method",
+    "SELECT_TYPE": "Select type",
+    "SELECT_STATUS": "Select status",
+    "TAGS": "Tags",
+    "ITEMS": "Items",
+    "ADD_ITEM": "Add Item",
+    "ITEM_NAME": "Name",
+    "ITEM_QUANTITY": "Quantity",
+    "ITEM_UNIT": "Unit",
+    "ITEM_PRICE": "Unit Price",
+    "ITEM_TOTAL": "Total",
+    "REMOVE_ITEM": "Remove",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "SAVING": "Saving...",
+    "NONE": "None"
+  }
+}

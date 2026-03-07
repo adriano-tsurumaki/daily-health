@@ -1,0 +1,10 @@
+{
+    "PROFILE": {
+        "LABEL": "Profile",
+        "MY_ACCOUNT": "My Account",
+        "SETTINGS": "Settings",
+        "THEME": "Theme",
+        "LOGOUT": "Sign Out",
+        "LOGGING_OUT": "Signing out..."
+    }
+}

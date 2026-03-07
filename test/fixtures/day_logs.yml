@@ -1,0 +1,9 @@
+one:
+  user: user_email_confirmed
+  local_data: <%= Date.current %>
+  timezone: "America/Sao_Paulo"
+
+two:
+  user: user
+  local_data: <%= Date.current - 1.day %>
+  timezone: "America/Sao_Paulo"

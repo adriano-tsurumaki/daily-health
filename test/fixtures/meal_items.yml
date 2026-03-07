@@ -1,0 +1,11 @@
+one:
+  meal_entry: one
+  itemable: one (FoodItem)
+  quantity: 150.0
+  unit: "g"
+
+two:
+  meal_entry: one
+  itemable: two (FoodItem)
+  quantity: 100.0
+  unit: "g"

@@ -1,0 +1,64 @@
+{
+  "FINANCE": {
+    "TITLE": "Finance",
+    "DASHBOARD": "Dashboard",
+    "INCOME": "Income",
+    "EXPENSE": "Expenses",
+    "BALANCE": "Balance",
+    "RECENT_TRANSACTIONS": "Recent Transactions",
+    "NEW_TRANSACTION": "New Transaction",
+    "NO_TRANSACTIONS": "No transactions found",
+    "AMOUNT": "Amount",
+    "DATE": "Date",
+    "TYPE": "Type",
+    "STATUS": "Status",
+    "CATEGORY": "Category",
+    "PAYMENT_METHOD": "Payment Method",
+    "TAGS": "Tags",
+    "ACTIONS": "Actions",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "CONFIRM_DELETE": "Are you sure you want to delete?",
+    "TYPES": {
+      "expense": "Expense",
+      "income": "Income",
+      "transfer": "Transfer",
+      "refund": "Refund"
+    },
+    "STATUSES": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "cancelled": "Cancelled",
+      "failed": "Failed",
+      "expired": "Expired"
+    },
+    "CATEGORIES": {
+      "TITLE": "Categories",
+      "NEW": "New Category",
+      "NAME": "Name",
+      "NO_CATEGORIES": "No categories found"
+    },
+    "TAGS_PAGE": {
+      "TITLE": "Tags",
+      "NEW": "New Tag",
+      "NAME": "Name",
+      "NO_TAGS": "No tags found"
+    },
+    "PAYMENT_METHODS": {
+      "TITLE": "Payment Methods",
+      "NEW": "New Method",
+      "NAME": "Name",
+      "LOCALE": "Locale",
+      "IDENTIFIER": "Type",
+      "NO_METHODS": "No payment methods found",
+      "IDENTIFIERS": {
+        "unknown": "Unknown",
+        "credit_card": "Credit Card",
+        "debit_card": "Debit Card",
+        "cash": "Cash",
+        "pix": "Pix",
+        "boleto": "Boleto"
+      }
+    }
+  }
+}

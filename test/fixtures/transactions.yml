@@ -1,0 +1,25 @@
+grocery_expense:
+  amount: 150.50
+  payment_date: <%= Date.current.beginning_of_month + 5.days %>
+  transaction_type: 0
+  status: 1
+  user: user_email_confirmed
+  payment_method: pix
+  category: food_category
+
+salary_income:
+  amount: 5000.00
+  payment_date: <%= Date.current.beginning_of_month + 1.day %>
+  transaction_type: 1
+  status: 1
+  user: user_email_confirmed
+  payment_method: pix
+
+pending_expense:
+  amount: 200.00
+  payment_date: <%= Date.current.beginning_of_month + 10.days %>
+  transaction_type: 0
+  status: 0
+  user: user_email_confirmed
+  payment_method: credit_card
+  category: transport_category

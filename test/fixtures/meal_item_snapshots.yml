@@ -1,0 +1,19 @@
+one:
+  meal_item: one
+  calories: 195.0
+  carbo: 42.0
+  protein: 4.05
+  fat: 0.45
+  fiber: 0.6
+  sugar: 0.0
+  captured_at: <%= Date.current %>
+
+two:
+  meal_item: two
+  calories: 77.0
+  carbo: 14.0
+  protein: 5.0
+  fat: 0.5
+  fiber: 8.6
+  sugar: 0.0
+  captured_at: <%= Date.current %>

@@ -1,0 +1,9 @@
+one:
+  user: user_email_confirmed
+  name: "Arroz"
+  default_unit: "g"
+
+two:
+  user: user_email_confirmed
+  name: "Feijão"
+  default_unit: "g"

@@ -1,0 +1,13 @@
+{
+    "ERRORS": {
+        "LOGIN": "Login failed",
+        "REGISTER": "Failed to create account",
+        "FOOD_LOAD": "Failed to load foods",
+        "FOOD_DELETE": "Failed to delete food",
+        "FOOD_FETCH": "Failed to load food",
+        "FOOD_SAVE": "Failed to save",
+        "FINANCE_LOAD": "Failed to load financial data",
+        "FINANCE_DELETE": "Failed to delete record",
+        "UNKNOWN": "Unknown error"
+    }
+}

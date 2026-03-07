@@ -1,0 +1,21 @@
+one:
+  food_item: one
+  basis_amount: 100.0
+  basis_unit: "g"
+  calories: 130.0
+  carbo: 28.0
+  protein: 2.7
+  fat: 0.3
+  fiber: 0.4
+  sugar: 0.0
+
+two:
+  food_item: two
+  basis_amount: 100.0
+  basis_unit: "g"
+  calories: 77.0
+  carbo: 14.0
+  protein: 5.0
+  fat: 0.5
+  fiber: 8.6
+  sugar: 0.0

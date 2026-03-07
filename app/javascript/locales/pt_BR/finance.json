@@ -1,0 +1,64 @@
+{
+  "FINANCE": {
+    "TITLE": "Finanças",
+    "DASHBOARD": "Dashboard",
+    "INCOME": "Receitas",
+    "EXPENSE": "Despesas",
+    "BALANCE": "Balanço",
+    "RECENT_TRANSACTIONS": "Transações Recentes",
+    "NEW_TRANSACTION": "Nova Transação",
+    "NO_TRANSACTIONS": "Nenhuma transação encontrada",
+    "AMOUNT": "Valor",
+    "DATE": "Data",
+    "TYPE": "Tipo",
+    "STATUS": "Status",
+    "CATEGORY": "Categoria",
+    "PAYMENT_METHOD": "Método de Pagamento",
+    "TAGS": "Tags",
+    "ACTIONS": "Ações",
+    "EDIT": "Editar",
+    "DELETE": "Excluir",
+    "CONFIRM_DELETE": "Tem certeza que deseja excluir?",
+    "TYPES": {
+      "expense": "Despesa",
+      "income": "Receita",
+      "transfer": "Transferência",
+      "refund": "Reembolso"
+    },
+    "STATUSES": {
+      "pending": "Pendente",
+      "paid": "Pago",
+      "cancelled": "Cancelado",
+      "failed": "Falhou",
+      "expired": "Expirado"
+    },
+    "CATEGORIES": {
+      "TITLE": "Categorias",
+      "NEW": "Nova Categoria",
+      "NAME": "Nome",
+      "NO_CATEGORIES": "Nenhuma categoria encontrada"
+    },
+    "TAGS_PAGE": {
+      "TITLE": "Tags",
+      "NEW": "Nova Tag",
+      "NAME": "Nome",
+      "NO_TAGS": "Nenhuma tag encontrada"
+    },
+    "PAYMENT_METHODS": {
+      "TITLE": "Métodos de Pagamento",
+      "NEW": "Novo Método",
+      "NAME": "Nome",
+      "LOCALE": "Localidade",
+      "IDENTIFIER": "Tipo",
+      "NO_METHODS": "Nenhum método de pagamento encontrado",
+      "IDENTIFIERS": {
+        "unknown": "Desconhecido",
+        "credit_card": "Cartão de Crédito",
+        "debit_card": "Cartão de Débito",
+        "cash": "Dinheiro",
+        "pix": "Pix",
+        "boleto": "Boleto"
+      }
+    }
+  }
+}

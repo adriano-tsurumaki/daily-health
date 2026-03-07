@@ -1,0 +1,12 @@
+{
+    "SETTINGS": {
+        "TITLE": "Configurações",
+        "LANGUAGE": "Idioma",
+        "LANGUAGE_DESCRIPTION": "Escolha o idioma da interface.",
+        "THEME": "Tema",
+        "THEME_DESCRIPTION": "Escolha o tema da interface.",
+        "THEME_LIGHT": "Claro",
+        "THEME_DARK": "Escuro",
+        "THEME_SYSTEM": "Sistema"
+    }
+}

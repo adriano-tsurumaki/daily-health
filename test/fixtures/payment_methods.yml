@@ -1,0 +1,9 @@
+pix:
+  name: "Pix"
+  locale: "pt_BR"
+  identifier: 4
+
+credit_card:
+  name: "Cartão de Crédito"
+  locale: "pt_BR"
+  identifier: 1

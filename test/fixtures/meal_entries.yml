@@ -1,0 +1,9 @@
+one:
+  day_log: one
+  meal_type: "lunch"
+  occurred_at: <%= Date.current %>
+
+two:
+  day_log: one
+  meal_type: "dinner"
+  occurred_at: <%= Date.current %>

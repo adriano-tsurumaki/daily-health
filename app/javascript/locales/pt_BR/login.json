@@ -1,0 +1,13 @@
+{
+    "LOGIN": {
+        "EMAIL": "Email",
+        "PASSWORD": "Senha",
+        "SUBMIT": "Entrar",
+        "SUBMITTING": "Entrando...",
+        "NO_ACCOUNT": "Não tem uma conta?",
+        "REGISTER_LINK": "Cadastre-se",
+        "SUCCESS": {
+            "REGISTER": "Conta criada com sucesso! Verifique seu email para confirmar."
+        }
+    }
+}
