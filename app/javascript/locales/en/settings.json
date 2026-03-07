@@ -2,6 +2,11 @@
     "SETTINGS": {
         "TITLE": "Settings",
         "LANGUAGE": "Language",
-        "LANGUAGE_DESCRIPTION": "Choose the interface language."
+        "LANGUAGE_DESCRIPTION": "Choose the interface language.",
+        "THEME": "Theme",
+        "THEME_DESCRIPTION": "Choose the interface theme.",
+        "THEME_LIGHT": "Light",
+        "THEME_DARK": "Dark",
+        "THEME_SYSTEM": "System"
     }
 }
