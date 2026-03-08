@@ -8,16 +8,17 @@ image: adriano-tsurumaki/daily-health
 servers:
   web:
     - 143.244.148.197
-  # job:
-  #   hosts:
-  #     - 143.244.148.197
-  #   cmd: bin/jobs
+  job:
+    hosts:
+      - 143.244.148.197
+    cmd: bin/jobs
 
 # SSL via Let's Encrypt (habilitar quando tiver domínio).
 # Requer config.assume_ssl e config.force_ssl em production.rb.
-# proxy:
-#   ssl: true
-#   host: <dominio.com>
+proxy:
+  app_port: 3000
+  # ssl: true
+  # host: <dominio.com>
 
 # GitHub Container Registry.
 registry:
@@ -32,7 +33,6 @@ env:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
   clear:
-    SOLID_QUEUE_IN_PUMA: true
     RAILS_SERVE_STATIC_FILES: true
     RAILS_LOG_TO_STDOUT: enabled
     POSTGRES_HOST: daily_health-db

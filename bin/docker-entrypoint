@@ -1,8 +1,24 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 # If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+if [ "$1" = "./bin/rails" ] && [ "$2" = "server" ]; then
   ./bin/rails db:prepare
+
+  # Load solid_* schemas into shared database if their tables don't exist yet.
+  # db:prepare doesn't handle this automatically when secondary databases
+  # share the same physical PostgreSQL database as primary.
+  ./bin/rails runner "
+    conn = ActiveRecord::Base.connection
+    { 'queue' => 'solid_queue_jobs',
+      'cache' => 'solid_cache_entries',
+      'cable' => 'solid_cable_messages' }.each do |db_name, check_table|
+      unless conn.table_exists?(check_table)
+        config = ActiveRecord::Base.configurations.configs_for(env_name: Rails.env, name: db_name)
+        ActiveRecord::Tasks::DatabaseTasks.load_schema(config) if config
+        puts \"Loaded #{db_name} schema\"
+      end
+    end
+  "
 fi
 
-exec "${@}"
+exec "$@"
