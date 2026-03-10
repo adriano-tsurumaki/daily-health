@@ -1,4 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  include AuthLoggable
+
   respond_to :json
 
   def destroy
@@ -11,12 +13,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def respond_with(resource, _opts = {})
     if resource.persisted?
+      request.env["auth.event"]   = "registration"
+      request.env["auth.success"] = true
+      request.env["auth.email"]   = resource.email
+      request.env["auth.user_id"] = resource.id
       head :ok
     else
+      request.env["auth.event"]   = "registration"
+      request.env["auth.success"] = false
+      request.env["auth.email"]   = sign_up_params[:email]
+      request.env["auth.errors"]  = resource.errors.full_messages.join("; ")
       render json: {
         status: { message: "User could not be created successfully." },
         errors: resource.errors.full_messages
-      },  status: :unprocessable_content
+      }, status: :unprocessable_content
     end
   end
 

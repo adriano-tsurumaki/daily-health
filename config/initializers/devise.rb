@@ -278,13 +278,9 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
   # ==> Warden configuration
-  # If you want to use other strategies, that are not supported by Devise, or
-  # change the failure app, you can configure them inside the config.warden block.
-  #
-  # config.warden do |warden_config|
-  #   warden_config.intercept_401 = false
-  #   warden_config.default_strategies(scope: :user).unshift :some_external_strategy
-  # end
+  config.warden do |warden_config|
+    warden_config.failure_app = CustomFailureApp
+  end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
@@ -326,4 +322,29 @@ Devise.setup do |config|
       [ "DELETE", %r{^/users/sign_out$} ]
     ]
   end
+end
+
+# Warden hooks for wide event logging (must be outside Devise.setup)
+Warden::Manager.after_set_user except: :fetch do |user, warden, options|
+  if options[:event] == :authentication
+    env = warden.request.env
+    env["auth.event"]   = "login"
+    env["auth.success"] = true
+    env["auth.email"]   = user.email
+    env["auth.user_id"] = user.id
+  end
+end
+
+Warden::Manager.before_failure do |env, options|
+  env["auth.event"]          = "login"
+  env["auth.success"]        = false
+  env["auth.failure_reason"] =
+    case options[:message]
+    when :unconfirmed then "unconfirmed"
+    when :invalid     then "invalid_credentials"
+    when :not_found_in_database then "not_found"
+    when :locked      then "locked"
+    else options[:message].to_s
+    end
+  env["auth.email"] = env.dig("action_dispatch.request.parameters", "user", "email")
 end

@@ -26,6 +26,7 @@ function changeLocale(event: Event) {
 
     <div class="space-y-6 max-w-sm">
       <div>
+        <!-- TODO: Change to Select Component -->
         <Label for="locale">{{ t('SETTINGS.LANGUAGE') }}</Label>
         <p class="text-sm text-muted-foreground mb-2">{{ t('SETTINGS.LANGUAGE_DESCRIPTION') }}</p>
         <select
