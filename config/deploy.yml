@@ -19,6 +19,10 @@ proxy:
   app_port: 3000
   # ssl: true
   # host: <dominio.com>
+  healthcheck:
+    path: /up
+    interval: 5
+    timeout: 120
 
 # GitHub Container Registry.
 registry:
