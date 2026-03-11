@@ -213,3 +213,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Toast variants using design system tokens */
+[data-sonner-toast][data-type='success'] {
+  --normal-bg: var(--color-success-50);
+  --normal-text: var(--color-success-700);
+}
+
+[data-sonner-toast][data-type='error'] {
+  --normal-bg: var(--color-error-50);
+  --normal-text: var(--color-error-700);
+}
