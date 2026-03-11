@@ -2,6 +2,7 @@
 import { Moon, Sun } from 'lucide-vue-next'
 import { useDarkMode } from '@composables/useDarkMode'
 import { Button } from '@components/ui/button'
+import { ref } from 'vue'
 
 const { isDark, themeMode, setTheme } = useDarkMode()
 
@@ -10,6 +11,8 @@ function cycleTheme() {
   const currentIndex = modes.indexOf(themeMode.value)
   setTheme(modes[(currentIndex + 1) % modes.length])
 }
+var a = ""
+
 </script>
 
 <template>

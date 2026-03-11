@@ -1,9 +1,8 @@
 import js from '@eslint/js'
 import ts from 'typescript-eslint'
 import vue from 'eslint-plugin-vue'
-import { defineConfig } from 'vite'
 
-export default defineConfig(
+export default [
   { ignores: ['node_modules/', 'public/', 'tmp/', 'vendor/', 'app/assets/', '**/*.d.ts'] },
 
   js.configs.recommended,
@@ -28,4 +27,4 @@ export default defineConfig(
       },
     },
   },
-)
+]

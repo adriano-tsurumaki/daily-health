@@ -1,43 +1,58 @@
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import { useAuthStore } from '@stores/auth'
-import { ref } from 'vue'
-import { Button } from '@components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@components/ui/dropdown-menu'
-import ThemeDialog from '@components/ThemeDialog.vue'
-import { UtensilsCrossed, Wallet, Tag, CreditCard, FolderOpen, Settings, LogOut, ChevronsUpDown, Palette, User } from 'lucide-vue-next'
+  import { useRouter, useRoute } from 'vue-router'
+  import { useI18n } from 'vue-i18n'
+  import { useAuthStore } from '@stores/auth'
+  import { ref } from 'vue'
+  import { Button } from '@components/ui/button'
+  import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  } from '@components/ui/dropdown-menu'
+  import ThemeDialog from '@components/ThemeDialog.vue'
+  import {
+    UtensilsCrossed,
+    Wallet,
+    Tag,
+    CreditCard,
+    FolderOpen,
+    Settings,
+    LogOut,
+    ChevronsUpDown,
+    Palette,
+    User,
+  } from 'lucide-vue-next'
 
-const { t } = useI18n()
-const router = useRouter()
-const route = useRoute()
-const authStore = useAuthStore()
-const themeDialogOpen = ref(false)
+  const { t } = useI18n()
+  const router = useRouter()
+  const route = useRoute()
+  const authStore = useAuthStore()
+  const themeDialogOpen = ref(false)
 
-async function handleLogout() {
-  await authStore.logout()
-  router.push({ name: 'login' })
-}
+  async function handleLogout() {
+    await authStore.logout()
+    router.push({ name: 'login' })
+  }
 
-function isActive(name: string) {
-  return route.name === name || (route.name as string)?.startsWith(name)
-}
+  function isActive(name: string) {
+    return route.name === name || (route.name as string)?.startsWith(name)
+  }
 </script>
 
 <template>
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 border-r border-sidebar-border bg-sidebar text-sidebar-foreground flex flex-col shrink-0">
+    <aside
+      class="w-64 border-r border-sidebar-border bg-sidebar text-sidebar-foreground flex flex-col shrink-0"
+    >
       <!-- Logo -->
       <div class="px-6 pt-7 pb-6">
-        <h1 class="text-lg font-semibold tracking-tight text-sidebar-primary m-0">{{ t('APP.TITLE') }}</h1>
+        <h1 class="text-lg font-semibold tracking-tight text-sidebar-primary m-0">
+          {{ t('APP.TITLE') }}
+        </h1>
       </div>
 
       <!-- Navigation -->
@@ -45,22 +60,32 @@ function isActive(name: string) {
         <RouterLink
           :to="{ name: 'food' }"
           class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium no-underline transition-all duration-200"
-          :class="isActive('food')
-            ? 'bg-sidebar-accent text-sidebar-primary border-l-3 border-sidebar-primary'
-            : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-l-3 border-transparent'"
+          :class="
+            isActive('food')
+              ? 'bg-sidebar-accent text-sidebar-primary border-l-3 border-sidebar-primary'
+              : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-l-3 border-transparent'
+          "
         >
-          <UtensilsCrossed class="size-4" :class="isActive('food') ? 'text-sidebar-primary' : 'text-muted-foreground'" />
+          <UtensilsCrossed
+            class="size-4"
+            :class="isActive('food') ? 'text-sidebar-primary' : 'text-muted-foreground'"
+          />
           {{ t('SIDEBAR.FOODS') }}
         </RouterLink>
 
         <RouterLink
           :to="{ name: 'finance' }"
           class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium no-underline transition-all duration-200"
-          :class="isActive('finance')
-            ? 'bg-sidebar-accent text-sidebar-primary border-l-3 border-sidebar-primary'
-            : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-l-3 border-transparent'"
+          :class="
+            isActive('finance')
+              ? 'bg-sidebar-accent text-sidebar-primary border-l-3 border-sidebar-primary'
+              : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-l-3 border-transparent'
+          "
         >
-          <Wallet class="size-4" :class="isActive('finance') ? 'text-sidebar-primary' : 'text-muted-foreground'" />
+          <Wallet
+            class="size-4"
+            :class="isActive('finance') ? 'text-sidebar-primary' : 'text-muted-foreground'"
+          />
           {{ t('SIDEBAR.FINANCE') }}
         </RouterLink>
 
@@ -69,33 +94,54 @@ function isActive(name: string) {
           <RouterLink
             :to="{ name: 'finance-categories' }"
             class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm no-underline transition-all duration-200"
-            :class="isActive('finance-categories')
-              ? 'bg-sidebar-accent text-sidebar-primary font-medium'
-              : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'"
+            :class="
+              isActive('finance-categories')
+                ? 'bg-sidebar-accent text-sidebar-primary font-medium'
+                : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+            "
           >
-            <FolderOpen class="size-3.5" :class="isActive('finance-categories') ? 'text-sidebar-primary' : 'text-muted-foreground'" />
+            <FolderOpen
+              class="size-3.5"
+              :class="
+                isActive('finance-categories') ? 'text-sidebar-primary' : 'text-muted-foreground'
+              "
+            />
             {{ t('SIDEBAR.CATEGORIES') }}
           </RouterLink>
 
           <RouterLink
             :to="{ name: 'finance-tags' }"
             class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm no-underline transition-all duration-200"
-            :class="isActive('finance-tags')
-              ? 'bg-sidebar-accent text-sidebar-primary font-medium'
-              : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'"
+            :class="
+              isActive('finance-tags')
+                ? 'bg-sidebar-accent text-sidebar-primary font-medium'
+                : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+            "
           >
-            <Tag class="size-3.5" :class="isActive('finance-tags') ? 'text-sidebar-primary' : 'text-muted-foreground'" />
+            <Tag
+              class="size-3.5"
+              :class="isActive('finance-tags') ? 'text-sidebar-primary' : 'text-muted-foreground'"
+            />
             {{ t('SIDEBAR.TAGS') }}
           </RouterLink>
 
           <RouterLink
             :to="{ name: 'finance-payment-methods' }"
             class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm no-underline transition-all duration-200"
-            :class="isActive('finance-payment-methods')
-              ? 'bg-sidebar-accent text-sidebar-primary font-medium'
-              : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'"
+            :class="
+              isActive('finance-payment-methods')
+                ? 'bg-sidebar-accent text-sidebar-primary font-medium'
+                : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+            "
           >
-            <CreditCard class="size-3.5" :class="isActive('finance-payment-methods') ? 'text-sidebar-primary' : 'text-muted-foreground'" />
+            <CreditCard
+              class="size-3.5"
+              :class="
+                isActive('finance-payment-methods')
+                  ? 'text-sidebar-primary'
+                  : 'text-muted-foreground'
+              "
+            />
             {{ t('SIDEBAR.PAYMENT_METHODS') }}
           </RouterLink>
         </div>
@@ -103,11 +149,16 @@ function isActive(name: string) {
         <RouterLink
           :to="{ name: 'settings' }"
           class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium no-underline transition-all duration-200"
-          :class="isActive('settings')
-            ? 'bg-sidebar-accent text-sidebar-primary border-l-3 border-sidebar-primary'
-            : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-l-3 border-transparent'"
+          :class="
+            isActive('settings')
+              ? 'bg-sidebar-accent text-sidebar-primary border-l-3 border-sidebar-primary'
+              : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-l-3 border-transparent'
+          "
         >
-          <Settings class="size-4" :class="isActive('settings') ? 'text-sidebar-primary' : 'text-muted-foreground'" />
+          <Settings
+            class="size-4"
+            :class="isActive('settings') ? 'text-sidebar-primary' : 'text-muted-foreground'"
+          />
           {{ t('SIDEBAR.SETTINGS') }}
         </RouterLink>
       </nav>

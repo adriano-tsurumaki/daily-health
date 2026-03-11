@@ -13,17 +13,17 @@ import forgot_password from './forgot_password.json'
 import reset_password from './reset_password.json'
 
 export default {
-    ...app,
-    ...errors,
-    ...finance,
-    ...finance_form,
-    ...food_form,
-    ...food,
-    ...forgot_password,
-    ...login,
-    ...profile,
-    ...register,
-    ...reset_password,
-    ...settings,
-    ...sidebar
+  ...app,
+  ...errors,
+  ...finance,
+  ...finance_form,
+  ...food_form,
+  ...food,
+  ...forgot_password,
+  ...login,
+  ...profile,
+  ...register,
+  ...reset_password,
+  ...settings,
+  ...sidebar,
 }

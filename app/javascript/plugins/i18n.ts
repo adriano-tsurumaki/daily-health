@@ -5,21 +5,23 @@ const savedLocale = localStorage.getItem('locale') ?? 'pt-BR'
 
 const i18n = createI18n({
   numberFormats: {
-    'en': {
+    en: {
       currency: {
-        style: 'currency', currency: 'USD'
-      }
+        style: 'currency',
+        currency: 'USD',
+      },
     },
     'pt-BR': {
       currency: {
-        style: 'currency', currency: 'BRL'
-      }
-    }
+        style: 'currency',
+        currency: 'BRL',
+      },
+    },
   },
   legacy: false,
   locale: savedLocale,
   fallbackLocale: 'en',
-  messages: i18nMessages
+  messages: i18nMessages,
 })
 
 export default i18n

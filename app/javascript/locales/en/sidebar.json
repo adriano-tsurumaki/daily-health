@@ -1,10 +1,10 @@
 {
-    "SIDEBAR": {
-        "FOODS": "Foods",
-        "FINANCE": "Finance",
-        "CATEGORIES": "Categories",
-        "TAGS": "Tags",
-        "PAYMENT_METHODS": "Payment Methods",
-        "SETTINGS": "Settings"
-    }
+  "SIDEBAR": {
+    "FOODS": "Foods",
+    "FINANCE": "Finance",
+    "CATEGORIES": "Categories",
+    "TAGS": "Tags",
+    "PAYMENT_METHODS": "Payment Methods",
+    "SETTINGS": "Settings"
+  }
 }

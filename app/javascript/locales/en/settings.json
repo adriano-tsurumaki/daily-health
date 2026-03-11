@@ -1,20 +1,20 @@
 {
-    "SETTINGS": {
-        "TITLE": "Settings",
-        "LANGUAGE": "Language",
-        "LANGUAGE_DESCRIPTION": "Choose the interface language.",
-        "THEME": "Theme",
-        "THEME_DESCRIPTION": "Choose the interface theme.",
-        "THEME_LIGHT": "Light",
-        "THEME_DARK": "Dark",
-        "THEME_SYSTEM": "System",
-        "PASSWORD": "Password",
-        "PASSWORD_DESCRIPTION": "Change your account password.",
-        "CURRENT_PASSWORD": "Current password",
-        "NEW_PASSWORD": "New password",
-        "CONFIRM_PASSWORD": "Confirm new password",
-        "CHANGE_PASSWORD": "Change Password",
-        "CHANGING_PASSWORD": "Changing...",
-        "PASSWORD_CHANGED": "Password changed successfully."
-    }
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "LANGUAGE": "Language",
+    "LANGUAGE_DESCRIPTION": "Choose the interface language.",
+    "THEME": "Theme",
+    "THEME_DESCRIPTION": "Choose the interface theme.",
+    "THEME_LIGHT": "Light",
+    "THEME_DARK": "Dark",
+    "THEME_SYSTEM": "System",
+    "PASSWORD": "Password",
+    "PASSWORD_DESCRIPTION": "Change your account password.",
+    "CURRENT_PASSWORD": "Current password",
+    "NEW_PASSWORD": "New password",
+    "CONFIRM_PASSWORD": "Confirm new password",
+    "CHANGE_PASSWORD": "Change Password",
+    "CHANGING_PASSWORD": "Changing...",
+    "PASSWORD_CHANGED": "Password changed successfully."
+  }
 }

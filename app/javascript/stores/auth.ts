@@ -39,7 +39,12 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  async function register(name: string, email: string, password: string, passwordConfirmation: string) {
+  async function register(
+    name: string,
+    email: string,
+    password: string,
+    passwordConfirmation: string,
+  ) {
     error.value = null
     success.value = null
     loading.value = true
@@ -71,7 +76,11 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  async function resetPasswordWithToken(token: string, password: string, passwordConfirmation: string) {
+  async function resetPasswordWithToken(
+    token: string,
+    password: string,
+    passwordConfirmation: string,
+  ) {
     error.value = null
     success.value = null
     loading.value = true
@@ -87,7 +96,11 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  async function updatePassword(currentPassword: string, password: string, passwordConfirmation: string) {
+  async function updatePassword(
+    currentPassword: string,
+    password: string,
+    passwordConfirmation: string,
+  ) {
     error.value = null
     success.value = null
     loading.value = true
@@ -113,5 +126,18 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { token, error, success, loading, isAuthenticated, loadToken, login, register, requestReset, resetPasswordWithToken, updatePassword, logout }
+  return {
+    token,
+    error,
+    success,
+    loading,
+    isAuthenticated,
+    loadToken,
+    login,
+    register,
+    requestReset,
+    resetPasswordWithToken,
+    updatePassword,
+    logout,
+  }
 })

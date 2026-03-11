@@ -1,60 +1,69 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useFinanceStore } from '@stores/finance'
-import { Button } from '@components/ui/button'
-import { Input } from '@components/ui/input'
-import { Label } from '@components/ui/label'
-import { Badge } from '@components/ui/badge'
-import { Alert, AlertDescription } from '@components/ui/alert'
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@components/ui/select'
-import {
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell
-} from '@components/ui/table'
+  import { onMounted, ref, reactive } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import { useFinanceStore } from '@stores/finance'
+  import { Button } from '@components/ui/button'
+  import { Input } from '@components/ui/input'
+  import { Label } from '@components/ui/label'
+  import { Badge } from '@components/ui/badge'
+  import { Alert, AlertDescription } from '@components/ui/alert'
+  import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from '@components/ui/select'
+  import {
+    Table,
+    TableHeader,
+    TableBody,
+    TableRow,
+    TableHead,
+    TableCell,
+  } from '@components/ui/table'
 
-const { t } = useI18n()
-const store = useFinanceStore()
+  const { t } = useI18n()
+  const store = useFinanceStore()
 
-const identifiers = ['unknown', 'credit_card', 'debit_card', 'cash', 'pix', 'boleto']
+  const identifiers = ['unknown', 'credit_card', 'debit_card', 'cash', 'pix', 'boleto']
 
-const newForm = reactive({ name: '', locale: 'pt_BR', identifier: 'unknown' })
-const editingId = ref<number | null>(null)
-const editForm = reactive({ name: '', locale: '', identifier: '' })
+  const newForm = reactive({ name: '', locale: 'pt_BR', identifier: 'unknown' })
+  const editingId = ref<number | null>(null)
+  const editForm = reactive({ name: '', locale: '', identifier: '' })
 
-function startEdit(pm: { id: number; name: string; locale: string; identifier: string }) {
-  editingId.value = pm.id
-  editForm.name = pm.name
-  editForm.locale = pm.locale
-  editForm.identifier = pm.identifier
-}
+  function startEdit(pm: { id: number; name: string; locale: string; identifier: string }) {
+    editingId.value = pm.id
+    editForm.name = pm.name
+    editForm.locale = pm.locale
+    editForm.identifier = pm.identifier
+  }
 
-function cancelEdit() {
-  editingId.value = null
-}
+  function cancelEdit() {
+    editingId.value = null
+  }
 
-async function handleCreate() {
-  if (!newForm.name.trim()) return
-  await store.addPaymentMethod({ ...newForm, name: newForm.name.trim() })
-  newForm.name = ''
-  newForm.identifier = 'unknown'
-}
+  async function handleCreate() {
+    if (!newForm.name.trim()) return
+    await store.addPaymentMethod({ ...newForm, name: newForm.name.trim() })
+    newForm.name = ''
+    newForm.identifier = 'unknown'
+  }
 
-async function handleUpdate() {
-  if (!editingId.value || !editForm.name.trim()) return
-  await store.editPaymentMethod(editingId.value, { ...editForm, name: editForm.name.trim() })
-  cancelEdit()
-}
+  async function handleUpdate() {
+    if (!editingId.value || !editForm.name.trim()) return
+    await store.editPaymentMethod(editingId.value, { ...editForm, name: editForm.name.trim() })
+    cancelEdit()
+  }
 
-async function handleDelete(id: number) {
-  if (!confirm(t('FINANCE.CONFIRM_DELETE'))) return
-  await store.removePaymentMethod(id)
-}
+  async function handleDelete(id: number) {
+    if (!confirm(t('FINANCE.CONFIRM_DELETE'))) return
+    await store.removePaymentMethod(id)
+  }
 
-onMounted(() => {
-  store.loadPaymentMethods()
-})
+  onMounted(() => {
+    store.loadPaymentMethods()
+  })
 </script>
 
 <template>
@@ -84,12 +93,17 @@ onMounted(() => {
           </SelectContent>
         </Select>
       </div>
-      <Button type="submit" :disabled="store.loading">{{ t('FINANCE.PAYMENT_METHODS.NEW') }}</Button>
+      <Button type="submit" :disabled="store.loading">{{
+        t('FINANCE.PAYMENT_METHODS.NEW')
+      }}</Button>
     </form>
 
     <div v-if="store.loading" class="text-center py-8 text-muted-foreground">...</div>
 
-    <div v-else-if="store.paymentMethods.length === 0" class="text-center py-8 text-muted-foreground">
+    <div
+      v-else-if="store.paymentMethods.length === 0"
+      class="text-center py-8 text-muted-foreground"
+    >
       {{ t('FINANCE.PAYMENT_METHODS.NO_METHODS') }}
     </div>
 
@@ -117,17 +131,28 @@ onMounted(() => {
                 </SelectContent>
               </Select>
               <Button size="sm" @click="handleUpdate">{{ t('FINANCE_FORM.SAVE') }}</Button>
-              <Button variant="outline" size="sm" @click="cancelEdit">{{ t('FINANCE_FORM.CANCEL') }}</Button>
+              <Button variant="outline" size="sm" @click="cancelEdit">{{
+                t('FINANCE_FORM.CANCEL')
+              }}</Button>
             </div>
             <span v-else>{{ pm.name }}</span>
           </TableCell>
           <TableCell v-if="editingId !== pm.id">
-            <Badge variant="outline">{{ t(`FINANCE.PAYMENT_METHODS.IDENTIFIERS.${pm.identifier}`) }}</Badge>
+            <Badge variant="outline">{{
+              t(`FINANCE.PAYMENT_METHODS.IDENTIFIERS.${pm.identifier}`)
+            }}</Badge>
           </TableCell>
           <TableCell v-else />
           <TableCell class="text-right whitespace-nowrap" v-if="editingId !== pm.id">
-            <Button variant="link" class="p-0 h-auto mr-3" @click="startEdit(pm)">{{ t('FINANCE.EDIT') }}</Button>
-            <Button variant="link" class="p-0 h-auto text-destructive" @click="handleDelete(pm.id)">{{ t('FINANCE.DELETE') }}</Button>
+            <Button variant="link" class="p-0 h-auto mr-3" @click="startEdit(pm)">{{
+              t('FINANCE.EDIT')
+            }}</Button>
+            <Button
+              variant="link"
+              class="p-0 h-auto text-destructive"
+              @click="handleDelete(pm.id)"
+              >{{ t('FINANCE.DELETE') }}</Button
+            >
           </TableCell>
           <TableCell v-else />
         </TableRow>
