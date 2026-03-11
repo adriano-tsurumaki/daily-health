@@ -18,15 +18,27 @@ en:
       unconfirmed: "You have to confirm your email address before continuing."
     mailer:
       confirmation_instructions:
-        subject: "Confirmation instructions"
+        subject: "Confirm your email"
+        greeting: "Hello, %{name}!"
+        body: "You can confirm your email address by clicking the button below:"
+        action: "Confirm my email"
+        fallback: "If the button above doesn't work, copy and paste the link below into your browser:"
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "Reset your password"
+        greeting: "Hello, %{name}!"
+        body: "Someone requested a password reset for your account. Click the button below to set a new password:"
+        action: "Reset my password"
+        ignore: "If you didn't request this, you can safely ignore this email."
+        expiry: "This link will expire in %{hours} hours."
+      password_change:
+        subject: "Password changed"
+        greeting: "Hello, %{name}!"
+        body: "Your password has been changed successfully."
+        warning: "If you didn't make this change, please contact support immediately."
       unlock_instructions:
         subject: "Unlock instructions"
       email_changed:
         subject: "Email Changed"
-      password_change:
-        subject: "Password Changed"
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
@@ -53,6 +65,13 @@ en:
       send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
       unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+    confirmation_page:
+      success_title: "Email Confirmed!"
+      success_message: "Your email address has been successfully confirmed. You can now sign in to your account."
+      go_to_login: "Go to Login"
+      error_title: "Confirmation Failed"
+      error_message: "We could not confirm your email address."
+      try_again: "Request new confirmation"
   errors:
     messages:
       already_confirmed: "was already confirmed, please try signing in"

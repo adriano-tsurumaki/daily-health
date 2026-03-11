@@ -32,9 +32,21 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Use Mailhog for email in development (http://localhost:8025)
-  config.action_mailer.raise_delivery_errors = true
+  # config.action_mailer.raise_delivery_errors = true
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = { address: "mailhog", port: 1025 }
+
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { address: "mailhog", port: 1025 }
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    user_name: ENV["GMAIL_USERNAME"],
+    password: ENV["GMAIL_APP_PASSWORD"],
+    authentication: "plain",
+    enable_starttls_auto: true,
+    open_timeout: 5,
+    read_timeout: 5
+  }
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
