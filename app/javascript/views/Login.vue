@@ -65,6 +65,9 @@ async function handleRegister() {
           <div class="mb-4">
             <Input v-model="password" type="password" :placeholder="t('LOGIN.PASSWORD')" required />
           </div>
+          <div class="text-right mb-4">
+            <a href="#" @click.prevent="router.push({ name: 'forgot-password' })" class="text-sm text-primary no-underline hover:underline">{{ t('LOGIN.FORGOT_PASSWORD') }}</a>
+          </div>
           <Alert v-if="authStore.error" variant="destructive" class="mb-3">
             <AlertDescription>{{ authStore.error }}</AlertDescription>
           </Alert>

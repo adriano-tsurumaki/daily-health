@@ -8,6 +8,9 @@
         "FOOD_SAVE": "Failed to save",
         "FINANCE_LOAD": "Failed to load financial data",
         "FINANCE_DELETE": "Failed to delete record",
+        "FORGOT_PASSWORD": "Failed to send reset instructions",
+        "RESET_PASSWORD": "Failed to reset password",
+        "CHANGE_PASSWORD": "Failed to change password",
         "UNKNOWN": "Unknown error"
     }
 }

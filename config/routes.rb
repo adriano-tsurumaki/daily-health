@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
     sessions: "users/sessions",
-    registrations: "users/registrations"
+    registrations: "users/registrations",
+    confirmations: "users/confirmations",
+    passwords: "users/passwords"
   }
 
   namespace :api do
@@ -22,6 +24,7 @@ Rails.application.routes.draw do
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
+  get "health" => "health#show"
 
   get "/sw.js", to: proc { [ 404, {}, [ "" ] ] }
 

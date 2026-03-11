@@ -6,6 +6,7 @@
         "SUBMITTING": "Entrando...",
         "NO_ACCOUNT": "Não tem uma conta?",
         "REGISTER_LINK": "Cadastre-se",
+        "FORGOT_PASSWORD": "Esqueceu sua senha?",
         "SUCCESS": {
             "REGISTER": "Conta criada com sucesso! Verifique seu email para confirmar."
         }

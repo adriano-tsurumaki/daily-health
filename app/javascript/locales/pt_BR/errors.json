@@ -8,6 +8,9 @@
         "FOOD_SAVE": "Erro ao salvar",
         "FINANCE_LOAD": "Erro ao carregar dados financeiros",
         "FINANCE_DELETE": "Erro ao remover registro",
+        "FORGOT_PASSWORD": "Erro ao enviar instruções de redefinição",
+        "RESET_PASSWORD": "Erro ao redefinir senha",
+        "CHANGE_PASSWORD": "Erro ao alterar senha",
         "UNKNOWN": "Erro desconhecido"
     }
 }

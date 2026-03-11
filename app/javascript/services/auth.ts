@@ -50,6 +50,30 @@ export async function signUp(
   }
 }
 
+export async function requestPasswordReset(email: string): Promise<void> {
+  await http.post('/users/password', { user: { email } })
+}
+
+export async function resetPassword(
+  token: string,
+  password: string,
+  passwordConfirmation: string,
+): Promise<void> {
+  await http.put('/users/password', {
+    user: { reset_password_token: token, password, password_confirmation: passwordConfirmation },
+  })
+}
+
+export async function changePassword(
+  currentPassword: string,
+  password: string,
+  passwordConfirmation: string,
+): Promise<void> {
+  await http.put('/users', {
+    user: { current_password: currentPassword, password, password_confirmation: passwordConfirmation },
+  })
+}
+
 export async function signOut(): Promise<void> {
   try {
     await http.delete('/users/sign_out')

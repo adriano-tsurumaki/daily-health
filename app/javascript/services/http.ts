@@ -14,6 +14,8 @@ http.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
+  const locale = localStorage.getItem('locale') || 'en'
+  config.headers['Accept-Language'] = locale === 'pt_BR' ? 'pt-BR' : 'en'
   return config
 })
 
