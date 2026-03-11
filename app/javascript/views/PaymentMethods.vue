@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { onMounted, ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useFinanceStore } from '@/stores/finance'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Badge } from '@/components/ui/badge'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { useFinanceStore } from '@stores/finance'
+import { Button } from '@components/ui/button'
+import { Input } from '@components/ui/input'
+import { Label } from '@components/ui/label'
+import { Badge } from '@components/ui/badge'
+import { Alert, AlertDescription } from '@components/ui/alert'
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/components/ui/select'
+} from '@components/ui/select'
 import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell
-} from '@/components/ui/table'
+} from '@components/ui/table'
 
 const { t } = useI18n()
 const store = useFinanceStore()

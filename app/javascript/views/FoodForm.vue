@@ -2,12 +2,12 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useFoodStore } from '@/stores/food'
-import { fetchFoodItem, type FoodItemPayload } from '@/services/food'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { useFoodStore } from '@stores/food'
+import { fetchFoodItem, type FoodItemPayload } from '@services/food'
+import { Button } from '@components/ui/button'
+import { Input } from '@components/ui/input'
+import { Label } from '@components/ui/label'
+import { Alert, AlertDescription } from '@components/ui/alert'
 
 const { t } = useI18n()
 const router = useRouter()

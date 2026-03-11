@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useFinanceStore } from '@/stores/finance'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { useFinanceStore } from '@stores/finance'
+import { Button } from '@components/ui/button'
+import { Input } from '@components/ui/input'
+import { Alert, AlertDescription } from '@components/ui/alert'
 import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell
-} from '@/components/ui/table'
+} from '@components/ui/table'
 
 const { t } = useI18n()
 const store = useFinanceStore()

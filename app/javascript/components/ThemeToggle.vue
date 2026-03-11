@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Moon, Sun } from 'lucide-vue-next'
-import { useDarkMode } from '@/composables/useDarkMode'
-import { Button } from '@/components/ui/button'
+import { useDarkMode } from '@composables/useDarkMode'
+import { Button } from '@components/ui/button'
 
 const { isDark, themeMode, setTheme } = useDarkMode()
 

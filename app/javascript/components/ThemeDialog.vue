@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Sun, Moon, Monitor } from 'lucide-vue-next'
-import { useDarkMode, type ThemeMode } from '@/composables/useDarkMode'
+import { useDarkMode, type ThemeMode } from '@composables/useDarkMode'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from '@/components/ui/dialog'
+} from '@components/ui/dialog'
 
 const open = defineModel<boolean>('open', { default: false })
 

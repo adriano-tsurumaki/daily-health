@@ -1,5 +1,5 @@
 import { createI18n } from 'vue-i18n'
-import i18nMessages from '@/locales'
+import i18nMessages from '@locales'
 
 const savedLocale = localStorage.getItem('locale') ?? 'pt-BR'
 

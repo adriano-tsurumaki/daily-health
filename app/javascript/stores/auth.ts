@@ -8,8 +8,8 @@ import {
   resetPassword as authResetPassword,
   changePassword as authChangePassword,
   getStoredToken,
-} from '@/services/auth'
-import i18n from '@/plugins/i18n'
+} from '@services/auth'
+import i18n from '@plugins/i18n'
 
 const { t } = i18n.global
 

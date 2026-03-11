@@ -28,8 +28,8 @@ import {
   type PaymentMethod,
   type PaymentMethodPayload,
   type DashboardSummary,
-} from '@/services/finance'
-import i18n from '@/plugins/i18n'
+} from '@services/finance'
+import i18n from '@plugins/i18n'
 
 const { t } = i18n.global
 

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useFoodStore } from '@/stores/food'
-import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { useFoodStore } from '@stores/food'
+import { Button } from '@components/ui/button'
+import { Alert, AlertDescription } from '@components/ui/alert'
 import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell
-} from '@/components/ui/table'
+} from '@components/ui/table'
 
 const { t } = useI18n()
 const foodStore = useFoodStore()

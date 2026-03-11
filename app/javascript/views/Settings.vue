@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Separator } from '@/components/ui/separator'
+import { Label } from '@components/ui/label'
+import { Input } from '@components/ui/input'
+import { Button } from '@components/ui/button'
+import { Alert, AlertDescription } from '@components/ui/alert'
+import { Separator } from '@components/ui/separator'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { useDarkMode, type ThemeMode } from '@/composables/useDarkMode'
-import { useAuthStore } from '@/stores/auth'
+} from '@components/ui/select'
+import { useDarkMode, type ThemeMode } from '@composables/useDarkMode'
+import { useAuthStore } from '@stores/auth'
 
 const { t, locale } = useI18n()
 const { themeMode, setTheme } = useDarkMode()

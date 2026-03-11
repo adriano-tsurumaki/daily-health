@@ -2,16 +2,16 @@
 import { onMounted, ref, computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter, useRoute } from 'vue-router'
-import { useFinanceStore } from '@/stores/finance'
-import type { TransactionPayload, TransactionItemPayload } from '@/services/finance'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Badge } from '@/components/ui/badge'
+import { useFinanceStore } from '@stores/finance'
+import type { TransactionPayload, TransactionItemPayload } from '@services/finance'
+import { Button } from '@components/ui/button'
+import { Input } from '@components/ui/input'
+import { Label } from '@components/ui/label'
+import { Alert, AlertDescription } from '@components/ui/alert'
+import { Badge } from '@components/ui/badge'
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/components/ui/select'
+} from '@components/ui/select'
 
 const { t } = useI18n()
 const router = useRouter()

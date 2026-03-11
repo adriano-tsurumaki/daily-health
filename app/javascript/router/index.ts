@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"
-import { getStoredToken } from "@/services/auth"
+import { getStoredToken } from "@services/auth"
 
 const routes = [
   { path: "/", name: "home", component: () => import("../views/Home.vue") },

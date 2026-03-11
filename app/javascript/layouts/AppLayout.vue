@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@stores/auth'
 import { ref } from 'vue'
-import { Button } from '@/components/ui/button'
+import { Button } from '@components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,8 +11,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import ThemeDialog from '@/components/ThemeDialog.vue'
+} from '@components/ui/dropdown-menu'
+import ThemeDialog from '@components/ThemeDialog.vue'
 import { UtensilsCrossed, Wallet, Tag, CreditCard, FolderOpen, Settings, LogOut, ChevronsUpDown, Palette, User } from 'lucide-vue-next'
 
 const { t } = useI18n()

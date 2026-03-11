@@ -2,12 +2,12 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useAuthStore } from '@/stores/auth'
-import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import ThemeToggle from '@/components/ThemeToggle.vue'
+import { useAuthStore } from '@stores/auth'
+import { Card, CardContent } from '@components/ui/card'
+import { Input } from '@components/ui/input'
+import { Button } from '@components/ui/button'
+import { Alert, AlertDescription } from '@components/ui/alert'
+import ThemeToggle from '@components/ThemeToggle.vue'
 
 const { t } = useI18n()
 const router = useRouter()

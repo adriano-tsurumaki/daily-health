@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useFinanceStore } from '@/stores/finance'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { useFinanceStore } from '@stores/finance'
+import { Button } from '@components/ui/button'
+import { Input } from '@components/ui/input'
+import { Badge } from '@components/ui/badge'
+import { Alert, AlertDescription } from '@components/ui/alert'
 
 const { t } = useI18n()
 const store = useFinanceStore()

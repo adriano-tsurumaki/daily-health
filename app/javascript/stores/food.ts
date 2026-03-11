@@ -7,8 +7,8 @@ import {
   deleteFoodItem,
   type FoodItem,
   type FoodItemPayload,
-} from '@/services/food'
-import i18n from '@/plugins/i18n'
+} from '@services/food'
+import i18n from '@plugins/i18n'
 
 const { t } = i18n.global
 

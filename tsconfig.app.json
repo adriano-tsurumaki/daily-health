@@ -12,7 +12,17 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["app/javascript/*"]
+      "@/*": ["app/javascript/*"],
+      "@components/*": ["app/javascript/components/*"],
+      "@composables/*": ["app/javascript/composables/*"],
+      "@layouts/*": ["app/javascript/layouts/*"],
+      "@lib/*": ["app/javascript/lib/*"],
+      "@locales": ["app/javascript/locales/index.ts"],
+      "@plugins/*": ["app/javascript/plugins/*"],
+      "@router": ["app/javascript/router/index.ts"],
+      "@services/*": ["app/javascript/services/*"],
+      "@stores/*": ["app/javascript/stores/*"],
+      "@views/*": ["app/javascript/views/*"]
     }
   },
   "include": [
