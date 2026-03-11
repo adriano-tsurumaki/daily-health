@@ -3,6 +3,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   respond_to :json
 
+  def update
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+
+    if resource.update_with_password(account_update_params)
+      bypass_sign_in(resource, scope: resource_name)
+      render json: { message: I18n.t("devise.registrations.updated") }, status: :ok
+    else
+      render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     resource.destroy
     sign_out(resource_name)
@@ -32,5 +43,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def sign_up_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def account_update_params
+    params.require(:user).permit(:password, :password_confirmation, :current_password)
   end
 end

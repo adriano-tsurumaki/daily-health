@@ -7,6 +7,14 @@
         "THEME_DESCRIPTION": "Escolha o tema da interface.",
         "THEME_LIGHT": "Claro",
         "THEME_DARK": "Escuro",
-        "THEME_SYSTEM": "Sistema"
+        "THEME_SYSTEM": "Sistema",
+        "PASSWORD": "Senha",
+        "PASSWORD_DESCRIPTION": "Altere a senha da sua conta.",
+        "CURRENT_PASSWORD": "Senha atual",
+        "NEW_PASSWORD": "Nova senha",
+        "CONFIRM_PASSWORD": "Confirmar nova senha",
+        "CHANGE_PASSWORD": "Alterar Senha",
+        "CHANGING_PASSWORD": "Alterando...",
+        "PASSWORD_CHANGED": "Senha alterada com sucesso."
     }
 }
