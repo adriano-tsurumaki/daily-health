@@ -3,6 +3,8 @@ class User < ApplicationRecord
          :recoverable, :validatable, :confirmable,
          :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
 
+  validates :locale, inclusion: { in: %w[en pt-BR] }
+
   has_many :day_logs, dependent: :destroy
   has_many :food_items, dependent: :destroy
   has_many :recipes, dependent: :destroy

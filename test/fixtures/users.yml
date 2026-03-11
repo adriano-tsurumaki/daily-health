@@ -4,9 +4,18 @@ user:
   name: "Test User One"
   email: "one@example.com"
   encrypted_password: <%= BCrypt::Password.create("password123") %>
+  locale: "en"
 
 user_email_confirmed:
   name: "Test User Two"
   email: "user_email_confirmed@example.com"
   encrypted_password: <%= BCrypt::Password.create("password123") %>
   confirmed_at: <%= Time.now.utc %>
+  locale: "en"
+
+user_pt_br:
+  name: "Usuário Teste"
+  email: "usuario@example.com"
+  encrypted_password: <%= BCrypt::Password.create("password123") %>
+  confirmed_at: <%= Time.now.utc %>
+  locale: "pt-BR"
