@@ -9,6 +9,8 @@ import settings from './settings.json'
 import sidebar from './sidebar.json'
 import finance from './finance.json'
 import finance_form from './finance_form.json'
+import forgot_password from './forgot_password.json'
+import reset_password from './reset_password.json'
 
 export default {
     ...app,
@@ -17,9 +19,11 @@ export default {
     ...finance_form,
     ...food_form,
     ...food,
+    ...forgot_password,
     ...login,
     ...profile,
     ...register,
+    ...reset_password,
     ...settings,
     ...sidebar
 }
