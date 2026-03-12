@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   scan_ruby:
@@ -45,7 +45,7 @@ jobs:
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: pnpm audit --prod || true
 
-  lint:
+  rubocop:
     runs-on: ubuntu-latest
     env:
       RUBOCOP_CACHE_ROOT: tmp/rubocop
@@ -70,6 +70,26 @@ jobs:
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install pnpm
+        run: corepack enable && corepack prepare pnpm@10.2.0 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint JavaScript and Vue files
+        run: pnpm lint
 
   test:
     runs-on: ubuntu-latest
