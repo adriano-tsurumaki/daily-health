@@ -29,9 +29,7 @@ services:
       - bundle:/usr/local/bundle
     depends_on:
       - postgres
-      - redis
       - vite
-      - mailhog
     ports:
       - 3000:3000
     env_file: .env
@@ -85,9 +83,9 @@ services:
   postgres:
     image: postgres:16-alpine
     ports:
-      - '5432:5432'
+      - '127.0.0.1:5432:5432'
     volumes:
-      - postgres:/data/postgres
+      - postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=${POSTGRES_DATABASE}
       - POSTGRES_USER=${POSTGRES_USERNAME}
@@ -100,7 +98,7 @@ services:
     volumes:
       - redis:/data/redis
     ports:
-      - '6379:6379'
+      - '127.0.0.1:6379:6379'
 
   mailhog:
     image: mailhog/mailhog

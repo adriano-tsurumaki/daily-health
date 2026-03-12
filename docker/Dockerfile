@@ -1,9 +1,7 @@
 # syntax=docker/dockerfile:1.4
 # pre-build stage
-FROM node:23-alpine@sha256:a34e14ef1df25b58258956049ab5a71ea7f0d498e41d0b514f4b8de09af09456 AS node
+FROM node:24-alpine AS node
 FROM ruby:3.4.4-alpine3.21@sha256:5bdfa2312f3f0bc9bd077e954c943652155a093db228af978873ff92389300d3 AS pre-builder
-
-ARG NODE_VERSION="23.7.0"
 ARG PNPM_VERSION="10.2.0"
 ENV NODE_VERSION=${NODE_VERSION}
 ENV PNPM_VERSION=${PNPM_VERSION}
@@ -88,7 +86,7 @@ RUN --mount=type=cache,target=/gems/ruby/3.4.0/cache \
 COPY package.json pnpm-lock.yaml ./
 # Using BuildKit cache mount for pnpm store
 RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
-  pnpm i
+  pnpm install --frozen-lockfile
 
 COPY . /app
 
@@ -111,12 +109,10 @@ RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
   && find /gems/ruby/3.4.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
   && rm -rf .git .gitignore 2>/dev/null || true
 
-# final build stage
+# final build stage — runtime only (no build tools)
 FROM ruby:3.4.4-alpine3.21@sha256:5bdfa2312f3f0bc9bd077e954c943652155a093db228af978873ff92389300d3 AS final
 
-ARG NODE_VERSION="23.7.0"
 ARG PNPM_VERSION="10.2.0"
-ENV NODE_VERSION=${NODE_VERSION}
 ENV PNPM_VERSION=${PNPM_VERSION}
 
 ARG BUNDLE_WITHOUT="development:test"
@@ -136,14 +132,13 @@ ARG RAILS_ENV=production
 ENV RAILS_ENV=${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
 
+# Runtime-only dependencies (no build-base, gcc, g++, git)
 RUN apk add --no-cache \
-  build-base \
   openssl \
   tzdata \
   postgresql-client \
   imagemagick \
   curl \
-  git \
   vips \
   libxml2 \
   libxslt \
@@ -153,8 +148,7 @@ COPY --from=node /usr/local/bin/node /usr/local/bin/
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \
-  apk add --no-cache curl \
-  && ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+  ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
   && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx \
   && npm install -g pnpm@${PNPM_VERSION} \
   && pnpm --version; \
@@ -163,10 +157,13 @@ RUN if [ "$RAILS_ENV" != "production" ]; then \
 COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app
 
-# Copy .git_sha file from pre-builder stage
-COPY --from=pre-builder /app/.git_sha /app/.git_sha
-
 WORKDIR /app
+
+# Create non-root user for running the application
+RUN addgroup -S rails && adduser -S rails -G rails \
+  && chown -R rails:rails /app /gems
+
+USER rails
 
 EXPOSE 3000
 

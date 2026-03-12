@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -x
-
 # Remove a potentially pre-existing server.pid for Rails.
 rm -rf /app/tmp/pids/server.pid
 rm -rf /app/tmp/cache/*
@@ -20,17 +18,10 @@ done
 
 echo "Database ready to accept connections."
 
-#install missing gems for local dev as we are using base image compiled for production
-bundle install
+# Install missing gems only if needed (base image is compiled for production)
+bundle check || bundle install
 
-BUNDLE="bundle check"
-
-until $BUNDLE
-do
-  sleep 2;
-done
-
-bundle exec rails db:migrate
+bundle exec rails db:prepare
 
 # Execute the main process of the container
 exec "$@"
