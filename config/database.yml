@@ -26,24 +26,24 @@ test:
 production:
   primary:
     <<: *default
-    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'daily_health_production') %>"
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'daily_health_prod') %>"
     username: "<%= ENV.fetch('POSTGRES_USERNAME', 'daily_health_prod') %>"
-    password: "<%= ENV.fetch('POSTGRES_PASSWORD', 'daily_health_prod') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
   cache:
     <<: *default
-    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'daily_health_production') %>"
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'daily_health_prod') %>"
     username: "<%= ENV.fetch('POSTGRES_USERNAME', 'daily_health_prod') %>"
-    password: "<%= ENV.fetch('POSTGRES_PASSWORD', 'daily_health_prod') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
     migrations_paths: db/cache_migrate
   cable:
     <<: *default
-    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'daily_health_production') %>"
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'daily_health_prod') %>"
     username: "<%= ENV.fetch('POSTGRES_USERNAME', 'daily_health_prod') %>"
-    password: "<%= ENV.fetch('POSTGRES_PASSWORD', 'daily_health_prod') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
     migrations_paths: db/cable_migrate
   queue:
     <<: *default
-    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'daily_health_production') %>"
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'daily_health_prod') %>"
     username: "<%= ENV.fetch('POSTGRES_USERNAME', 'daily_health_prod') %>"
-    password: "<%= ENV.fetch('POSTGRES_PASSWORD', 'daily_health_prod') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
     migrations_paths: db/queue_migrate
