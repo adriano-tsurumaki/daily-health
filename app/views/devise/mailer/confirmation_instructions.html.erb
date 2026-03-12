@@ -1,8 +1,8 @@
-<p style="margin: 0 0 16px; font-size: 16px; color: #18181b; font-weight: 600;">
+<p style="margin: 0 0 16px; font-size: 16px; color: #1c1917; font-weight: 600;">
   <%= t("devise.mailer.confirmation_instructions.greeting", name: @resource.name) %>
 </p>
 
-<p style="margin: 0 0 24px; font-size: 14px; color: #3f3f46; line-height: 1.6;">
+<p style="margin: 0 0 24px; font-size: 14px; color: #44403c; line-height: 1.6;">
   <%= t("devise.mailer.confirmation_instructions.body") %>
 </p>
 
@@ -10,16 +10,16 @@
   <tr>
     <td align="center">
       <a href="<%= confirmation_url(@resource, confirmation_token: @token) %>"
-         style="display: inline-block; padding: 12px 32px; background-color: #18181b; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 600;">
+         style="display: inline-block; padding: 12px 32px; background-color: #0f766e; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 600;">
         <%= t("devise.mailer.confirmation_instructions.action") %>
       </a>
     </td>
   </tr>
 </table>
 
-<p style="margin: 0 0 8px; font-size: 12px; color: #a1a1aa;">
+<p style="margin: 0 0 8px; font-size: 12px; color: #a8a29e;">
   <%= t("devise.mailer.confirmation_instructions.fallback") %>
 </p>
-<p style="margin: 0; font-size: 12px; color: #a1a1aa; word-break: break-all;">
+<p style="margin: 0; font-size: 12px; color: #a8a29e; word-break: break-all;">
   <%= confirmation_url(@resource, confirmation_token: @token) %>
 </p>

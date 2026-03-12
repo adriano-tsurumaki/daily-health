@@ -1,31 +1,33 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Separator } from '@/components/ui/separator'
+import { Label } from '@components/ui/label'
+import { Input } from '@components/ui/input'
+import { Button } from '@components/ui/button'
+import { Separator } from '@components/ui/separator'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { useDarkMode, type ThemeMode } from '@/composables/useDarkMode'
-import { useAuthStore } from '@/stores/auth'
+} from '@components/ui/select'
+import { useDarkMode, type ThemeMode } from '@composables/useDarkMode'
+import { useAuthStore } from '@stores/auth'
+import { useStoreFeedbackToast } from '@/composables/useStoreFeedbackToast'
 
 const { t, locale } = useI18n()
 const { themeMode, setTheme } = useDarkMode()
 const authStore = useAuthStore()
 
+useStoreFeedbackToast(authStore, {
+  successPosition: 'bottom-center',
+  errorPosition: 'bottom-center',
+})
+
 const currentPassword = ref('')
 const newPassword = ref('')
 const confirmPassword = ref('')
-const passwordError = ref<string | null>(null)
-const passwordSuccess = ref<string | null>(null)
-const passwordLoading = ref(false)
 
 function changeLocale(event: Event) {
   const value = (event.target as HTMLSelectElement).value
@@ -34,19 +36,16 @@ function changeLocale(event: Event) {
 }
 
 async function handleChangePassword() {
-  passwordError.value = null
-  passwordSuccess.value = null
-  passwordLoading.value = true
   try {
-    await authStore.updatePassword(currentPassword.value, newPassword.value, confirmPassword.value)
-    passwordSuccess.value = t('SETTINGS.PASSWORD_CHANGED')
+    await authStore.updatePassword(
+      currentPassword.value,
+      newPassword.value,
+      confirmPassword.value,
+    )
     currentPassword.value = ''
     newPassword.value = ''
     confirmPassword.value = ''
   } catch {
-    passwordError.value = authStore.error
-  } finally {
-    passwordLoading.value = false
   }
 }
 </script>
@@ -60,12 +59,8 @@ async function handleChangePassword() {
         <!-- TODO: Change to Select Component -->
         <Label for="locale">{{ t('SETTINGS.LANGUAGE') }}</Label>
         <p class="text-sm text-muted-foreground mb-2">{{ t('SETTINGS.LANGUAGE_DESCRIPTION') }}</p>
-        <select
-          id="locale"
-          :value="locale"
-          @change="changeLocale"
-          class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-        >
+        <select id="locale" :value="locale" @change="changeLocale"
+          class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
           <option value="pt_BR">Português (Brasil)</option>
           <option value="en">English</option>
         </select>
@@ -94,18 +89,13 @@ async function handleChangePassword() {
 
         <form @submit.prevent="handleChangePassword" class="space-y-3">
           <Input v-model="currentPassword" type="password" :placeholder="t('SETTINGS.CURRENT_PASSWORD')" required />
-          <Input v-model="newPassword" type="password" :placeholder="t('SETTINGS.NEW_PASSWORD')" required minlength="6" />
-          <Input v-model="confirmPassword" type="password" :placeholder="t('SETTINGS.CONFIRM_PASSWORD')" required minlength="6" />
+          <Input v-model="newPassword" type="password" :placeholder="t('SETTINGS.NEW_PASSWORD')" required
+            minlength="6" />
+          <Input v-model="confirmPassword" type="password" :placeholder="t('SETTINGS.CONFIRM_PASSWORD')" required
+            minlength="6" />
 
-          <Alert v-if="passwordError" variant="destructive" class="mt-3!">
-            <AlertDescription>{{ passwordError }}</AlertDescription>
-          </Alert>
-          <Alert v-if="passwordSuccess" class="mt-3! border-success/30 bg-success/5 text-success">
-            <AlertDescription>{{ passwordSuccess }}</AlertDescription>
-          </Alert>
-
-          <Button type="submit" class="w-full" :disabled="passwordLoading">
-            {{ passwordLoading ? t('SETTINGS.CHANGING_PASSWORD') : t('SETTINGS.CHANGE_PASSWORD') }}
+          <Button type="submit" class="w-full" :disabled="authStore.loading">
+            {{ authStore.loading ? t('SETTINGS.CHANGING_PASSWORD') : t('SETTINGS.CHANGE_PASSWORD') }}
           </Button>
         </form>
       </div>

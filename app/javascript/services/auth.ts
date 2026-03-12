@@ -70,7 +70,11 @@ export async function changePassword(
   passwordConfirmation: string,
 ): Promise<void> {
   await http.put('/users', {
-    user: { current_password: currentPassword, password, password_confirmation: passwordConfirmation },
+    user: {
+      current_password: currentPassword,
+      password,
+      password_confirmation: passwordConfirmation,
+    },
   })
 }
 

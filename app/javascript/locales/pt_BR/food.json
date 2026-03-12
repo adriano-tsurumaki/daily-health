@@ -1,19 +1,19 @@
 {
-    "FOOD": {
-        "TITLE": "Meus Alimentos",
-        "NEW": "+ Novo Alimento",
-        "LOADING": "Carregando...",
-        "EMPTY": "Nenhum alimento cadastrado ainda.",
-        "NAME": "Nome",
-        "BRAND": "Marca",
-        "UNIT": "Unidade",
-        "CALORIES": "Calorias",
-        "PROTEIN": "Prot",
-        "CARBO": "Carbo",
-        "FAT": "Gord",
-        "ACTIONS": "Ações",
-        "EDIT": "Editar",
-        "DELETE": "Remover",
-        "CONFIRM_DELETE": "Remover este alimento?"
-    }
+  "FOOD": {
+    "TITLE": "Meus Alimentos",
+    "NEW": "+ Novo Alimento",
+    "LOADING": "Carregando...",
+    "EMPTY": "Nenhum alimento cadastrado ainda.",
+    "NAME": "Nome",
+    "BRAND": "Marca",
+    "UNIT": "Unidade",
+    "CALORIES": "Calorias",
+    "PROTEIN": "Prot",
+    "CARBO": "Carbo",
+    "FAT": "Gord",
+    "ACTIONS": "Ações",
+    "EDIT": "Editar",
+    "DELETE": "Remover",
+    "CONFIRM_DELETE": "Remover este alimento?"
+  }
 }

@@ -1,14 +1,14 @@
 {
-    "LOGIN": {
-        "EMAIL": "Email",
-        "PASSWORD": "Password",
-        "SUBMIT": "Sign In",
-        "SUBMITTING": "Signing in...",
-        "NO_ACCOUNT": "Don't have an account?",
-        "REGISTER_LINK": "Sign Up",
-        "FORGOT_PASSWORD": "Forgot your password?",
-        "SUCCESS": {
-            "REGISTER": "Account created successfully! Check your email to confirm."
-        }
+  "LOGIN": {
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "SUBMIT": "Sign In",
+    "SUBMITTING": "Signing in...",
+    "NO_ACCOUNT": "Don't have an account?",
+    "REGISTER_LINK": "Sign Up",
+    "FORGOT_PASSWORD": "Forgot your password?",
+    "SUCCESS": {
+      "REGISTER": "Account created successfully! Check your email to confirm."
     }
+  }
 }

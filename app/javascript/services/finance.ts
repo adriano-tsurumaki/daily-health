@@ -105,7 +105,10 @@ export async function createTransaction(payload: TransactionPayload): Promise<Tr
   return response.data
 }
 
-export async function updateTransaction(id: number, payload: TransactionPayload): Promise<Transaction> {
+export async function updateTransaction(
+  id: number,
+  payload: TransactionPayload,
+): Promise<Transaction> {
   const response = await http.put(`/api/v1/transactions/${id}`, { transaction: payload })
   return response.data
 }
@@ -165,7 +168,10 @@ export async function createPaymentMethod(payload: PaymentMethodPayload): Promis
   return response.data
 }
 
-export async function updatePaymentMethod(id: number, payload: PaymentMethodPayload): Promise<PaymentMethod> {
+export async function updatePaymentMethod(
+  id: number,
+  payload: PaymentMethodPayload,
+): Promise<PaymentMethod> {
   const response = await http.put(`/api/v1/payment_methods/${id}`, { payment_method: payload })
   return response.data
 }

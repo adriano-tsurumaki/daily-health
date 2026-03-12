@@ -28,8 +28,8 @@ import {
   type PaymentMethod,
   type PaymentMethodPayload,
   type DashboardSummary,
-} from '@/services/finance'
-import i18n from '@/plugins/i18n'
+} from '@services/finance'
+import i18n from '@plugins/i18n'
 
 const { t } = i18n.global
 
@@ -101,7 +101,7 @@ export const useFinanceStore = defineStore('finance', () => {
     error.value = null
     try {
       const tx = await updateTransaction(id, payload)
-      const idx = transactions.value.findIndex(t => t.id === id)
+      const idx = transactions.value.findIndex((t) => t.id === id)
       if (idx !== -1) transactions.value[idx] = tx
       return tx
     } catch (e: unknown) {
@@ -117,7 +117,7 @@ export const useFinanceStore = defineStore('finance', () => {
     error.value = null
     try {
       await deleteTransaction(id)
-      transactions.value = transactions.value.filter(t => t.id !== id)
+      transactions.value = transactions.value.filter((t) => t.id !== id)
     } catch {
       error.value = t('ERRORS.FINANCE_DELETE')
     } finally {
@@ -158,7 +158,7 @@ export const useFinanceStore = defineStore('finance', () => {
     error.value = null
     try {
       const cat = await updateCategory(id, payload)
-      const idx = categories.value.findIndex(c => c.id === id)
+      const idx = categories.value.findIndex((c) => c.id === id)
       if (idx !== -1) categories.value[idx] = cat
       return cat
     } catch (e: unknown) {
@@ -174,7 +174,7 @@ export const useFinanceStore = defineStore('finance', () => {
     error.value = null
     try {
       await deleteCategory(id)
-      categories.value = categories.value.filter(c => c.id !== id)
+      categories.value = categories.value.filter((c) => c.id !== id)
     } catch {
       error.value = t('ERRORS.FINANCE_DELETE')
     } finally {
@@ -215,7 +215,7 @@ export const useFinanceStore = defineStore('finance', () => {
     error.value = null
     try {
       const tag = await updateTag(id, payload)
-      const idx = tags.value.findIndex(t => t.id === id)
+      const idx = tags.value.findIndex((t) => t.id === id)
       if (idx !== -1) tags.value[idx] = tag
       return tag
     } catch (e: unknown) {
@@ -231,7 +231,7 @@ export const useFinanceStore = defineStore('finance', () => {
     error.value = null
     try {
       await deleteTag(id)
-      tags.value = tags.value.filter(t => t.id !== id)
+      tags.value = tags.value.filter((t) => t.id !== id)
     } catch {
       error.value = t('ERRORS.FINANCE_DELETE')
     } finally {
@@ -267,12 +267,15 @@ export const useFinanceStore = defineStore('finance', () => {
     }
   }
 
-  async function editPaymentMethod(id: number, payload: PaymentMethodPayload): Promise<PaymentMethod> {
+  async function editPaymentMethod(
+    id: number,
+    payload: PaymentMethodPayload,
+  ): Promise<PaymentMethod> {
     loading.value = true
     error.value = null
     try {
       const pm = await updatePaymentMethod(id, payload)
-      const idx = paymentMethods.value.findIndex(p => p.id === id)
+      const idx = paymentMethods.value.findIndex((p) => p.id === id)
       if (idx !== -1) paymentMethods.value[idx] = pm
       return pm
     } catch (e: unknown) {
@@ -288,7 +291,7 @@ export const useFinanceStore = defineStore('finance', () => {
     error.value = null
     try {
       await deletePaymentMethod(id)
-      paymentMethods.value = paymentMethods.value.filter(p => p.id !== id)
+      paymentMethods.value = paymentMethods.value.filter((p) => p.id !== id)
     } catch {
       error.value = t('ERRORS.FINANCE_DELETE')
     } finally {
@@ -307,11 +310,30 @@ export const useFinanceStore = defineStore('finance', () => {
   }
 
   return {
-    transactions, categories, tags, paymentMethods, dashboard, loading, error,
+    transactions,
+    categories,
+    tags,
+    paymentMethods,
+    dashboard,
+    loading,
+    error,
     loadDashboard,
-    loadTransactions, loadTransaction, addTransaction, editTransaction, removeTransaction,
-    loadCategories, addCategory, editCategory, removeCategory,
-    loadTags, addTag, editTag, removeTag,
-    loadPaymentMethods, addPaymentMethod, editPaymentMethod, removePaymentMethod,
+    loadTransactions,
+    loadTransaction,
+    addTransaction,
+    editTransaction,
+    removeTransaction,
+    loadCategories,
+    addCategory,
+    editCategory,
+    removeCategory,
+    loadTags,
+    addTag,
+    editTag,
+    removeTag,
+    loadPaymentMethods,
+    addPaymentMethod,
+    editPaymentMethod,
+    removePaymentMethod,
   }
 })

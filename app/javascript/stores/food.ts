@@ -7,8 +7,8 @@ import {
   deleteFoodItem,
   type FoodItem,
   type FoodItemPayload,
-} from '@/services/food'
-import i18n from '@/plugins/i18n'
+} from '@services/food'
+import i18n from '@plugins/i18n'
 
 const { t } = i18n.global
 
@@ -50,7 +50,7 @@ export const useFoodStore = defineStore('food', () => {
     error.value = null
     try {
       const updated = await updateFoodItem(id, payload)
-      const idx = items.value.findIndex(i => i.id === id)
+      const idx = items.value.findIndex((i) => i.id === id)
       if (idx !== -1) items.value[idx] = updated
       return updated
     } catch (e: unknown) {
@@ -67,7 +67,7 @@ export const useFoodStore = defineStore('food', () => {
     error.value = null
     try {
       await deleteFoodItem(id)
-      items.value = items.value.filter(i => i.id !== id)
+      items.value = items.value.filter((i) => i.id !== id)
     } catch {
       error.value = t('ERRORS.FOOD_DELETE')
     } finally {
