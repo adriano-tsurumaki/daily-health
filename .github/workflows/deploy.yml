@@ -47,4 +47,4 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: bundle exec kamal deploy
+        run: bundle exec kamal deploy --verbose
