@@ -68,14 +68,16 @@
 
 <template>
   <div>
-    <h1 class="text-2xl font-bold mb-6">{{ t('FINANCE.PAYMENT_METHODS.TITLE') }}</h1>
+    <h1 class="text-2xl font-bold mb-6">
+      {{ t('FINANCE.PAYMENT_METHODS.TITLE') }}
+    </h1>
 
     <Alert v-if="store.error" variant="destructive" class="mb-4">
       <AlertDescription>{{ store.error }}</AlertDescription>
     </Alert>
 
     <!-- Create form -->
-    <form @submit.prevent="handleCreate" class="flex gap-2 mb-6 items-end">
+    <form class="flex gap-2 mb-6 items-end" @submit.prevent="handleCreate">
       <div class="space-y-1">
         <Label class="text-xs">{{ t('FINANCE.PAYMENT_METHODS.NAME') }}</Label>
         <Input v-model="newForm.name" :placeholder="t('FINANCE.PAYMENT_METHODS.NAME')" />
@@ -93,12 +95,16 @@
           </SelectContent>
         </Select>
       </div>
-      <Button type="submit" :disabled="store.loading">{{
-        t('FINANCE.PAYMENT_METHODS.NEW')
-      }}</Button>
+      <Button type="submit" :disabled="store.loading">
+        {{
+          t('FINANCE.PAYMENT_METHODS.NEW')
+        }}
+      </Button>
     </form>
 
-    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">...</div>
+    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">
+      ...
+    </div>
 
     <div
       v-else-if="store.paymentMethods.length === 0"
@@ -112,7 +118,9 @@
         <TableRow>
           <TableHead>{{ t('FINANCE.PAYMENT_METHODS.NAME') }}</TableHead>
           <TableHead>{{ t('FINANCE.PAYMENT_METHODS.IDENTIFIER') }}</TableHead>
-          <TableHead class="text-right">{{ t('FINANCE.ACTIONS') }}</TableHead>
+          <TableHead class="text-right">
+            {{ t('FINANCE.ACTIONS') }}
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -130,29 +138,38 @@
                   </SelectItem>
                 </SelectContent>
               </Select>
-              <Button size="sm" @click="handleUpdate">{{ t('FINANCE_FORM.SAVE') }}</Button>
-              <Button variant="outline" size="sm" @click="cancelEdit">{{
-                t('FINANCE_FORM.CANCEL')
-              }}</Button>
+              <Button size="sm" @click="handleUpdate">
+                {{ t('FINANCE_FORM.SAVE') }}
+              </Button>
+              <Button variant="outline" size="sm" @click="cancelEdit">
+                {{
+                  t('FINANCE_FORM.CANCEL')
+                }}
+              </Button>
             </div>
             <span v-else>{{ pm.name }}</span>
           </TableCell>
           <TableCell v-if="editingId !== pm.id">
-            <Badge variant="outline">{{
-              t(`FINANCE.PAYMENT_METHODS.IDENTIFIERS.${pm.identifier}`)
-            }}</Badge>
+            <Badge variant="outline">
+              {{
+                t(`FINANCE.PAYMENT_METHODS.IDENTIFIERS.${pm.identifier}`)
+              }}
+            </Badge>
           </TableCell>
           <TableCell v-else />
-          <TableCell class="text-right whitespace-nowrap" v-if="editingId !== pm.id">
-            <Button variant="link" class="p-0 h-auto mr-3" @click="startEdit(pm)">{{
-              t('FINANCE.EDIT')
-            }}</Button>
+          <TableCell v-if="editingId !== pm.id" class="text-right whitespace-nowrap">
+            <Button variant="link" class="p-0 h-auto mr-3" @click="startEdit(pm)">
+              {{
+                t('FINANCE.EDIT')
+              }}
+            </Button>
             <Button
               variant="link"
               class="p-0 h-auto text-destructive"
               @click="handleDelete(pm.id)"
-              >{{ t('FINANCE.DELETE') }}</Button
             >
+              {{ t('FINANCE.DELETE') }}
+            </Button>
           </TableCell>
           <TableCell v-else />
         </TableRow>

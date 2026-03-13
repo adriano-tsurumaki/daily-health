@@ -79,40 +79,47 @@
       transaction_items_attributes: form.items,
     }
 
-    try {
-      if (isEdit.value) {
-        await store.editTransaction(transactionId.value, payload)
-      } else {
-        await store.addTransaction(payload)
-      }
+    if (isEdit.value) {
+      await store.editTransaction(transactionId.value, payload)
+    } else {
+      await store.addTransaction(payload)
+    }
+
+    saving.value = false
+
+    if (store.error) {
+      formError.value = store.error
+    } else {
       router.push({ name: 'finance' })
-    } catch (e: unknown) {
-      formError.value = e instanceof Error ? e.message : t('ERRORS.UNKNOWN')
-    } finally {
-      saving.value = false
     }
   }
 
   onMounted(async () => {
     await Promise.all([store.loadCategories(), store.loadTags(), store.loadPaymentMethods()])
 
-    if (isEdit.value) {
-      const tx = await store.loadTransaction(transactionId.value)
-      form.amount = tx.amount
-      form.payment_date = tx.payment_date.split('T')[0]
-      form.transaction_type = tx.transaction_type
-      form.status = tx.status
-      form.payment_method_id = tx.payment_method?.id ?? 0
-      form.category_id = tx.category?.id ?? null
-      form.tag_ids = tx.tags.map((t) => t.id)
-      form.items = tx.transaction_items.map((i) => ({
-        id: i.id,
-        name: i.name,
-        quantity: i.quantity,
-        unit_of_measure: i.unit_of_measure,
-        unit_price: i.unit_price,
-      }))
+    if (!isEdit.value) {
+      return
     }
+
+    const tx = await store.loadTransaction(transactionId.value)
+    if (!tx) {
+      return
+    }
+    
+    form.amount = tx.amount
+    form.payment_date = tx.payment_date.split('T')[0]
+    form.transaction_type = tx.transaction_type
+    form.status = tx.status
+    form.payment_method_id = tx.payment_method?.id ?? 0
+    form.category_id = tx.category?.id ?? null
+    form.tag_ids = tx.tags.map((t) => t.id)
+    form.items = tx.transaction_items.map((i) => ({
+      id: i.id,
+      name: i.name,
+      quantity: i.quantity,
+      unit_of_measure: i.unit_of_measure,
+      unit_price: i.unit_price,
+    }))
   })
 </script>
 
@@ -126,7 +133,7 @@
       <AlertDescription>{{ formError }}</AlertDescription>
     </Alert>
 
-    <form @submit.prevent="handleSubmit" class="space-y-6 max-w-2xl">
+    <form class="space-y-6 max-w-2xl" @submit.prevent="handleSubmit">
       <!-- Amount & Date -->
       <div class="grid grid-cols-2 gap-4">
         <div class="space-y-2">
@@ -197,7 +204,9 @@
               <SelectValue :placeholder="t('FINANCE_FORM.SELECT_CATEGORY')" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem :value="null">{{ t('FINANCE_FORM.NONE') }}</SelectItem>
+              <SelectItem :value="null">
+                {{ t('FINANCE_FORM.NONE') }}
+              </SelectItem>
               <SelectItem v-for="cat in store.categories" :key="cat.id" :value="cat.id">
                 {{ cat.name }}
               </SelectItem>
@@ -226,7 +235,12 @@
       <div class="space-y-3">
         <div class="flex items-center justify-between">
           <Label>{{ t('FINANCE_FORM.ITEMS') }}</Label>
-          <Button type="button" variant="outline" size="sm" @click="addItem">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            @click="addItem"
+          >
             {{ t('FINANCE_FORM.ADD_ITEM') }}
           </Button>
         </div>
@@ -241,7 +255,13 @@
               <Label v-if="index === 0" class="text-xs">{{
                 t('FINANCE_FORM.ITEM_QUANTITY')
               }}</Label>
-              <Input v-model.number="item.quantity" type="number" step="0.01" min="0.01" required />
+              <Input
+                v-model.number="item.quantity"
+                type="number"
+                step="0.01"
+                min="0.01"
+                required
+              />
             </div>
             <div class="col-span-2">
               <Label v-if="index === 0" class="text-xs">{{ t('FINANCE_FORM.ITEM_UNIT') }}</Label>
@@ -249,7 +269,13 @@
             </div>
             <div class="col-span-2">
               <Label v-if="index === 0" class="text-xs">{{ t('FINANCE_FORM.ITEM_PRICE') }}</Label>
-              <Input v-model.number="item.unit_price" type="number" step="0.01" min="0" required />
+              <Input
+                v-model.number="item.unit_price"
+                type="number"
+                step="0.01"
+                min="0"
+                required
+              />
             </div>
             <div class="col-span-2">
               <Button

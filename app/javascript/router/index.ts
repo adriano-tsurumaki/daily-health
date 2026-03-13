@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { getStoredToken } from '@services/auth'
 
 const routes = [
-  { path: '/', name: 'home', component: () => import('../views/Home.vue') },
-  { path: '/login', name: 'login', component: () => import('../views/auth/Login.vue') },
+  { path: '/', name: 'home', component: () => import('../views/HomePage.vue') },
+  { path: '/login', name: 'login', component: () => import('../views/auth/UserLogin.vue') },
   {
     path: '/forgot-password',
     name: 'forgot-password',
@@ -22,7 +22,7 @@ const routes = [
       {
         path: 'food',
         name: 'food',
-        component: () => import('../views/Food.vue'),
+        component: () => import('../views/FoodList.vue'),
       },
       {
         path: 'food/new',
@@ -37,7 +37,7 @@ const routes = [
       {
         path: 'finance',
         name: 'finance',
-        component: () => import('../views/Finance.vue'),
+        component: () => import('../views/FinanceDashboard.vue'),
       },
       {
         path: 'finance/transactions/new',
@@ -52,12 +52,12 @@ const routes = [
       {
         path: 'finance/categories',
         name: 'finance-categories',
-        component: () => import('../views/Categories.vue'),
+        component: () => import('../views/FinanceCategories.vue'),
       },
       {
         path: 'finance/tags',
         name: 'finance-tags',
-        component: () => import('../views/Tags.vue'),
+        component: () => import('../views/FinanceTags.vue'),
       },
       {
         path: 'finance/payment-methods',
@@ -67,7 +67,7 @@ const routes = [
       {
         path: 'settings',
         name: 'settings',
-        component: () => import('../views/Settings.vue'),
+        component: () => import('../views/AppSettings.vue'),
       },
     ],
   },

@@ -39,13 +39,13 @@
         <button
           v-for="option in options"
           :key="option.value"
-          @click="selectTheme(option.value)"
           class="flex flex-col items-center gap-2 rounded-lg border-2 p-4 transition-all duration-200 cursor-pointer"
           :class="
             themeMode === option.value
               ? 'border-primary bg-primary/5 text-primary'
               : 'border-border hover:border-primary/30 text-muted-foreground hover:text-foreground'
           "
+          @click="selectTheme(option.value)"
         >
           <component :is="option.icon" class="size-5" />
           <span class="text-xs font-medium">{{ t(option.labelKey) }}</span>

@@ -66,19 +66,27 @@
 <template>
   <div>
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-bold">{{ t('FINANCE.TITLE') }}</h1>
+      <h1 class="text-2xl font-bold">
+        {{ t('FINANCE.TITLE') }}
+      </h1>
       <Button as-child>
-        <RouterLink :to="{ name: 'finance-transactions-new' }">{{
-          t('FINANCE.NEW_TRANSACTION')
-        }}</RouterLink>
+        <RouterLink :to="{ name: 'finance-transactions-new' }">
+          {{
+            t('FINANCE.NEW_TRANSACTION')
+          }}
+        </RouterLink>
       </Button>
     </div>
 
     <!-- Month selector -->
     <div class="flex items-center gap-4 mb-6">
-      <Button variant="outline" size="sm" @click="prevMonth">&larr;</Button>
+      <Button variant="outline" size="sm" @click="prevMonth">
+        &larr;
+      </Button>
       <span class="text-lg font-medium capitalize">{{ monthLabel }}</span>
-      <Button variant="outline" size="sm" @click="nextMonth">&rarr;</Button>
+      <Button variant="outline" size="sm" @click="nextMonth">
+        &rarr;
+      </Button>
     </div>
 
     <Alert v-if="store.error" variant="destructive" class="mb-4">
@@ -88,19 +96,25 @@
     <!-- Summary cards -->
     <div v-if="store.dashboard" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
       <Card class="p-6">
-        <p class="text-sm text-muted-foreground mb-1">{{ t('FINANCE.INCOME') }}</p>
+        <p class="text-sm text-muted-foreground mb-1">
+          {{ t('FINANCE.INCOME') }}
+        </p>
         <p class="text-2xl font-bold text-green-600 dark:text-green-400">
           {{ formatCurrency(store.dashboard.total_income) }}
         </p>
       </Card>
       <Card class="p-6">
-        <p class="text-sm text-muted-foreground mb-1">{{ t('FINANCE.EXPENSE') }}</p>
+        <p class="text-sm text-muted-foreground mb-1">
+          {{ t('FINANCE.EXPENSE') }}
+        </p>
         <p class="text-2xl font-bold text-red-600 dark:text-red-400">
           {{ formatCurrency(store.dashboard.total_expense) }}
         </p>
       </Card>
       <Card class="p-6">
-        <p class="text-sm text-muted-foreground mb-1">{{ t('FINANCE.BALANCE') }}</p>
+        <p class="text-sm text-muted-foreground mb-1">
+          {{ t('FINANCE.BALANCE') }}
+        </p>
         <p
           class="text-2xl font-bold"
           :class="
@@ -115,9 +129,13 @@
     </div>
 
     <!-- Recent transactions -->
-    <h2 class="text-lg font-semibold mb-4">{{ t('FINANCE.RECENT_TRANSACTIONS') }}</h2>
+    <h2 class="text-lg font-semibold mb-4">
+      {{ t('FINANCE.RECENT_TRANSACTIONS') }}
+    </h2>
 
-    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">...</div>
+    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">
+      ...
+    </div>
 
     <div
       v-else-if="!store.dashboard?.recent_transactions?.length"
@@ -135,8 +153,12 @@
             <TableHead>{{ t('FINANCE.CATEGORY') }}</TableHead>
             <TableHead>{{ t('FINANCE.PAYMENT_METHOD') }}</TableHead>
             <TableHead>{{ t('FINANCE.STATUS') }}</TableHead>
-            <TableHead class="text-right">{{ t('FINANCE.AMOUNT') }}</TableHead>
-            <TableHead class="text-right">{{ t('FINANCE.ACTIONS') }}</TableHead>
+            <TableHead class="text-right">
+              {{ t('FINANCE.AMOUNT') }}
+            </TableHead>
+            <TableHead class="text-right">
+              {{ t('FINANCE.ACTIONS') }}
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -150,7 +172,9 @@
             <TableCell>{{ tx.category ?? '-' }}</TableCell>
             <TableCell>{{ tx.payment_method ?? '-' }}</TableCell>
             <TableCell>
-              <Badge variant="outline">{{ t(`FINANCE.STATUSES.${tx.status}`) }}</Badge>
+              <Badge variant="outline">
+                {{ t(`FINANCE.STATUSES.${tx.status}`) }}
+              </Badge>
             </TableCell>
             <TableCell
               class="text-right"
@@ -164,9 +188,11 @@
             </TableCell>
             <TableCell class="text-right">
               <Button variant="link" as-child class="p-0 h-auto">
-                <RouterLink :to="{ name: 'finance-transactions-edit', params: { id: tx.id } }">{{
-                  t('FINANCE.EDIT')
-                }}</RouterLink>
+                <RouterLink :to="{ name: 'finance-transactions-edit', params: { id: tx.id } }">
+                  {{
+                    t('FINANCE.EDIT')
+                  }}
+                </RouterLink>
               </Button>
             </TableCell>
           </TableRow>
