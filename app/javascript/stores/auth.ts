@@ -37,9 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       token.value = await authSignIn(email, password)
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : t('ERRORS.LOGIN')
-      errorMessage.value = message
-      throw e
+      errorMessage.value = e instanceof Error ? e.message : t('ERRORS.LOGIN')
     } finally {
       loading.value = false
       feedbackKey.value++
@@ -59,9 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
       await authSignUp(name, email, password, passwordConfirmation)
       successMessage.value = t('LOGIN.SUCCESS.REGISTER')
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : t('ERRORS.REGISTER')
-      errorMessage.value = message
-      throw e
+      errorMessage.value = e instanceof Error ? e.message : t('ERRORS.REGISTER')
     } finally {
       loading.value = false
       feedbackKey.value++
@@ -77,9 +73,7 @@ export const useAuthStore = defineStore('auth', () => {
       await authRequestPasswordReset(email)
       successMessage.value = t('FORGOT_PASSWORD.SUCCESS')
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : t('ERRORS.FORGOT_PASSWORD')
-      errorMessage.value = message
-      throw e
+      errorMessage.value = e instanceof Error ? e.message : t('ERRORS.FORGOT_PASSWORD')
     } finally {
       loading.value = false
       feedbackKey.value++
@@ -99,9 +93,7 @@ export const useAuthStore = defineStore('auth', () => {
       await authResetPassword(token, password, passwordConfirmation)
       successMessage.value = t('RESET_PASSWORD.SUCCESS')
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : t('ERRORS.RESET_PASSWORD')
-      errorMessage.value = message
-      throw e
+      errorMessage.value = e instanceof Error ? e.message : t('ERRORS.RESET_PASSWORD')
     } finally {
       loading.value = false
       feedbackKey.value++
@@ -121,9 +113,7 @@ export const useAuthStore = defineStore('auth', () => {
       await authChangePassword(currentPassword, password, passwordConfirmation)
       successMessage.value = t('SETTINGS.PASSWORD_CHANGED')
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : t('ERRORS.CHANGE_PASSWORD')
-      errorMessage.value = message
-      throw e
+      errorMessage.value = e instanceof Error ? e.message : t('ERRORS.CHANGE_PASSWORD')
     } finally {
       loading.value = false
       feedbackKey.value++

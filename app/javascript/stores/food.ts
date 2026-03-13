@@ -29,7 +29,7 @@ export const useFoodStore = defineStore('food', () => {
     }
   }
 
-  async function create(payload: FoodItemPayload): Promise<FoodItem> {
+  async function create(payload: FoodItemPayload): Promise<FoodItem | undefined> {
     loading.value = true
     error.value = null
     try {
@@ -37,15 +37,14 @@ export const useFoodStore = defineStore('food', () => {
       items.value.push(item)
       return item
     } catch (e: unknown) {
-      const errors = extractErrors(e)
-      error.value = errors
-      throw new Error(errors)
+      error.value = extractErrors(e)
+      return undefined
     } finally {
       loading.value = false
     }
   }
 
-  async function update(id: number, payload: FoodItemPayload): Promise<FoodItem> {
+  async function update(id: number, payload: FoodItemPayload): Promise<FoodItem | undefined> {
     loading.value = true
     error.value = null
     try {
@@ -54,9 +53,8 @@ export const useFoodStore = defineStore('food', () => {
       if (idx !== -1) items.value[idx] = updated
       return updated
     } catch (e: unknown) {
-      const errors = extractErrors(e)
-      error.value = errors
-      throw new Error(errors)
+      error.value = extractErrors(e)
+      return undefined
     } finally {
       loading.value = false
     }

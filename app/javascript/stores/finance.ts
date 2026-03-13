@@ -68,20 +68,20 @@ export const useFinanceStore = defineStore('finance', () => {
     }
   }
 
-  async function loadTransaction(id: number): Promise<Transaction> {
+  async function loadTransaction(id: number): Promise<Transaction | undefined> {
     loading.value = true
     error.value = null
     try {
       return await fetchTransaction(id)
     } catch {
       error.value = t('ERRORS.FINANCE_LOAD')
-      throw new Error(t('ERRORS.FINANCE_LOAD'))
+      return undefined
     } finally {
       loading.value = false
     }
   }
 
-  async function addTransaction(payload: TransactionPayload): Promise<Transaction> {
+  async function addTransaction(payload: TransactionPayload): Promise<Transaction | undefined> {
     loading.value = true
     error.value = null
     try {
@@ -90,13 +90,13 @@ export const useFinanceStore = defineStore('finance', () => {
       return tx
     } catch (e: unknown) {
       error.value = extractErrors(e)
-      throw new Error(error.value)
+      return undefined
     } finally {
       loading.value = false
     }
   }
 
-  async function editTransaction(id: number, payload: TransactionPayload): Promise<Transaction> {
+  async function editTransaction(id: number, payload: TransactionPayload): Promise<Transaction | undefined> {
     loading.value = true
     error.value = null
     try {
@@ -106,7 +106,7 @@ export const useFinanceStore = defineStore('finance', () => {
       return tx
     } catch (e: unknown) {
       error.value = extractErrors(e)
-      throw new Error(error.value)
+      return undefined
     } finally {
       loading.value = false
     }
@@ -138,7 +138,7 @@ export const useFinanceStore = defineStore('finance', () => {
     }
   }
 
-  async function addCategory(payload: CategoryPayload): Promise<Category> {
+  async function addCategory(payload: CategoryPayload): Promise<Category | undefined> {
     loading.value = true
     error.value = null
     try {
@@ -147,13 +147,13 @@ export const useFinanceStore = defineStore('finance', () => {
       return cat
     } catch (e: unknown) {
       error.value = extractErrors(e)
-      throw new Error(error.value)
+      return undefined
     } finally {
       loading.value = false
     }
   }
 
-  async function editCategory(id: number, payload: CategoryPayload): Promise<Category> {
+  async function editCategory(id: number, payload: CategoryPayload): Promise<Category | undefined> {
     loading.value = true
     error.value = null
     try {
@@ -163,7 +163,7 @@ export const useFinanceStore = defineStore('finance', () => {
       return cat
     } catch (e: unknown) {
       error.value = extractErrors(e)
-      throw new Error(error.value)
+      return undefined
     } finally {
       loading.value = false
     }
@@ -195,7 +195,7 @@ export const useFinanceStore = defineStore('finance', () => {
     }
   }
 
-  async function addTag(payload: TagPayload): Promise<Tag> {
+  async function addTag(payload: TagPayload): Promise<Tag | undefined> {
     loading.value = true
     error.value = null
     try {
@@ -204,13 +204,13 @@ export const useFinanceStore = defineStore('finance', () => {
       return tag
     } catch (e: unknown) {
       error.value = extractErrors(e)
-      throw new Error(error.value)
+      return undefined
     } finally {
       loading.value = false
     }
   }
 
-  async function editTag(id: number, payload: TagPayload): Promise<Tag> {
+  async function editTag(id: number, payload: TagPayload): Promise<Tag | undefined> {
     loading.value = true
     error.value = null
     try {
@@ -220,7 +220,7 @@ export const useFinanceStore = defineStore('finance', () => {
       return tag
     } catch (e: unknown) {
       error.value = extractErrors(e)
-      throw new Error(error.value)
+      return undefined
     } finally {
       loading.value = false
     }
@@ -252,7 +252,7 @@ export const useFinanceStore = defineStore('finance', () => {
     }
   }
 
-  async function addPaymentMethod(payload: PaymentMethodPayload): Promise<PaymentMethod> {
+  async function addPaymentMethod(payload: PaymentMethodPayload): Promise<PaymentMethod | undefined> {
     loading.value = true
     error.value = null
     try {
@@ -261,7 +261,7 @@ export const useFinanceStore = defineStore('finance', () => {
       return pm
     } catch (e: unknown) {
       error.value = extractErrors(e)
-      throw new Error(error.value)
+      return undefined
     } finally {
       loading.value = false
     }
@@ -270,7 +270,7 @@ export const useFinanceStore = defineStore('finance', () => {
   async function editPaymentMethod(
     id: number,
     payload: PaymentMethodPayload,
-  ): Promise<PaymentMethod> {
+  ): Promise<PaymentMethod | undefined> {
     loading.value = true
     error.value = null
     try {
@@ -280,7 +280,7 @@ export const useFinanceStore = defineStore('finance', () => {
       return pm
     } catch (e: unknown) {
       error.value = extractErrors(e)
-      throw new Error(error.value)
+      return undefined
     } finally {
       loading.value = false
     }

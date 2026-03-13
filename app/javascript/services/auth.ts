@@ -43,10 +43,10 @@ export async function signUp(
     if (e instanceof Error && 'response' in e) {
       const response = (e as { response: { data?: { errors?: string[] } } }).response
       if (response.data?.errors?.length) {
-        throw new Error(response.data.errors.join('. '))
+        throw Object.assign(new Error(response.data.errors.join('. ')), { cause: e })
       }
     }
-    throw new Error('Erro ao criar conta')
+    throw e
   }
 }
 
