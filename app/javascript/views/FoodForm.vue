@@ -83,17 +83,18 @@
       },
     }
 
-    try {
-      if (isEditing.value && foodId.value) {
-        await foodStore.update(foodId.value, payload)
-      } else {
-        await foodStore.create(payload)
-      }
+    if (isEditing.value && foodId.value) {
+      await foodStore.update(foodId.value, payload)
+    } else {
+      await foodStore.create(payload)
+    }
+
+    saving.value = false
+
+    if (foodStore.error) {
+      formError.value = foodStore.error
+    } else {
       router.push({ name: 'food' })
-    } catch (e: unknown) {
-      formError.value = e instanceof Error ? e.message : t('ERRORS.FOOD_SAVE')
-    } finally {
-      saving.value = false
     }
   }
 </script>
@@ -105,7 +106,9 @@
         {{ isEditing ? t('FOOD_FORM.TITLE_EDIT') : t('FOOD_FORM.TITLE_NEW') }}
       </h1>
       <Button variant="secondary" as-child>
-        <RouterLink :to="{ name: 'food' }">{{ t('FOOD_FORM.BACK') }}</RouterLink>
+        <RouterLink :to="{ name: 'food' }">
+          {{ t('FOOD_FORM.BACK') }}
+        </RouterLink>
       </Button>
     </div>
 
@@ -284,7 +287,9 @@
           }}
         </Button>
         <Button variant="secondary" as-child>
-          <RouterLink :to="{ name: 'food' }">{{ t('FOOD_FORM.CANCEL') }}</RouterLink>
+          <RouterLink :to="{ name: 'food' }">
+            {{ t('FOOD_FORM.CANCEL') }}
+          </RouterLink>
         </Button>
       </div>
     </form>
