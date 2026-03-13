@@ -154,14 +154,13 @@ RUN if [ "$RAILS_ENV" != "production" ]; then \
   && pnpm --version; \
   fi
 
-COPY --from=pre-builder /gems/ /gems/
-COPY --from=pre-builder /app /app
+# Create non-root user before COPY so --chown applies in a single pass
+RUN addgroup -S rails && adduser -S rails -G rails
+
+COPY --from=pre-builder --chown=rails:rails /gems/ /gems/
+COPY --from=pre-builder --chown=rails:rails /app /app
 
 WORKDIR /app
-
-# Create non-root user for running the application
-RUN addgroup -S rails && adduser -S rails -G rails \
-  && chown -R rails:rails /app /gems
 
 USER rails
 
