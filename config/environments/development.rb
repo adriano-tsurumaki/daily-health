@@ -31,21 +31,10 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Use Mailhog for email in development (http://localhost:8025)
-  # config.action_mailer.raise_delivery_errors = true
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.smtp_settings = { address: "mailhog", port: 1025 }
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
-    user_name: ENV["GMAIL_USERNAME"],
-    password: ENV["GMAIL_APP_PASSWORD"],
-    authentication: "plain",
-    enable_starttls_auto: true,
-    open_timeout: 5,
-    read_timeout: 5
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :resend
+  config.action_mailer.resend_settings = {
+    api_key: ENV.fetch("RESEND_API_KEY", "")
   }
 
   # Make template changes take effect immediately.

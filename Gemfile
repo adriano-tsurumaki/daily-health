@@ -24,6 +24,8 @@ gem "devise-jwt", "~> 0.12"
 
 gem "rack-cors"
 
+gem "resend", "~> 0.17"
+
 # Observability
 gem "lograge"
 gem "sentry-ruby"
