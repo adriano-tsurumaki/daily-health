@@ -30,24 +30,22 @@ function switchMode(newMode: 'login' | 'register') {
 }
 
 async function handleLogin() {
-  try {
-    await authStore.login(email.value, password.value)
+  await authStore.login(email.value, password.value)
+
+  if (!authStore.errorMessage) {
     router.push({ name: 'food' })
-  } catch {
-    // error is already set in the store
   }
 }
 
 async function handleRegister() {
-  try {
-    await authStore.register(name.value, email.value, password.value, passwordConfirmation.value)
+  await authStore.register(name.value, email.value, password.value, passwordConfirmation.value)
+
+  if (!authStore.errorMessage) {
     name.value = ''
     email.value = ''
     password.value = ''
     passwordConfirmation.value = ''
     mode.value = 'login'
-  } catch {
-    // error is already set in the store
   }
 }
 </script>
@@ -59,52 +57,94 @@ async function handleRegister() {
     </div>
     <Card class="w-full max-w-sm shadow-card">
       <CardContent class="pt-10 pb-10 px-8">
-        <h1 class="text-center text-3xl font-bold text-primary mb-8">{{ t('APP.TITLE') }}</h1>
+        <h1 class="text-center text-3xl font-bold text-primary mb-8">
+          {{ t('APP.TITLE') }}
+        </h1>
 
         <!-- Login -->
         <form v-if="mode === 'login'" @submit.prevent="handleLogin">
           <div class="mb-4">
-            <Input v-model="email" type="email" :placeholder="t('LOGIN.EMAIL')" required />
+            <Input
+              v-model="email"
+              type="email"
+              :placeholder="t('LOGIN.EMAIL')"
+              required
+            />
           </div>
           <div class="mb-4">
-            <Input v-model="password" type="password" :placeholder="t('LOGIN.PASSWORD')" required />
+            <Input
+              v-model="password"
+              type="password"
+              :placeholder="t('LOGIN.PASSWORD')"
+              required
+            />
           </div>
           <div class="text-right mb-4">
-            <a href="#" @click.prevent="router.push({ name: 'forgot-password' })"
-              class="text-sm text-primary no-underline hover:underline">{{ t('LOGIN.FORGOT_PASSWORD') }}</a>
+            <a
+              href="#"
+              class="text-sm text-primary no-underline hover:underline"
+              @click.prevent="router.push({ name: 'forgot-password' })"
+            >{{ t('LOGIN.FORGOT_PASSWORD') }}</a>
           </div>
           <Button type="submit" class="w-full py-3 text-base mt-2" :disabled="authStore.loading">
             {{ authStore.loading ? t('LOGIN.SUBMITTING') : t('LOGIN.SUBMIT') }}
           </Button>
           <p class="text-center text-sm text-muted-foreground mt-5 mb-0">
             {{ t('LOGIN.NO_ACCOUNT') }}
-            <a href="#" @click.prevent="switchMode('register')"
-              class="text-primary font-semibold no-underline hover:underline">{{ t('LOGIN.REGISTER_LINK') }}</a>
+            <a
+              href="#"
+              class="text-primary font-semibold no-underline hover:underline"
+              @click.prevent="switchMode('register')"
+            >{{ t('LOGIN.REGISTER_LINK') }}</a>
           </p>
         </form>
 
         <!-- Register -->
         <form v-else @submit.prevent="handleRegister">
           <div class="mb-4">
-            <Input v-model="name" type="text" :placeholder="t('REGISTER.NAME')" required />
+            <Input
+              v-model="name"
+              type="text"
+              :placeholder="t('REGISTER.NAME')"
+              required
+            />
           </div>
           <div class="mb-4">
-            <Input v-model="email" type="email" :placeholder="t('REGISTER.EMAIL')" required />
+            <Input
+              v-model="email"
+              type="email"
+              :placeholder="t('REGISTER.EMAIL')"
+              required
+            />
           </div>
           <div class="mb-4">
-            <Input v-model="password" type="password" :placeholder="t('REGISTER.PASSWORD')" required minlength="6" />
+            <Input
+              v-model="password"
+              type="password"
+              :placeholder="t('REGISTER.PASSWORD')"
+              required
+              minlength="6"
+            />
           </div>
           <div class="mb-4">
-            <Input v-model="passwordConfirmation" type="password" :placeholder="t('REGISTER.CONFIRM_PASSWORD')" required
-              minlength="6" />
+            <Input
+              v-model="passwordConfirmation"
+              type="password"
+              :placeholder="t('REGISTER.CONFIRM_PASSWORD')"
+              required
+              minlength="6"
+            />
           </div>
           <Button type="submit" class="w-full py-3 text-base mt-2" :disabled="authStore.loading">
             {{ authStore.loading ? t('REGISTER.SUBMITTING') : t('REGISTER.SUBMIT') }}
           </Button>
           <p class="text-center text-sm text-muted-foreground mt-5 mb-0">
             {{ t('REGISTER.HAS_ACCOUNT') }}
-            <a href="#" @click.prevent="switchMode('login')"
-              class="text-primary font-semibold no-underline hover:underline">{{ t('REGISTER.LOGIN_LINK') }}</a>
+            <a
+              href="#"
+              class="text-primary font-semibold no-underline hover:underline"
+              @click.prevent="switchMode('login')"
+            >{{ t('REGISTER.LOGIN_LINK') }}</a>
           </p>
         </form>
       </CardContent>
