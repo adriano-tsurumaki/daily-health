@@ -3,7 +3,7 @@ name: Deploy
 on:
   workflow_run:
     workflows: ['CI']
-    branches: [main]
+    branches: [main, devel]
     types: [completed]
 
 permissions:
@@ -17,6 +17,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion == 'success'
+    environment: development
     timeout-minutes: 20
 
     env:
@@ -37,7 +38,10 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Add server to known_hosts
-        run: echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
 
       - name: Deploy with Kamal
         env:
