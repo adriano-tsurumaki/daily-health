@@ -79,9 +79,7 @@
             <TableCell class="text-right whitespace-nowrap">
               <Button variant="link" as-child class="p-0 h-auto mr-3">
                 <RouterLink :to="{ name: 'food-edit', params: { id: item.id } }">
-                  {{
-                    t('FOOD.EDIT')
-                  }}
+                  {{ t('FOOD.EDIT') }}
                 </RouterLink>
               </Button>
               <Button

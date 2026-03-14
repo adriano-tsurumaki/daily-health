@@ -96,15 +96,11 @@
         </Select>
       </div>
       <Button type="submit" :disabled="store.loading">
-        {{
-          t('FINANCE.PAYMENT_METHODS.NEW')
-        }}
+        {{ t('FINANCE.PAYMENT_METHODS.NEW') }}
       </Button>
     </form>
 
-    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">
-      ...
-    </div>
+    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">...</div>
 
     <div
       v-else-if="store.paymentMethods.length === 0"
@@ -142,32 +138,22 @@
                 {{ t('FINANCE_FORM.SAVE') }}
               </Button>
               <Button variant="outline" size="sm" @click="cancelEdit">
-                {{
-                  t('FINANCE_FORM.CANCEL')
-                }}
+                {{ t('FINANCE_FORM.CANCEL') }}
               </Button>
             </div>
             <span v-else>{{ pm.name }}</span>
           </TableCell>
           <TableCell v-if="editingId !== pm.id">
             <Badge variant="outline">
-              {{
-                t(`FINANCE.PAYMENT_METHODS.IDENTIFIERS.${pm.identifier}`)
-              }}
+              {{ t(`FINANCE.PAYMENT_METHODS.IDENTIFIERS.${pm.identifier}`) }}
             </Badge>
           </TableCell>
           <TableCell v-else />
           <TableCell v-if="editingId !== pm.id" class="text-right whitespace-nowrap">
             <Button variant="link" class="p-0 h-auto mr-3" @click="startEdit(pm)">
-              {{
-                t('FINANCE.EDIT')
-              }}
+              {{ t('FINANCE.EDIT') }}
             </Button>
-            <Button
-              variant="link"
-              class="p-0 h-auto text-destructive"
-              @click="handleDelete(pm.id)"
-            >
+            <Button variant="link" class="p-0 h-auto text-destructive" @click="handleDelete(pm.id)">
               {{ t('FINANCE.DELETE') }}
             </Button>
           </TableCell>

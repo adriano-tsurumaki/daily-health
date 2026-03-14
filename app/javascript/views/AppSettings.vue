@@ -1,53 +1,49 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { Label } from '@components/ui/label'
-import { Input } from '@components/ui/input'
-import { Button } from '@components/ui/button'
-import { Separator } from '@components/ui/separator'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@components/ui/select'
-import { useDarkMode, type ThemeMode } from '@composables/useDarkMode'
-import { useAuthStore } from '@stores/auth'
-import { useStoreFeedbackToast } from '@/composables/useStoreFeedbackToast'
+  import { ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import { Label } from '@components/ui/label'
+  import { Input } from '@components/ui/input'
+  import { Button } from '@components/ui/button'
+  import { Separator } from '@components/ui/separator'
+  import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from '@components/ui/select'
+  import { useDarkMode, type ThemeMode } from '@composables/useDarkMode'
+  import { useAuthStore } from '@stores/auth'
+  import { useStoreFeedbackToast } from '@/composables/useStoreFeedbackToast'
 
-const { t, locale } = useI18n()
-const { themeMode, setTheme } = useDarkMode()
-const authStore = useAuthStore()
+  const { t, locale } = useI18n()
+  const { themeMode, setTheme } = useDarkMode()
+  const authStore = useAuthStore()
 
-useStoreFeedbackToast(authStore, {
-  successPosition: 'bottom-center',
-  errorPosition: 'bottom-center',
-})
+  useStoreFeedbackToast(authStore, {
+    successPosition: 'bottom-center',
+    errorPosition: 'bottom-center',
+  })
 
-const currentPassword = ref('')
-const newPassword = ref('')
-const confirmPassword = ref('')
+  const currentPassword = ref('')
+  const newPassword = ref('')
+  const confirmPassword = ref('')
 
-function changeLocale(event: Event) {
-  const value = (event.target as HTMLSelectElement).value
-  locale.value = value
-  localStorage.setItem('locale', value)
-}
-
-async function handleChangePassword() {
-  await authStore.updatePassword(
-    currentPassword.value,
-    newPassword.value,
-    confirmPassword.value,
-  )
-
-  if (!authStore.errorMessage) {
-    currentPassword.value = ''
-    newPassword.value = ''
-    confirmPassword.value = ''
+  function changeLocale(event: Event) {
+    const value = (event.target as HTMLSelectElement).value
+    locale.value = value
+    localStorage.setItem('locale', value)
   }
-}
+
+  async function handleChangePassword() {
+    await authStore.updatePassword(currentPassword.value, newPassword.value, confirmPassword.value)
+
+    if (!authStore.errorMessage) {
+      currentPassword.value = ''
+      newPassword.value = ''
+      confirmPassword.value = ''
+    }
+  }
 </script>
 
 <template>
@@ -69,12 +65,8 @@ async function handleChangePassword() {
           class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           @change="changeLocale"
         >
-          <option value="pt_BR">
-            Português (Brasil)
-          </option>
-          <option value="en">
-            English
-          </option>
+          <option value="pt_BR">Português (Brasil)</option>
+          <option value="en">English</option>
         </select>
       </div>
 
@@ -132,7 +124,9 @@ async function handleChangePassword() {
           />
 
           <Button type="submit" class="w-full" :disabled="authStore.loading">
-            {{ authStore.loading ? t('SETTINGS.CHANGING_PASSWORD') : t('SETTINGS.CHANGE_PASSWORD') }}
+            {{
+              authStore.loading ? t('SETTINGS.CHANGING_PASSWORD') : t('SETTINGS.CHANGE_PASSWORD')
+            }}
           </Button>
         </form>
       </div>

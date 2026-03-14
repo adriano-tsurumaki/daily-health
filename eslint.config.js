@@ -33,22 +33,6 @@ export default [
   },
 
   {
-    files: ['**/*.vue'],
-    rules: {
-      'vue/html-indent': ['error', 2],
-      'vue/html-closing-bracket-newline': ['error', { singleline: 'never', multiline: 'always' }],
-      'vue/html-closing-bracket-spacing': 'error',
-      'vue/max-attributes-per-line': ['error', { singleline: 3, multiline: 1 }],
-      'vue/first-attribute-linebreak': ['error', { singleline: 'beside', multiline: 'below' }],
-      'vue/multiline-html-element-content-newline': 'error',
-      'vue/singleline-html-element-content-newline': 'error',
-      'vue/mustache-interpolation-spacing': ['error', 'always'],
-      'vue/no-multi-spaces': 'error',
-      'vue/no-spaces-around-equal-signs-in-attribute': 'error',
-    },
-  },
-
-  {
     files: ['app/javascript/**/*.{js,ts}'],
     languageOptions: {
       globals: globals.browser,

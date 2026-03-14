@@ -96,7 +96,10 @@ export const useFinanceStore = defineStore('finance', () => {
     }
   }
 
-  async function editTransaction(id: number, payload: TransactionPayload): Promise<Transaction | undefined> {
+  async function editTransaction(
+    id: number,
+    payload: TransactionPayload,
+  ): Promise<Transaction | undefined> {
     loading.value = true
     error.value = null
     try {
@@ -252,7 +255,9 @@ export const useFinanceStore = defineStore('finance', () => {
     }
   }
 
-  async function addPaymentMethod(payload: PaymentMethodPayload): Promise<PaymentMethod | undefined> {
+  async function addPaymentMethod(
+    payload: PaymentMethodPayload,
+  ): Promise<PaymentMethod | undefined> {
     loading.value = true
     error.value = null
     try {

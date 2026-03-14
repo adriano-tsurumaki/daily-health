@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import { useAuthStore } from '@stores/auth'
-import { Card, CardContent } from '@components/ui/card'
-import { Input } from '@components/ui/input'
-import { Button } from '@components/ui/button'
-import ThemeToggle from '@components/ThemeToggle.vue'
-import { useStoreFeedbackToast } from '@composables/useStoreFeedbackToast'
+  import { ref } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+  import { useI18n } from 'vue-i18n'
+  import { useAuthStore } from '@stores/auth'
+  import { Card, CardContent } from '@components/ui/card'
+  import { Input } from '@components/ui/input'
+  import { Button } from '@components/ui/button'
+  import ThemeToggle from '@components/ThemeToggle.vue'
+  import { useStoreFeedbackToast } from '@composables/useStoreFeedbackToast'
 
-const { t } = useI18n()
-const route = useRoute()
-const router = useRouter()
-const authStore = useAuthStore()
+  const { t } = useI18n()
+  const route = useRoute()
+  const router = useRouter()
+  const authStore = useAuthStore()
 
-useStoreFeedbackToast(authStore, {
-  successPosition: 'bottom-center',
-  errorPosition: 'bottom-center',
-})
+  useStoreFeedbackToast(authStore, {
+    successPosition: 'bottom-center',
+    errorPosition: 'bottom-center',
+  })
 
-const password = ref('')
-const passwordConfirmation = ref('')
-const token = route.query.token as string
+  const password = ref('')
+  const passwordConfirmation = ref('')
+  const token = route.query.token as string
 
-async function handleSubmit() {
-  await authStore.resetPasswordWithToken(token, password.value, passwordConfirmation.value)
+  async function handleSubmit() {
+    await authStore.resetPasswordWithToken(token, password.value, passwordConfirmation.value)
 
-  if (!authStore.errorMessage) {
-    password.value = ''
-    passwordConfirmation.value = ''
+    if (!authStore.errorMessage) {
+      password.value = ''
+      passwordConfirmation.value = ''
+    }
   }
-}
 </script>
 
 <template>
@@ -66,7 +66,11 @@ async function handleSubmit() {
               minlength="6"
             />
           </div>
-          <Button type="submit" class="w-full py-3 text-base mt-2" :disabled="authStore.loading || !token">
+          <Button
+            type="submit"
+            class="w-full py-3 text-base mt-2"
+            :disabled="authStore.loading || !token"
+          >
             {{ authStore.loading ? t('RESET_PASSWORD.SUBMITTING') : t('RESET_PASSWORD.SUBMIT') }}
           </Button>
           <p class="text-center text-sm text-muted-foreground mt-5 mb-0">
@@ -74,7 +78,8 @@ async function handleSubmit() {
               href="#"
               class="text-primary font-semibold no-underline hover:underline"
               @click.prevent="router.push({ name: 'login' })"
-            >{{ t('RESET_PASSWORD.BACK') }}</a>
+              >{{ t('RESET_PASSWORD.BACK') }}</a
+            >
           </p>
         </form>
       </CardContent>
