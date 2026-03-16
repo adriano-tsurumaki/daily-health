@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
+  import { useRouter } from 'vue-router'
   import { useI18n } from 'vue-i18n'
   import { useAuthStore } from '@stores/auth'
   import { Card, CardContent } from '@components/ui/card'
@@ -10,26 +10,30 @@
   import { useStoreFeedbackToast } from '@composables/useStoreFeedbackToast'
 
   const { t } = useI18n()
-  const route = useRoute()
   const router = useRouter()
   const authStore = useAuthStore()
+
+  const email = ref('')
+  const password = ref('')
+  const name = ref('')
+  const passwordConfirmation = ref('')
 
   useStoreFeedbackToast(authStore, {
     successPosition: 'bottom-center',
     errorPosition: 'bottom-center',
   })
 
-  const password = ref('')
-  const passwordConfirmation = ref('')
-  const token = route.query.token as string
+  async function handleRegister() {
+    await authStore.register(name.value, email.value, password.value, passwordConfirmation.value)
 
-  async function handleSubmit() {
-    await authStore.resetPasswordWithToken(token, password.value, passwordConfirmation.value)
-
-    if (!authStore.errorMessage) {
-      password.value = ''
-      passwordConfirmation.value = ''
+    if (authStore.errorMessage) {
+      return
     }
+
+    name.value = ''
+    email.value = ''
+    password.value = ''
+    passwordConfirmation.value = ''
   }
 </script>
 
@@ -40,19 +44,22 @@
     </div>
     <Card class="w-full max-w-sm shadow-card">
       <CardContent class="pt-10 pb-10 px-8">
-        <h1 class="text-center text-3xl font-bold text-primary mb-2">
+        <h1 class="text-center text-3xl font-bold text-primary mb-8">
           {{ t('APP.TITLE') }}
         </h1>
-        <h2 class="text-center text-lg text-muted-foreground mb-8">
-          {{ t('RESET_PASSWORD.TITLE') }}
-        </h2>
 
-        <form @submit.prevent="handleSubmit">
+        <form @submit.prevent="handleRegister">
+          <div class="mb-4">
+            <Input v-model="name" type="text" :placeholder="t('REGISTER.NAME')" required />
+          </div>
+          <div class="mb-4">
+            <Input v-model="email" type="email" :placeholder="t('REGISTER.EMAIL')" required />
+          </div>
           <div class="mb-4">
             <Input
               v-model="password"
               type="password"
-              :placeholder="t('RESET_PASSWORD.PASSWORD')"
+              :placeholder="t('REGISTER.PASSWORD')"
               required
               minlength="6"
             />
@@ -61,7 +68,7 @@
             <Input
               v-model="passwordConfirmation"
               type="password"
-              :placeholder="t('RESET_PASSWORD.CONFIRM_PASSWORD')"
+              :placeholder="t('REGISTER.CONFIRM_PASSWORD')"
               required
               minlength="6"
             />
@@ -69,16 +76,18 @@
           <Button
             type="submit"
             class="w-full py-3 text-base mt-2"
-            :disabled="authStore.loading || !token"
+            :disabled="authStore.loading"
+            @click.prevent="handleRegister"
           >
-            {{ authStore.loading ? t('RESET_PASSWORD.SUBMITTING') : t('RESET_PASSWORD.SUBMIT') }}
+            {{ authStore.loading ? t('REGISTER.SUBMITTING') : t('REGISTER.SUBMIT') }}
           </Button>
           <p class="text-center text-sm text-muted-foreground mt-5 mb-0">
+            {{ t('REGISTER.HAS_ACCOUNT') }}
             <a
               href="#"
               class="text-primary font-semibold no-underline hover:underline"
               @click.prevent="router.push({ name: 'login' })"
-              >{{ t('RESET_PASSWORD.BACK') }}</a
+              >{{ t('REGISTER.LOGIN_LINK') }}</a
             >
           </p>
         </form>

@@ -71,22 +71,16 @@
       </h1>
       <Button as-child>
         <RouterLink :to="{ name: 'finance-transactions-new' }">
-          {{
-            t('FINANCE.NEW_TRANSACTION')
-          }}
+          {{ t('FINANCE.NEW_TRANSACTION') }}
         </RouterLink>
       </Button>
     </div>
 
     <!-- Month selector -->
     <div class="flex items-center gap-4 mb-6">
-      <Button variant="outline" size="sm" @click="prevMonth">
-        &larr;
-      </Button>
+      <Button variant="outline" size="sm" @click="prevMonth"> &larr; </Button>
       <span class="text-lg font-medium capitalize">{{ monthLabel }}</span>
-      <Button variant="outline" size="sm" @click="nextMonth">
-        &rarr;
-      </Button>
+      <Button variant="outline" size="sm" @click="nextMonth"> &rarr; </Button>
     </div>
 
     <Alert v-if="store.error" variant="destructive" class="mb-4">
@@ -133,9 +127,7 @@
       {{ t('FINANCE.RECENT_TRANSACTIONS') }}
     </h2>
 
-    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">
-      ...
-    </div>
+    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">...</div>
 
     <div
       v-else-if="!store.dashboard?.recent_transactions?.length"
@@ -189,9 +181,7 @@
             <TableCell class="text-right">
               <Button variant="link" as-child class="p-0 h-auto">
                 <RouterLink :to="{ name: 'finance-transactions-edit', params: { id: tx.id } }">
-                  {{
-                    t('FINANCE.EDIT')
-                  }}
+                  {{ t('FINANCE.EDIT') }}
                 </RouterLink>
               </Button>
             </TableCell>

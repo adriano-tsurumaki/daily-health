@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import { useAuthStore } from '@stores/auth'
-import { Card, CardContent } from '@components/ui/card'
-import { Input } from '@components/ui/input'
-import { Button } from '@components/ui/button'
-import ThemeToggle from '@components/ThemeToggle.vue'
-import { useStoreFeedbackToast } from '@composables/useStoreFeedbackToast'
+  import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { useI18n } from 'vue-i18n'
+  import { useAuthStore } from '@stores/auth'
+  import { Card, CardContent } from '@components/ui/card'
+  import { Input } from '@components/ui/input'
+  import { Button } from '@components/ui/button'
+  import ThemeToggle from '@components/ThemeToggle.vue'
+  import { useStoreFeedbackToast } from '@composables/useStoreFeedbackToast'
 
-const { t } = useI18n()
-const router = useRouter()
-const authStore = useAuthStore()
+  const { t } = useI18n()
+  const router = useRouter()
+  const authStore = useAuthStore()
 
-const email = ref('')
+  const email = ref('')
 
-useStoreFeedbackToast(authStore, {
-  successPosition: 'bottom-center',
-  errorPosition: 'bottom-center',
-})
+  useStoreFeedbackToast(authStore, {
+    successPosition: 'bottom-center',
+    errorPosition: 'bottom-center',
+  })
 
-async function handleSubmit() {
-  await authStore.requestReset(email.value)
+  async function handleSubmit() {
+    await authStore.requestReset(email.value)
 
-  if (!authStore.errorMessage) {
-    email.value = ''
+    if (!authStore.errorMessage) {
+      email.value = ''
+    }
   }
-}
 </script>
 
 <template>
@@ -63,7 +63,8 @@ async function handleSubmit() {
               href="#"
               class="text-primary font-semibold no-underline hover:underline"
               @click.prevent="router.push({ name: 'login' })"
-            >{{ t('FORGOT_PASSWORD.BACK') }}</a>
+              >{{ t('FORGOT_PASSWORD.BACK') }}</a
+            >
           </p>
         </form>
       </CardContent>

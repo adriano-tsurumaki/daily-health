@@ -45,7 +45,9 @@
 <template>
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 border-r border-sidebar-border bg-sidebar text-sidebar-foreground flex flex-col shrink-0">
+    <aside
+      class="w-64 border-r border-sidebar-border bg-sidebar text-sidebar-foreground flex flex-col shrink-0"
+    >
       <!-- Logo -->
       <div class="px-6 pt-7 pb-6">
         <h1 class="text-lg font-semibold tracking-tight text-sidebar-primary m-0">

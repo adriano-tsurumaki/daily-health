@@ -105,7 +105,7 @@
     if (!tx) {
       return
     }
-    
+
     form.amount = tx.amount
     form.payment_date = tx.payment_date.split('T')[0]
     form.transaction_type = tx.transaction_type
@@ -235,12 +235,7 @@
       <div class="space-y-3">
         <div class="flex items-center justify-between">
           <Label>{{ t('FINANCE_FORM.ITEMS') }}</Label>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            @click="addItem"
-          >
+          <Button type="button" variant="outline" size="sm" @click="addItem">
             {{ t('FINANCE_FORM.ADD_ITEM') }}
           </Button>
         </div>
@@ -255,13 +250,7 @@
               <Label v-if="index === 0" class="text-xs">{{
                 t('FINANCE_FORM.ITEM_QUANTITY')
               }}</Label>
-              <Input
-                v-model.number="item.quantity"
-                type="number"
-                step="0.01"
-                min="0.01"
-                required
-              />
+              <Input v-model.number="item.quantity" type="number" step="0.01" min="0.01" required />
             </div>
             <div class="col-span-2">
               <Label v-if="index === 0" class="text-xs">{{ t('FINANCE_FORM.ITEM_UNIT') }}</Label>
@@ -269,13 +258,7 @@
             </div>
             <div class="col-span-2">
               <Label v-if="index === 0" class="text-xs">{{ t('FINANCE_FORM.ITEM_PRICE') }}</Label>
-              <Input
-                v-model.number="item.unit_price"
-                type="number"
-                step="0.01"
-                min="0"
-                required
-              />
+              <Input v-model.number="item.unit_price" type="number" step="0.01" min="0" required />
             </div>
             <div class="col-span-2">
               <Button

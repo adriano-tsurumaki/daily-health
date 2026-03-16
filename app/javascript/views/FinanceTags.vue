@@ -1,51 +1,51 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useFinanceStore } from '@stores/finance'
-import { Button } from '@components/ui/button'
-import { Input } from '@components/ui/input'
-import { Badge } from '@components/ui/badge'
-import { Alert, AlertDescription } from '@components/ui/alert'
+  import { onMounted, ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import { useFinanceStore } from '@stores/finance'
+  import { Button } from '@components/ui/button'
+  import { Input } from '@components/ui/input'
+  import { Badge } from '@components/ui/badge'
+  import { Alert, AlertDescription } from '@components/ui/alert'
 
-const { t } = useI18n()
-const store = useFinanceStore()
+  const { t } = useI18n()
+  const store = useFinanceStore()
 
-const newName = ref('')
-const editingId = ref<number | null>(null)
-const editingName = ref('')
+  const newName = ref('')
+  const editingId = ref<number | null>(null)
+  const editingName = ref('')
 
-function startEdit(id: number, name: string) {
-  editingId.value = id
-  editingName.value = name
-}
+  function startEdit(id: number, name: string) {
+    editingId.value = id
+    editingName.value = name
+  }
 
-function cancelEdit() {
-  editingId.value = null
-  editingName.value = ''
-}
+  function cancelEdit() {
+    editingId.value = null
+    editingName.value = ''
+  }
 
-async function handleCreate() {
-  if (!newName.value.trim()) return
-  await store.addTag({ name: newName.value.trim() })
-  newName.value = ''
-}
+  async function handleCreate() {
+    if (!newName.value.trim()) return
+    await store.addTag({ name: newName.value.trim() })
+    newName.value = ''
+  }
 
-async function handleUpdate() {
-  if (!editingId.value || !editingName.value.trim()) return
-  await store.editTag(editingId.value, { name: editingName.value.trim() })
-  cancelEdit()
-}
+  async function handleUpdate() {
+    if (!editingId.value || !editingName.value.trim()) return
+    await store.editTag(editingId.value, { name: editingName.value.trim() })
+    cancelEdit()
+  }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function handleDelete(id: number) {
-  // TODO: Change for modal to confirm
-  // if (!confirm(t('FINANCE.CONFIRM_DELETE'))) return
-  // await store.removeTag(id)
-}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async function handleDelete(id: number) {
+    // TODO: Change for modal to confirm
+    // if (!confirm(t('FINANCE.CONFIRM_DELETE'))) return
+    // await store.removeTag(id)
+  }
 
-onMounted(() => {
-  store.loadTags()
-})
+  onMounted(() => {
+    store.loadTags()
+  })
 </script>
 
 <template>
@@ -66,16 +66,18 @@ onMounted(() => {
       </Button>
     </form>
 
-    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">
-      ...
-    </div>
+    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">...</div>
 
     <div v-else-if="store.tags.length === 0" class="text-center py-8 text-muted-foreground">
       {{ t('FINANCE.TAGS_PAGE.NO_TAGS') }}
     </div>
 
     <div v-else class="space-y-3">
-      <div v-for="tag in store.tags" :key="tag.id" class="flex items-center gap-3 p-3 border rounded-md">
+      <div
+        v-for="tag in store.tags"
+        :key="tag.id"
+        class="flex items-center gap-3 p-3 border rounded-md"
+      >
         <div v-if="editingId === tag.id" class="flex gap-2 flex-1">
           <Input v-model="editingName" class="max-w-xs" />
           <Button size="sm" @click="handleUpdate">

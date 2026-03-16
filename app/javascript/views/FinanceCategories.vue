@@ -71,9 +71,7 @@
       </Button>
     </form>
 
-    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">
-      ...
-    </div>
+    <div v-if="store.loading" class="text-center py-8 text-muted-foreground">...</div>
 
     <div v-else-if="store.categories.length === 0" class="text-center py-8 text-muted-foreground">
       {{ t('FINANCE.CATEGORIES.NO_CATEGORIES') }}
@@ -96,24 +94,15 @@
               <Button type="submit" size="sm">
                 {{ t('FINANCE_FORM.SAVE') }}
               </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                @click="cancelEdit"
-              >
-                {{
-                  t('FINANCE_FORM.CANCEL')
-                }}
+              <Button type="button" variant="outline" size="sm" @click="cancelEdit">
+                {{ t('FINANCE_FORM.CANCEL') }}
               </Button>
             </form>
             <span v-else>{{ cat.name }}</span>
           </TableCell>
           <TableCell v-if="editingId !== cat.id" class="text-right whitespace-nowrap">
             <Button variant="link" class="p-0 h-auto mr-3" @click="startEdit(cat.id, cat.name)">
-              {{
-                t('FINANCE.EDIT')
-              }}
+              {{ t('FINANCE.EDIT') }}
             </Button>
             <Button
               variant="link"
