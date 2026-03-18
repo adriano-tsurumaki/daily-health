@@ -3,14 +3,14 @@ name: Deploy
 on:
   workflow_run:
     workflows: ['CI']
-    branches: [main, devel]
+    branches: [main]
     types: [completed]
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: deploy-main
   cancel-in-progress: false
 
 jobs:
@@ -24,8 +24,18 @@ jobs:
       DOCKER_BUILDKIT: 1
 
     steps:
-      - name: Checkout code
+      - name: Checkout code from CI commit
         uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+
+      - name: Debug deployed ref
+        run: |
+          echo "workflow_run.head_branch=${{ github.event.workflow_run.head_branch }}"
+          echo "workflow_run.head_sha=${{ github.event.workflow_run.head_sha }}"
+          git rev-parse HEAD
+          git log -1 --oneline
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
