@@ -54,7 +54,7 @@ Rails.application.configure do
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Set host to be used by links generated in mailer templates.
-  domain = ENV["DOMAIN"].presence || "example.invalid"
+  domain = ENV["APP_DOMAIN"].presence || "example.invalid"
 
   config.action_mailer.default_url_options = {
     host: domain,
