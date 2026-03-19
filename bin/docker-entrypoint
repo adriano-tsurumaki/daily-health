@@ -2,8 +2,8 @@
 
 # If running the rails server then create or migrate existing database
 if [ "$1" = "./bin/rails" ] && [ "$2" = "server" ]; then
-  if [ "$RAILS_ENV" = "production" ] && [ -z "$DOMAIN" ]; then
-    echo "ERROR: DOMAIN is required in production runtime"
+  if [ "$RAILS_ENV" = "production" ] && [ -z "$APP_DOMAIN" ]; then
+    echo "ERROR: APP_DOMAIN is required in production runtime"
     exit 1
   fi
 
