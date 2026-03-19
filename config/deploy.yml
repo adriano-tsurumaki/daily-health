@@ -36,7 +36,7 @@ registry:
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
   secret:
-    - DOMAIN
+    - APP_DOMAIN
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
     - SENTRY_DSN
