@@ -18,9 +18,10 @@ servers:
 # SSL via Let's Encrypt (habilitar quando tiver domínio).
 # Requer config.assume_ssl e config.force_ssl em production.rb.
 proxy:
+  host: '%{DOMAIN}'
   app_port: 3000
-  # ssl: true
-  # host: <dominio.com>
+  ssl: true
+  forward_headers: true
   healthcheck:
     path: /up
     interval: 5
@@ -36,6 +37,7 @@ registry:
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
   secret:
+    - DOMAIN
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
     - SENTRY_DSN
