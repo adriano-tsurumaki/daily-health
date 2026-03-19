@@ -15,10 +15,9 @@ servers:
   #   options:
   #     health-cmd: bin/jobs-healthy
 
-# SSL via Let's Encrypt (habilitar quando tiver domínio).
 # Requer config.assume_ssl e config.force_ssl em production.rb.
 proxy:
-  host: '%{DOMAIN}'
+  host: <%= ENV.fetch("APP_DOMAIN") %>
   app_port: 3000
   ssl: true
   forward_headers: true
