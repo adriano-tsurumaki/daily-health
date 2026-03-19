@@ -2,6 +2,11 @@
 
 # If running the rails server then create or migrate existing database
 if [ "$1" = "./bin/rails" ] && [ "$2" = "server" ]; then
+  if [ "$RAILS_ENV" = "production" ] && [ -z "$DOMAIN" ]; then
+    echo "ERROR: DOMAIN is required in production runtime"
+    exit 1
+  fi
+
   ./bin/rails db:prepare
 
   # Load solid_* schemas into shared database if their tables don't exist yet.
