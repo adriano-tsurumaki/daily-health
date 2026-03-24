@@ -61,4 +61,5 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
+          DD_API_KEY: ${{ secrets.DD_API_KEY }}
         run: bundle exec kamal deploy --verbose
