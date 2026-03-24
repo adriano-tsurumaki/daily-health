@@ -39,7 +39,6 @@ env:
     - APP_DOMAIN
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
-    - SENTRY_DSN
     - RESEND_API_KEY
     - RESEND_FROM_EMAIL
   clear:
