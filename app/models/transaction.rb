@@ -16,4 +16,24 @@ class Transaction < ApplicationRecord
 
   validates :amount, presence: true
   validates :payment_date, presence: true
+  validates :description, presence: true
+
+  def review_status
+    return "needs_category" if category_id.nil?
+    return "needs_instrument_review" if payment_method&.review_status != "ok"
+
+    "ok"
+  end
+
+  def entry_state
+    paid? ? "realized" : "committed"
+  end
+
+  def period_bucket
+    Finance::CommitmentRules.bucket_for_transaction(self)
+  end
+
+  def commitment_date
+    Finance::CommitmentRules.commitment_date_for_transaction(self)
+  end
 end

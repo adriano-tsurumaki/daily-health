@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_10_202041) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_02_170000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "categories", force: :cascade do |t|
+    t.string "color", default: "#f59e0b", null: false
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
+    t.decimal "monthly_limit", precision: 12, scale: 2
     t.string "name", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
@@ -72,16 +74,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_202041) do
   end
 
   create_table "installment_plans", force: :cascade do |t|
+    t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
+    t.string "description"
     t.datetime "end_date", null: false
     t.integer "interval_in_months", null: false
+    t.string "name"
+    t.bigint "payment_method_id"
     t.datetime "start_date", null: false
     t.decimal "total_amount", precision: 10, scale: 2, null: false
     t.integer "total_installments", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["category_id"], name: "index_installment_plans_on_category_id"
     t.index ["deleted_at"], name: "ix_installment_plans_deleted_at"
+    t.index ["payment_method_id"], name: "index_installment_plans_on_payment_method_id"
+    t.index ["user_id"], name: "index_installment_plans_on_user_id"
   end
 
   create_table "jwt_denylist", force: :cascade do |t|
@@ -135,14 +145,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_202041) do
   end
 
   create_table "payment_methods", force: :cascade do |t|
+    t.integer "closing_day"
     t.datetime "created_at", null: false
+    t.decimal "credit_limit", precision: 12, scale: 2
     t.datetime "deleted_at"
+    t.string "display_color", default: "#1d4ed8", null: false
+    t.integer "due_day"
     t.integer "identifier", default: 0, null: false
+    t.boolean "is_active", default: true, null: false
+    t.string "kind", default: "account", null: false
     t.string "locale", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["deleted_at"], name: "ix_payment_methods_deleted_at"
+    t.index ["user_id"], name: "index_payment_methods_on_user_id"
   end
 
   create_table "recipe_ingredients", force: :cascade do |t|
@@ -193,16 +211,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_202041) do
   end
 
   create_table "recurrences", force: :cascade do |t|
+    t.decimal "amount", precision: 12, scale: 2, default: "0.0", null: false
+    t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
     t.datetime "end_date"
     t.integer "frequency", null: false
     t.boolean "is_active", null: false
+    t.string "name", default: "", null: false
     t.datetime "next_due_date", null: false
+    t.bigint "payment_method_id"
     t.integer "recurrence_interval", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["category_id"], name: "index_recurrences_on_category_id"
     t.index ["deleted_at"], name: "ix_recurrences_deleted_at"
+    t.index ["payment_method_id"], name: "index_recurrences_on_payment_method_id"
+    t.index ["user_id"], name: "index_recurrences_on_user_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -244,7 +270,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_202041) do
     t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
+    t.string "description", default: "", null: false
+    t.date "due_date"
     t.bigint "installment_plan_id"
+    t.integer "installment_position"
+    t.string "merchant_name"
     t.datetime "payment_date", null: false
     t.bigint "payment_method_id", null: false
     t.bigint "recurrence_id"
@@ -284,13 +314,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_202041) do
   add_foreign_key "day_logs", "users", on_delete: :cascade
   add_foreign_key "food_items", "users", on_delete: :cascade
   add_foreign_key "food_nutritions", "food_items", on_delete: :cascade
+  add_foreign_key "installment_plans", "categories", on_delete: :nullify
+  add_foreign_key "installment_plans", "payment_methods"
+  add_foreign_key "installment_plans", "users", on_delete: :cascade
   add_foreign_key "meal_entries", "day_logs", on_delete: :cascade
   add_foreign_key "meal_item_snapshots", "meal_items", on_delete: :cascade
   add_foreign_key "meal_items", "meal_entries", on_delete: :cascade
+  add_foreign_key "payment_methods", "users", on_delete: :cascade
   add_foreign_key "recipe_ingredients", "food_items", on_delete: :cascade
   add_foreign_key "recipe_ingredients", "recipes", on_delete: :cascade
   add_foreign_key "recipe_nutrition_caches", "recipes", on_delete: :cascade
   add_foreign_key "recipes", "users", on_delete: :cascade
+  add_foreign_key "recurrences", "categories", on_delete: :nullify
+  add_foreign_key "recurrences", "payment_methods"
+  add_foreign_key "recurrences", "users", on_delete: :cascade
   add_foreign_key "transaction_items", "installment_plans", on_delete: :cascade
   add_foreign_key "transaction_items", "transactions", on_delete: :cascade
   add_foreign_key "transaction_tags", "tags", on_delete: :cascade
