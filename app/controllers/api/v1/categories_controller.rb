@@ -42,10 +42,15 @@ class Api::V1::CategoriesController < Api::BaseController
   end
 
   def category_params
-    params.require(:category).permit(:name)
+    params.require(:category).permit(:name, :monthly_limit, :color)
   end
 
   def category_json(category)
-    { id: category.id, name: category.name }
+    {
+      id: category.id,
+      name: category.name,
+      monthly_limit: category.monthly_limit,
+      color: category.color
+    }
   end
 end

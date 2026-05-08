@@ -1,15 +1,13 @@
 class Api::V1::PaymentMethodsController < Api::BaseController
   before_action :set_payment_method, only: [ :update, :destroy ]
 
-  # GET /api/v1/payment_methods
   def index
-    payment_methods = PaymentMethod.kept.order(:name)
-    render json: payment_methods.map { |pm| payment_method_json(pm) }
+    payment_methods = payment_methods_scope.order(:kind, :name)
+    render json: payment_methods.map { |payment_method| payment_method_json(payment_method) }
   end
 
-  # POST /api/v1/payment_methods
   def create
-    payment_method = PaymentMethod.new(payment_method_params)
+    payment_method = current_user.payment_methods.build(payment_method_params)
 
     if payment_method.save
       render json: payment_method_json(payment_method), status: :created
@@ -18,7 +16,6 @@ class Api::V1::PaymentMethodsController < Api::BaseController
     end
   end
 
-  # PATCH/PUT /api/v1/payment_methods/:id
   def update
     if @payment_method.update(payment_method_params)
       render json: payment_method_json(@payment_method)
@@ -27,7 +24,6 @@ class Api::V1::PaymentMethodsController < Api::BaseController
     end
   end
 
-  # DELETE /api/v1/payment_methods/:id
   def destroy
     @payment_method.soft_delete!
     head :no_content
@@ -36,16 +32,35 @@ class Api::V1::PaymentMethodsController < Api::BaseController
   private
 
   def set_payment_method
-    @payment_method = PaymentMethod.kept.find(params[:id])
+    @payment_method = payment_methods_scope.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Método de pagamento não encontrado" }, status: :not_found
+    render json: { error: "Metodo de pagamento nao encontrado" }, status: :not_found
+  end
+
+  def payment_methods_scope
+    PaymentMethod.kept.where(user_id: [ current_user.id, nil ])
   end
 
   def payment_method_params
-    params.require(:payment_method).permit(:name, :locale, :identifier)
+    params.require(:payment_method).permit(
+      :name, :locale, :identifier, :kind, :is_active, :display_color,
+      :closing_day, :due_day, :credit_limit
+    )
   end
 
-  def payment_method_json(pm)
-    { id: pm.id, name: pm.name, locale: pm.locale, identifier: pm.identifier }
+  def payment_method_json(payment_method)
+    {
+      id: payment_method.id,
+      name: payment_method.name,
+      locale: payment_method.locale,
+      identifier: payment_method.identifier,
+      kind: payment_method.kind,
+      is_active: payment_method.is_active,
+      display_color: payment_method.display_color,
+      closing_day: payment_method.closing_day,
+      due_day: payment_method.due_day,
+      credit_limit: payment_method.credit_limit,
+      review_status: payment_method.review_status
+    }
   end
 end
