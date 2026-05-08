@@ -1,53 +1,53 @@
 <script setup lang="ts">
-  import { useRouter, useRoute } from 'vue-router'
-  import { useI18n } from 'vue-i18n'
-  import { useAuthStore } from '@stores/auth'
-  import { ref } from 'vue'
-  import { Button } from '@components/ui/button'
-  import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-  } from '@components/ui/dropdown-menu'
-  import ThemeDialog from '@components/ThemeDialog.vue'
-  import {
-    UtensilsCrossed,
-    Wallet,
-    Tag,
-    CreditCard,
-    FolderOpen,
-    Settings,
-    LogOut,
-    ChevronsUpDown,
-    Palette,
-    User,
-  } from 'lucide-vue-next'
+import { useRouter, useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { useAuthStore } from '@stores/auth';
+import { computed, ref } from 'vue';
+import { Button } from '@components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@components/ui/dropdown-menu';
+import ThemeDialog from '@components/ThemeDialog.vue';
+import {
+  UtensilsCrossed,
+  Wallet,
+  Tag,
+  CreditCard,
+  Repeat,
+  FolderOpen,
+  Settings,
+  LogOut,
+  ChevronsUpDown,
+  Palette,
+  User
+} from 'lucide-vue-next';
 
-  const { t } = useI18n()
-  const router = useRouter()
-  const route = useRoute()
-  const authStore = useAuthStore()
-  const themeDialogOpen = ref(false)
+const { t } = useI18n();
+const router = useRouter();
+const route = useRoute();
+const authStore = useAuthStore();
+const themeDialogOpen = ref(false);
+const contentWidthClass = computed(() => (String(route.name ?? '').startsWith('finance') ? 'max-w-7xl' : 'max-w-4xl'));
 
-  async function handleLogout() {
-    await authStore.logout()
-    router.push({ name: 'login' })
-  }
+async function handleLogout() {
+  await authStore.logout();
+  router.push({ name: 'login' });
+}
 
-  function isActive(name: string) {
-    return route.name === name || (route.name as string)?.startsWith(name)
-  }
+function isActive(name: string) {
+  return route.name === name || (route.name as string)?.startsWith(name);
+}
 </script>
 
 <template>
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside
-      class="w-64 border-r border-sidebar-border bg-sidebar text-sidebar-foreground flex flex-col shrink-0"
-    >
+    <aside class="w-64 border-r border-sidebar-border bg-sidebar text-sidebar-foreground flex flex-col shrink-0">
       <!-- Logo -->
       <div class="px-6 pt-7 pb-6">
         <h1 class="text-lg font-semibold tracking-tight text-sidebar-primary m-0">
@@ -82,10 +82,7 @@
               : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-l-3 border-transparent'
           "
         >
-          <Wallet
-            class="size-4"
-            :class="isActive('finance') ? 'text-sidebar-primary' : 'text-muted-foreground'"
-          />
+          <Wallet class="size-4" :class="isActive('finance') ? 'text-sidebar-primary' : 'text-muted-foreground'" />
           {{ t('SIDEBAR.FINANCE') }}
         </RouterLink>
 
@@ -102,9 +99,7 @@
           >
             <FolderOpen
               class="size-3.5"
-              :class="
-                isActive('finance-categories') ? 'text-sidebar-primary' : 'text-muted-foreground'
-              "
+              :class="isActive('finance-categories') ? 'text-sidebar-primary' : 'text-muted-foreground'"
             />
             {{ t('SIDEBAR.CATEGORIES') }}
           </RouterLink>
@@ -136,13 +131,25 @@
           >
             <CreditCard
               class="size-3.5"
-              :class="
-                isActive('finance-payment-methods')
-                  ? 'text-sidebar-primary'
-                  : 'text-muted-foreground'
-              "
+              :class="isActive('finance-payment-methods') ? 'text-sidebar-primary' : 'text-muted-foreground'"
             />
             {{ t('SIDEBAR.PAYMENT_METHODS') }}
+          </RouterLink>
+
+          <RouterLink
+            :to="{ name: 'finance-recurrences' }"
+            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm no-underline transition-all duration-200"
+            :class="
+              isActive('finance-recurrences')
+                ? 'bg-sidebar-accent text-sidebar-primary font-medium'
+                : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+            "
+          >
+            <Repeat
+              class="size-3.5"
+              :class="isActive('finance-recurrences') ? 'text-sidebar-primary' : 'text-muted-foreground'"
+            />
+            {{ t('SIDEBAR.RECURRENCES') }}
           </RouterLink>
         </div>
 
@@ -155,10 +162,7 @@
               : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-l-3 border-transparent'
           "
         >
-          <Settings
-            class="size-4"
-            :class="isActive('settings') ? 'text-sidebar-primary' : 'text-muted-foreground'"
-          />
+          <Settings class="size-4" :class="isActive('settings') ? 'text-sidebar-primary' : 'text-muted-foreground'" />
           {{ t('SIDEBAR.SETTINGS') }}
         </RouterLink>
       </nav>
@@ -198,7 +202,7 @@
 
     <!-- Main content -->
     <main class="flex-1 overflow-auto">
-      <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="mx-auto px-6 py-8" :class="contentWidthClass">
         <RouterView />
       </div>
     </main>

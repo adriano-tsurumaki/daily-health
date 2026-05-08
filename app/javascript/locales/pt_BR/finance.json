@@ -1,19 +1,21 @@
 {
   "FINANCE": {
     "TITLE": "Finanças",
-    "DASHBOARD": "Dashboard",
+    "DASHBOARD": "Comprometido do Mês",
+    "DASHBOARD_SUBTITLE": "Veja o que já foi realizado, o que ainda vai impactar o período e onde a leitura pode estar enganando você.",
+    "LOADING": "Carregando leitura financeira...",
     "INCOME": "Receitas",
     "EXPENSE": "Despesas",
-    "BALANCE": "Balanço",
-    "RECENT_TRANSACTIONS": "Transações Recentes",
-    "NEW_TRANSACTION": "Nova Transação",
+    "BALANCE": "Balanco",
+    "RECENT_TRANSACTIONS": "Transações recentes",
+    "NEW_TRANSACTION": "Novo lançamento",
     "NO_TRANSACTIONS": "Nenhuma transação encontrada",
     "AMOUNT": "Valor",
     "DATE": "Data",
     "TYPE": "Tipo",
     "STATUS": "Status",
     "CATEGORY": "Categoria",
-    "PAYMENT_METHOD": "Método de Pagamento",
+    "PAYMENT_METHOD": "Instrumento",
     "TAGS": "Tags",
     "ACTIONS": "Ações",
     "EDIT": "Editar",
@@ -32,32 +34,137 @@
       "failed": "Falhou",
       "expired": "Expirado"
     },
+    "ENTRY_STATES": {
+      "realized": "Realizado",
+      "committed": "Comprometido",
+      "predicted": "Previsto"
+    },
+    "REVIEW_STATUSES": {
+      "ok": "OK",
+      "needs_category": "Sem categoria",
+      "needs_card_config": "Cartão incompleto",
+      "needs_instrument_review": "Instrumento pede revisão",
+      "inactive": "Inativo",
+      "broken_schedule": "Agenda quebrada"
+    },
+    "SUMMARY": {
+      "AVAILABLE": "Disponível",
+      "COMMITTED": "Comprometido no mês",
+      "UPCOMING": "Próximas cobranças",
+      "LEFTOVER": "Sobra projetada"
+    },
+    "ALERTS": {
+      "TITLE": "Alertas acionáveis",
+      "SUBTITLE": "Sinais que merecem tratamento antes de confiar totalmente na leitura do mês.",
+      "EMPTY": "Nenhum alerta crítico neste periodo."
+    },
+    "REVIEW_QUEUE": {
+      "TITLE": "Fila de revisão",
+      "SUBTITLE": "Pendências que ainda podem distorcer o painel.",
+      "UNCATEGORIZED": "Sem categoria",
+      "INSTRUMENTS": "Instrumentos",
+      "RECURRENCES": "Recorrências"
+    },
+    "INSTRUMENT_SNAPSHOTS": {
+      "TITLE": "Instrumentos do período",
+      "CTA": "Abrir instrumentos",
+      "REALIZED": "Realizado",
+      "PENDING": "Pendente",
+      "UTILIZATION": "Uso do limite"
+    },
+    "TIMELINE": {
+      "TITLE": "Timeline de vencimentos"
+    },
+    "BUDGET_HEALTH": {
+      "TITLE": "Saúde por categoria",
+      "CTA": "Editar categorias"
+    },
+    "RANKINGS": {
+      "TITLE": "Rankings",
+      "CATEGORIES": "Categorias",
+      "MERCHANTS": "Estabelecimentos"
+    },
+    "RECENT_ACTIVITY": {
+      "TITLE": "Atividade recente",
+      "CTA": "Ver recorrências"
+    },
     "CATEGORIES": {
       "TITLE": "Categorias",
-      "NEW": "Nova Categoria",
+      "SUBTITLE": "Defina cor e teto mensal para transformar categorias em leitura orçamentária.",
+      "NEW": "Nova categoria",
+      "SAVE_CHANGES": "Salvar mudanças",
       "NAME": "Nome",
-      "NO_CATEGORIES": "Nenhuma categoria encontrada"
+      "NAME_PLACEHOLDER": "Ex.: Alimentação",
+      "MONTHLY_LIMIT": "Teto mensal",
+      "MONTHLY_LIMIT_PLACEHOLDER": "Ex.: 1200",
+      "COLOR": "Cor",
+      "NO_LIMIT": "Sem teto",
+      "NO_CATEGORIES": "Nenhuma categoria cadastrada ainda",
+      "UNTRACKED": "Sem teto",
+      "TRACKED": "Com teto"
     },
     "TAGS_PAGE": {
       "TITLE": "Tags",
-      "NEW": "Nova Tag",
+      "NEW": "Nova tag",
       "NAME": "Nome",
       "NO_TAGS": "Nenhuma tag encontrada"
     },
     "PAYMENT_METHODS": {
-      "TITLE": "Métodos de Pagamento",
-      "NEW": "Novo Método",
+      "TITLE": "Instrumentos",
+      "SUBTITLE": "Organize contas, cartões e meios instantaneos sem mudar a rota técnica do produto.",
+      "NEW": "Novo instrumento",
+      "SAVE_CHANGES": "Salvar mudanças",
       "NAME": "Nome",
+      "NAME_PLACEHOLDER": "Ex.: Nubank Roxinho",
       "LOCALE": "Localidade",
-      "IDENTIFIER": "Tipo",
-      "NO_METHODS": "Nenhum método de pagamento encontrado",
+      "IDENTIFIER": "Tipo técnico",
+      "KIND": "Tipo principal",
+      "COLOR": "Cor",
+      "ACTIVE": "Status",
+      "ACTIVE_YES": "Ativo",
+      "ACTIVE_NO": "Pausado",
+      "NO_METHODS": "Nenhum instrumento cadastrado ainda",
+      "EMPTY_GROUP": "Nenhum instrumento neste grupo.",
+      "CLOSING_DAY": "Dia de fechamento",
+      "DUE_DAY": "Dia de vencimento",
+      "CREDIT_LIMIT": "Limite de crédito",
+      "GROUPS": {
+        "ACCOUNT": "Contas",
+        "CREDIT_CARD": "Cartões",
+        "INSTANT": "Instantâneos"
+      },
       "IDENTIFIERS": {
         "unknown": "Desconhecido",
-        "credit_card": "Cartão de Crédito",
-        "debit_card": "Cartão de Débito",
+        "credit_card": "Cartão de crédito",
+        "debit_card": "Cartão de débito",
         "cash": "Dinheiro",
         "pix": "Pix",
         "boleto": "Boleto"
+      }
+    },
+    "RECURRENCES": {
+      "TITLE": "Recorrências",
+      "SUBTITLE": "Cadastre compromissos fixos e acompanhe a projecao dos proximos meses.",
+      "NEW": "Nova recorrência",
+      "SAVE_CHANGES": "Salvar mudanças",
+      "EMPTY": "Nenhuma recorrência ativa por enquanto",
+      "NAME": "Nome",
+      "NAME_PLACEHOLDER": "Ex.: Academia",
+      "AMOUNT": "Valor",
+      "FREQUENCY": "Frequência",
+      "INTERVAL": "Intervalo",
+      "NEXT_DUE_DATE": "Próxima cobrança",
+      "END_DATE": "Data final",
+      "STATUS": "Status",
+      "STATUS_ACTIVE": "Ativa",
+      "STATUS_PAUSED": "Pausada",
+      "PROJECTION": "Projecao",
+      "NEXT_OCCURRENCES": "Próximas ocorrências",
+      "FREQUENCIES": {
+        "daily": "Diária",
+        "weekly": "Semanal",
+        "monthly": "Mensal",
+        "yearly": "Anual"
       }
     }
   }
