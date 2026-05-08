@@ -3,7 +3,7 @@
 rm -rf /app/tmp/pids/server.pid
 rm -rf /app/tmp/cache/bootsnap
 
-pnpm install --frozen-lockfile
+pnpm install --frozen-lockfile --force
 
 echo "Ready to run Vite development server."
 
