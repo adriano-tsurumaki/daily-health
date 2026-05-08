@@ -1,6 +1,9 @@
 grocery_expense:
   amount: 150.50
+  description: 'Supermercado'
+  merchant_name: 'Mercado do Bairro'
   payment_date: <%= Date.current.beginning_of_month + 5.days %>
+  due_date: <%= Date.current.beginning_of_month + 5.days %>
   transaction_type: 0
   status: 1
   user: user_email_confirmed
@@ -9,17 +12,47 @@ grocery_expense:
 
 salary_income:
   amount: 5000.00
+  description: 'Salario'
+  merchant_name:
   payment_date: <%= Date.current.beginning_of_month + 1.day %>
+  due_date: <%= Date.current.beginning_of_month + 1.day %>
   transaction_type: 1
   status: 1
   user: user_email_confirmed
-  payment_method: pix
+  payment_method: checking_account
 
 pending_expense:
   amount: 200.00
-  payment_date: <%= Date.current.beginning_of_month + 10.days %>
+  description: 'Combustivel'
+  merchant_name: 'Posto Centro'
+  payment_date: <%= Date.current.beginning_of_month + 25.days %>
+  due_date: <%= Date.current.beginning_of_month + 25.days %>
   transaction_type: 0
   status: 0
   user: user_email_confirmed
   payment_method: credit_card
   category: transport_category
+
+uncategorized_expense:
+  amount: 89.90
+  description: 'Despesa sem categoria'
+  merchant_name: 'Loja sem regra'
+  payment_date: <%= Date.current.beginning_of_month + 8.days %>
+  due_date: <%= Date.current.beginning_of_month + 8.days %>
+  transaction_type: 0
+  status: 0
+  user: user_email_confirmed
+  payment_method: pix
+
+recurrence_realized:
+  amount: 99.00
+  description: 'Academia'
+  merchant_name: 'Gym Club'
+  payment_date: <%= Date.current.beginning_of_month + 3.days %>
+  due_date: <%= Date.current.beginning_of_month + 3.days %>
+  transaction_type: 0
+  status: 1
+  user: user_email_confirmed
+  payment_method: checking_account
+  category: food_category
+  recurrence: monthly_membership

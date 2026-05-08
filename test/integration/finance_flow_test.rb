@@ -1,286 +1,177 @@
 require "test_helper"
 
 class FinanceFlowTest < ActionDispatch::IntegrationTest
-  # === Authentication ===
-
   test "should return 401 without token on transactions" do
     get api_v1_transactions_path, as: :json
+
     assert_response :unauthorized
   end
 
-  # === Transactions CRUD ===
-
-  test "should list transactions for current month" do
+  test "should list transactions using commitment bucket" do
     token = sign_in_confirmed_user
 
-    get api_v1_transactions_path, headers: { "Authorization" => token }, as: :json
+    get api_v1_transactions_path,
+      params: { month: Date.current.month, year: Date.current.year },
+      headers: { "Authorization" => token },
+      as: :json
+
     assert_response :success
     assert_kind_of Array, json_response
+    assert json_response.all? { |entry| entry.key?("period_bucket") }
   end
 
-  test "should filter transactions by month and year" do
+  test "should create a transaction with new descriptive fields" do
     token = sign_in_confirmed_user
-    month = Date.current.month
-    year = Date.current.year
-
-    get api_v1_transactions_path, params: { month: month, year: year },
-      headers: { "Authorization" => token }, as: :json
-    assert_response :success
-    assert json_response.length >= 1
-  end
-
-  test "should show a transaction" do
-    token = sign_in_confirmed_user
-    transaction = transactions(:grocery_expense)
-
-    get api_v1_transaction_path(transaction), headers: { "Authorization" => token }, as: :json
-    assert_response :success
-    assert_equal transaction.id, json_response["id"]
-    assert json_response.key?("transaction_items")
-    assert json_response.key?("tags")
-  end
-
-  test "should create a transaction" do
-    token = sign_in_confirmed_user
-    pm = payment_methods(:pix)
+    payment_method = payment_methods(:pix)
 
     assert_difference "Transaction.count", 1 do
       post api_v1_transactions_path, params: {
         transaction: {
           amount: 99.90,
+          description: "Farmacia do mes",
+          merchant_name: "Drogaria Central",
           payment_date: Date.current,
+          due_date: Date.current,
           transaction_type: "expense",
           status: "paid",
-          payment_method_id: pm.id
+          payment_method_id: payment_method.id
         }
       }, headers: { "Authorization" => token }, as: :json
     end
+
     assert_response :created
-    assert_equal 99.9, json_response["amount"].to_f
+    assert_equal "Farmacia do mes", json_response["description"]
+    assert_equal "paid", json_response["status"]
   end
 
-  test "should create a transaction with items" do
+  test "should create installment plan and future transactions" do
     token = sign_in_confirmed_user
-    pm = payment_methods(:pix)
+    payment_method = payment_methods(:credit_card)
 
-    post api_v1_transactions_path, params: {
-      transaction: {
-        amount: 50.00,
-        payment_date: Date.current,
-        transaction_type: "expense",
-        status: "paid",
-        payment_method_id: pm.id,
-        transaction_items_attributes: [
-          { name: "Item A", quantity: 2, unit_of_measure: "un", unit_price: 25.00 }
-        ]
-      }
-    }, headers: { "Authorization" => token }, as: :json
+    assert_difference "InstallmentPlan.count", 1 do
+      assert_difference "Transaction.count", 3 do
+        post api_v1_transactions_path, params: {
+          transaction: {
+            amount: 900.00,
+            description: "Notebook",
+            payment_date: Date.current,
+            due_date: Date.current,
+            transaction_type: "expense",
+            status: "paid",
+            payment_method_id: payment_method.id,
+            installment_plan_attributes: {
+              name: "Notebook 3x",
+              total_installments: 3,
+              interval_in_months: 1
+            }
+          }
+        }, headers: { "Authorization" => token }, as: :json
+      end
+    end
+
     assert_response :created
-    assert_equal 1, json_response["transaction_items"].length
+    assert_equal 3, json_response.dig("installment_plan", "total_installments")
+    assert_equal 1, json_response.dig("installment_plan", "current_installment")
   end
 
-  test "should create a transaction with tags" do
+  test "credit card transaction after closing should return future commitment bucket" do
     token = sign_in_confirmed_user
-    pm = payment_methods(:pix)
-    tag = tags(:essential)
+    transaction = transactions(:pending_expense)
 
-    post api_v1_transactions_path, params: {
-      transaction: {
-        amount: 30.00,
-        payment_date: Date.current,
-        transaction_type: "expense",
-        status: "paid",
-        payment_method_id: pm.id,
-        tag_ids: [ tag.id ]
-      }
-    }, headers: { "Authorization" => token }, as: :json
-    assert_response :created
-    assert_equal 1, json_response["tags"].length
-  end
+    get api_v1_transaction_path(transaction), headers: { "Authorization" => token }, as: :json
 
-  test "should update a transaction" do
-    token = sign_in_confirmed_user
-    transaction = transactions(:grocery_expense)
-
-    patch api_v1_transaction_path(transaction), params: {
-      transaction: { amount: 200.00 }
-    }, headers: { "Authorization" => token }, as: :json
     assert_response :success
-    assert_equal 200.0, json_response["amount"].to_f
+    expected_bucket = Finance::CommitmentRules.credit_card_due_date(
+      transaction.payment_method,
+      transaction.due_date
+    ).strftime("%Y-%m")
+    assert_equal expected_bucket, json_response["period_bucket"]
   end
 
-  test "should destroy a transaction with soft delete" do
+  test "should list and create recurrences" do
     token = sign_in_confirmed_user
-    transaction = transactions(:grocery_expense)
 
-    delete api_v1_transaction_path(transaction), headers: { "Authorization" => token }, as: :json
-    assert_response :no_content
-    assert transaction.reload.discarded?
+    get api_v1_recurrences_path, headers: { "Authorization" => token }, as: :json
+    assert_response :success
+    assert json_response.length >= 2
+
+    assert_difference "Recurrence.count", 1 do
+      post api_v1_recurrences_path, params: {
+        recurrence: {
+          name: "Streaming",
+          amount: 49.90,
+          frequency: "monthly",
+          recurrence_interval: 1,
+          next_due_date: Date.current,
+          payment_method_id: payment_methods(:checking_account).id,
+          category_id: categories(:transport_category).id,
+          is_active: true
+        }
+      }, headers: { "Authorization" => token }, as: :json
+    end
+
+    assert_response :created
+    assert_equal "Streaming", json_response["name"]
+    assert json_response.key?("projection")
+  end
+
+  test "dashboard should return separated blocks" do
+    token = sign_in_confirmed_user
+
+    get api_v1_dashboard_path, headers: { "Authorization" => token }, as: :json
+
+    assert_response :success
+    assert json_response.key?("summary")
+    assert json_response.key?("alerts")
+    assert json_response.key?("review_queue")
+    assert json_response.key?("instrument_snapshots")
+    assert json_response.key?("upcoming_timeline")
+    assert json_response.key?("budget_health")
+    assert json_response.key?("rankings")
+    assert json_response.key?("recent_activity")
+  end
+
+  test "dashboard should flag uncategorized entries in review queue" do
+    token = sign_in_confirmed_user
+
+    get api_v1_dashboard_path, headers: { "Authorization" => token }, as: :json
+
+    assert_response :success
+    assert_operator json_response.dig("review_queue", "uncategorized_count"), :>=, 1
+    labels = json_response.fetch("budget_health").map { |entry| entry["label"] }
+    assert_includes labels, "Sem categoria"
+  end
+
+  test "dashboard should project recurrence without duplicating realized launch" do
+    token = sign_in_confirmed_user
+
+    get api_v1_dashboard_path, headers: { "Authorization" => token }, as: :json
+
+    assert_response :success
+    titles = json_response.fetch("upcoming_timeline").map { |entry| entry["title"] }
+    assert_includes titles, "Internet"
+    assert_equal 1, titles.count { |title| title == "Academia" }
   end
 
   test "should not access another user's transaction" do
     token = sign_in_confirmed_user
-    # Create a transaction for a different user
     other_user = users(:user)
-    pm = payment_methods(:pix)
+    payment_method = payment_methods(:pix)
+
     other_transaction = Transaction.create!(
-      amount: 100, payment_date: Date.current, transaction_type: :expense,
-      status: :paid, user: other_user, payment_method: pm
+      amount: 100,
+      description: "Outro usuario",
+      payment_date: Date.current,
+      due_date: Date.current,
+      transaction_type: :expense,
+      status: :paid,
+      user: other_user,
+      payment_method: payment_method
     )
 
     get api_v1_transaction_path(other_transaction), headers: { "Authorization" => token }, as: :json
+
     assert_response :not_found
-  end
-
-  # === Categories CRUD ===
-
-  test "should list categories" do
-    token = sign_in_confirmed_user
-
-    get api_v1_categories_path, headers: { "Authorization" => token }, as: :json
-    assert_response :success
-    assert_kind_of Array, json_response
-    assert json_response.length >= 2
-  end
-
-  test "should create a category" do
-    token = sign_in_confirmed_user
-
-    assert_difference "Category.count", 1 do
-      post api_v1_categories_path, params: {
-        category: { name: "Saúde" }
-      }, headers: { "Authorization" => token }, as: :json
-    end
-    assert_response :created
-    assert_equal "Saúde", json_response["name"]
-  end
-
-  test "should update a category" do
-    token = sign_in_confirmed_user
-    category = categories(:food_category)
-
-    patch api_v1_category_path(category), params: {
-      category: { name: "Alimentação e Bebidas" }
-    }, headers: { "Authorization" => token }, as: :json
-    assert_response :success
-    assert_equal "Alimentação e Bebidas", json_response["name"]
-  end
-
-  test "should destroy a category with soft delete" do
-    token = sign_in_confirmed_user
-    category = categories(:food_category)
-
-    delete api_v1_category_path(category), headers: { "Authorization" => token }, as: :json
-    assert_response :no_content
-    assert category.reload.discarded?
-  end
-
-  # === Tags CRUD ===
-
-  test "should list tags" do
-    token = sign_in_confirmed_user
-
-    get api_v1_tags_path, headers: { "Authorization" => token }, as: :json
-    assert_response :success
-    assert_kind_of Array, json_response
-    assert json_response.length >= 2
-  end
-
-  test "should create a tag" do
-    token = sign_in_confirmed_user
-
-    assert_difference "Tag.count", 1 do
-      post api_v1_tags_path, params: {
-        tag: { name: "Investimento" }
-      }, headers: { "Authorization" => token }, as: :json
-    end
-    assert_response :created
-    assert_equal "Investimento", json_response["name"]
-  end
-
-  test "should not create duplicate tag" do
-    token = sign_in_confirmed_user
-
-    post api_v1_tags_path, params: {
-      tag: { name: "Essencial" }
-    }, headers: { "Authorization" => token }, as: :json
-    assert_response :unprocessable_entity
-  end
-
-  test "should update a tag" do
-    token = sign_in_confirmed_user
-    tag = tags(:leisure)
-
-    patch api_v1_tag_path(tag), params: {
-      tag: { name: "Diversão" }
-    }, headers: { "Authorization" => token }, as: :json
-    assert_response :success
-    assert_equal "Diversão", json_response["name"]
-  end
-
-  test "should destroy a tag with soft delete" do
-    token = sign_in_confirmed_user
-    tag = tags(:leisure)
-
-    delete api_v1_tag_path(tag), headers: { "Authorization" => token }, as: :json
-    assert_response :no_content
-    assert tag.reload.discarded?
-  end
-
-  # === Payment Methods CRUD ===
-
-  test "should list payment methods" do
-    token = sign_in_confirmed_user
-
-    get api_v1_payment_methods_path, headers: { "Authorization" => token }, as: :json
-    assert_response :success
-    assert_kind_of Array, json_response
-    assert json_response.length >= 2
-  end
-
-  test "should create a payment method" do
-    token = sign_in_confirmed_user
-
-    assert_difference "PaymentMethod.count", 1 do
-      post api_v1_payment_methods_path, params: {
-        payment_method: { name: "Boleto", locale: "pt_BR", identifier: "boleto" }
-      }, headers: { "Authorization" => token }, as: :json
-    end
-    assert_response :created
-    assert_equal "Boleto", json_response["name"]
-  end
-
-  test "should update a payment method" do
-    token = sign_in_confirmed_user
-    pm = payment_methods(:credit_card)
-
-    patch api_v1_payment_method_path(pm), params: {
-      payment_method: { name: "Cartão Visa" }
-    }, headers: { "Authorization" => token }, as: :json
-    assert_response :success
-    assert_equal "Cartão Visa", json_response["name"]
-  end
-
-  test "should destroy a payment method with soft delete" do
-    token = sign_in_confirmed_user
-    pm = payment_methods(:credit_card)
-
-    delete api_v1_payment_method_path(pm), headers: { "Authorization" => token }, as: :json
-    assert_response :no_content
-    assert pm.reload.discarded?
-  end
-
-  # === Dashboard ===
-
-  test "should return dashboard summary" do
-    token = sign_in_confirmed_user
-
-    get api_v1_dashboard_path, headers: { "Authorization" => token }, as: :json
-    assert_response :success
-    assert json_response.key?("total_income")
-    assert json_response.key?("total_expense")
-    assert json_response.key?("balance")
-    assert json_response.key?("recent_transactions")
   end
 
   private

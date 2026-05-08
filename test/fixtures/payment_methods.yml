@@ -1,9 +1,29 @@
 pix:
-  name: "Pix"
-  locale: "pt_BR"
+  name: 'Pix'
+  locale: 'pt-BR'
   identifier: 4
+  kind: 'instant'
+  is_active: true
+  display_color: '#0f766e'
+  user: user_email_confirmed
 
 credit_card:
-  name: "Cartão de Crédito"
-  locale: "pt_BR"
+  name: 'Cartão de Credito'
+  locale: 'pt-BR'
   identifier: 1
+  kind: 'credit_card'
+  is_active: true
+  display_color: '#1d4ed8'
+  closing_day: 20
+  due_day: 5
+  credit_limit: 3000.00
+  user: user_email_confirmed
+
+checking_account:
+  name: 'Conta principal'
+  locale: 'pt-BR'
+  identifier: 2
+  kind: 'account'
+  is_active: true
+  display_color: '#6d28d9'
+  user: user_email_confirmed

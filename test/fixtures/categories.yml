@@ -1,7 +1,11 @@
 food_category:
-  name: "Alimentação"
+  name: 'Alimentacao'
+  monthly_limit: 1200.00
+  color: '#f59e0b'
   user: user_email_confirmed
 
 transport_category:
-  name: "Transporte"
+  name: 'Transporte'
+  monthly_limit: 600.00
+  color: '#0ea5e9'
   user: user_email_confirmed

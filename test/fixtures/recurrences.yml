@@ -1,0 +1,23 @@
+monthly_membership:
+  name: 'Academia'
+  amount: 99.00
+  is_active: true
+  frequency: 2
+  recurrence_interval: 1
+  next_due_date: <%= Date.current.beginning_of_month + 3.days %>
+  end_date:
+  user: user_email_confirmed
+  category: food_category
+  payment_method: checking_account
+
+monthly_internet:
+  name: 'Internet'
+  amount: 129.90
+  is_active: true
+  frequency: 2
+  recurrence_interval: 1
+  next_due_date: <%= Date.current.beginning_of_month + 12.days %>
+  end_date:
+  user: user_email_confirmed
+  category: transport_category
+  payment_method: checking_account
