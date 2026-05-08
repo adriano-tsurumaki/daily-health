@@ -44,3 +44,7 @@ node_modules
 .pnpm-store
 
 .claude
+
+.rtk
+
+CLAUDE.md
