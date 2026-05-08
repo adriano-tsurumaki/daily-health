@@ -1,8 +1,9 @@
-import js from '@eslint/js'
-import ts from 'typescript-eslint'
-import vue from 'eslint-plugin-vue'
-import prettier from 'eslint-config-prettier'
-import globals from 'globals'
+import js from '@eslint/js';
+import ts from 'typescript-eslint';
+import vue from 'eslint-plugin-vue';
+import prettier from 'eslint-config-prettier';
+import stylistic from '@stylistic/eslint-plugin';
+import globals from 'globals';
 
 export default [
   {
@@ -13,29 +14,37 @@ export default [
       'vendor/',
       'app/assets/',
       '**/*.d.ts',
-      'app/javascript/components/ui/**',
-    ],
+      'app/javascript/components/ui/**'
+    ]
   },
-
   js.configs.recommended,
   ...ts.configs.recommended,
   ...vue.configs['flat/recommended'],
+  {
+    plugins: { '@stylistic': stylistic },
+    rules: {
+      '@stylistic/padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: '*', next: 'if' },
+        { blankLine: 'always', prev: '*', next: 'return' }
+      ]
+    }
+  },
   prettier,
-
   {
     files: ['app/javascript/**/*.vue'],
     languageOptions: {
       globals: globals.browser,
       parserOptions: {
-        parser: ts.parser,
-      },
-    },
+        parser: ts.parser
+      }
+    }
   },
 
   {
     files: ['app/javascript/**/*.{js,ts}'],
     languageOptions: {
-      globals: globals.browser,
-    },
-  },
-]
+      globals: globals.browser
+    }
+  }
+];
