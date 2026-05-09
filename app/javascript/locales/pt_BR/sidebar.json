@@ -6,6 +6,7 @@
     "TAGS": "Tags",
     "PAYMENT_METHODS": "Instrumentos",
     "RECURRENCES": "Recorrências",
-    "SETTINGS": "Configurações"
+    "SETTINGS": "Configurações",
+    "TOGGLE_SECTION": "Alternar navegação de {section}"
   }
 }
