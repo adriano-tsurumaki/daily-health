@@ -24,7 +24,7 @@ gem "devise-jwt", "~> 0.12"
 
 gem "rack-cors"
 
-gem "resend", "~> 1.0"
+gem "resend", "~> 1.3"
 
 # Observability
 gem "lograge"
