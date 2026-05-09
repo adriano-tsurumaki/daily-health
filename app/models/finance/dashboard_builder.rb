@@ -1,6 +1,6 @@
 module Finance
   class DashboardBuilder
-    UNCATEGORIZED_LABEL = "Uncategorized".freeze
+    UNCATEGORIZED_LABEL = "Sem categoria".freeze
 
     def initialize(user:, month:, year:)
       @user = user
