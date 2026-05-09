@@ -14,9 +14,16 @@ class Transaction < ApplicationRecord
   enum :transaction_type, { expense: 0, income: 1, transfer: 2, refund: 3 }
   enum :status, { pending: 0, paid: 1, cancelled: 2, failed: 3, expired: 4 }
 
+  before_validation :normalize_income_status
+
   validates :amount, presence: true
   validates :payment_date, presence: true
   validates :description, presence: true
+  validates :status, inclusion: { in: %w[paid cancelled] }, if: -> { income? || refund? }
+
+  def normalize_income_status
+    self.status = :paid if (income? || refund?) && !cancelled?
+  end
 
   def review_status
     return "needs_category" if category_id.nil?
