@@ -54,6 +54,51 @@ class TransactionTest < ActiveSupport::TestCase
     assert transaction.tags.count >= 1
   end
 
+  test "income is automatically set to paid" do
+    transaction = Transaction.new(
+      amount: 1000,
+      description: "Salário",
+      payment_date: Date.current,
+      transaction_type: :income,
+      status: :pending,
+      user: users(:user_email_confirmed),
+      payment_method: payment_methods(:checking_account)
+    )
+
+    transaction.valid?
+    assert_equal "paid", transaction.status
+  end
+
+  test "refund is automatically set to paid" do
+    transaction = Transaction.new(
+      amount: 50,
+      description: "Estorno",
+      payment_date: Date.current,
+      transaction_type: :refund,
+      status: :pending,
+      user: users(:user_email_confirmed),
+      payment_method: payment_methods(:pix)
+    )
+
+    transaction.valid?
+    assert_equal "paid", transaction.status
+  end
+
+  test "income with cancelled status stays cancelled" do
+    transaction = Transaction.new(
+      amount: 1000,
+      description: "Bônus cancelado",
+      payment_date: Date.current,
+      transaction_type: :income,
+      status: :cancelled,
+      user: users(:user_email_confirmed),
+      payment_method: payment_methods(:checking_account)
+    )
+
+    transaction.valid?
+    assert_equal "cancelled", transaction.status
+  end
+
   test "should soft delete" do
     transaction = transactions(:grocery_expense)
     transaction.soft_delete!
