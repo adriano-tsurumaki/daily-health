@@ -2,19 +2,23 @@
   "FINANCE_FORM": {
     "NEW_TITLE": "Novo lançamento",
     "EDIT_TITLE": "Editar lançamento ",
-    "SUBTITLE": "Registre a base da transação e abra camadas extras so quando fizer sentido.",
+    "SUBTITLE": "Registre a base da transação e abra camadas extras só quando fizer sentido.",
     "BACK_TO_DASHBOARD": "Voltar ao painel",
     "AMOUNT": "Valor",
     "AMOUNT_PLACEHOLDER": "0,00",
     "DESCRIPTION": "Descrição",
     "DESCRIPTION_PLACEHOLDER": "Ex.: Supermercado do mês",
+    "DESCRIPTION_PLACEHOLDER_INCOME": "Ex.: Salário maio, Freelance cliente X",
+    "DESCRIPTION_PLACEHOLDER_TRANSFER": "Ex.: Aporte reserva de emergência",
+    "DESCRIPTION_PLACEHOLDER_REFUND": "Ex.: Estorno compra cancelada",
     "MERCHANT_NAME": "Estabelecimento",
+    "INCOME_SOURCE": "Fonte",
+    "INCOME_SOURCE_PLACEHOLDER": "Ex.: Empresa, Freelance",
     "TRANSFER_COUNTERPART": "Contraparte da transferência",
     "MERCHANT_PLACEHOLDER": "Ex.: Mercado do Bairro",
     "TRANSFER_COUNTERPART_PLACEHOLDER": "Ex.: Conta investimento",
     "PAYMENT_DATE": "Data",
     "DUE_DATE_OPTIONAL": "Vencimento (opcional)",
-    "TRANSACTION_TYPE": "Tipo",
     "STATUS": "Status",
     "PAYMENT_METHOD": "Instrumento",
     "CATEGORY": "Categoria",
@@ -46,6 +50,10 @@
     "RECURRENCE_TOGGLE": "Vincular recorrência",
     "RECURRENCE": "Recorrência",
     "SELECT_RECURRENCE": "Selecione uma recorrência",
-    "TRANSFER_HELP": "Use a contraparte para indicar entre quais instrumentos a transferência aconteceu."
+    "TRANSFER_HELP": "Use a contraparte para indicar entre quais instrumentos a transferência aconteceu.",
+    "KEEP_FILLING": "Continuar lançando",
+    "TYPE_CHANGE_TITLE": "Trocar tipo de lançamento?",
+    "TYPE_CHANGE_DESCRIPTION": "Os campos descrição, valor, estabelecimento, tags e itens serão limpos. Os demais campos serão mantidos.",
+    "TYPE_CHANGE_CONFIRM": "Trocar e limpar"
   }
 }

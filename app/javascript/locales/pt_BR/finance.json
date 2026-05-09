@@ -111,7 +111,7 @@
     },
     "PAYMENT_METHODS": {
       "TITLE": "Instrumentos",
-      "SUBTITLE": "Organize contas, cartões e meios instantaneos sem mudar a rota técnica do produto.",
+      "SUBTITLE": "Organize contas, cartões e meios instantâneos sem mudar a rota técnica do produto.",
       "NEW": "Novo instrumento",
       "SAVE_CHANGES": "Salvar mudanças",
       "NAME": "Nome",
@@ -144,7 +144,7 @@
     },
     "RECURRENCES": {
       "TITLE": "Recorrências",
-      "SUBTITLE": "Cadastre compromissos fixos e acompanhe a projecao dos proximos meses.",
+      "SUBTITLE": "Cadastre compromissos fixos e acompanhe a projeção dos proximos meses.",
       "NEW": "Nova recorrência",
       "SAVE_CHANGES": "Salvar mudanças",
       "EMPTY": "Nenhuma recorrência ativa por enquanto",
@@ -158,7 +158,7 @@
       "STATUS": "Status",
       "STATUS_ACTIVE": "Ativa",
       "STATUS_PAUSED": "Pausada",
-      "PROJECTION": "Projecao",
+      "PROJECTION": "Projeção",
       "NEXT_OCCURRENCES": "Próximas ocorrências",
       "FREQUENCIES": {
         "daily": "Diária",

@@ -8,13 +8,17 @@
     "AMOUNT_PLACEHOLDER": "0.00",
     "DESCRIPTION": "Description",
     "DESCRIPTION_PLACEHOLDER": "Ex.: Monthly groceries",
+    "DESCRIPTION_PLACEHOLDER_INCOME": "Ex.: May salary, Freelance client X",
+    "DESCRIPTION_PLACEHOLDER_TRANSFER": "Ex.: Emergency fund deposit",
+    "DESCRIPTION_PLACEHOLDER_REFUND": "Ex.: Refund for cancelled order",
     "MERCHANT_NAME": "Merchant",
+    "INCOME_SOURCE": "Source",
+    "INCOME_SOURCE_PLACEHOLDER": "Ex.: Company, Freelance",
     "TRANSFER_COUNTERPART": "Counterpart of transfer",
     "MERCHANT_PLACEHOLDER": "Ex.: Neighborhood market",
     "TRANSFER_COUNTERPART_PLACEHOLDER": "Ex.: Investment account",
     "PAYMENT_DATE": "Date",
     "DUE_DATE_OPTIONAL": "Due date (optional)",
-    "TRANSACTION_TYPE": "Type",
     "STATUS": "Status",
     "PAYMENT_METHOD": "Instrument",
     "CATEGORY": "Category",
@@ -46,6 +50,10 @@
     "RECURRENCE_TOGGLE": "Link recurrence",
     "RECURRENCE": "Recurrence",
     "SELECT_RECURRENCE": "Select a recurrence",
-    "TRANSFER_HELP": "Use the counterpart field to show which instruments are involved in the transfer."
+    "TRANSFER_HELP": "Use the counterpart field to show which instruments are involved in the transfer.",
+    "KEEP_FILLING": "Keep adding entries",
+    "TYPE_CHANGE_TITLE": "Change entry type?",
+    "TYPE_CHANGE_DESCRIPTION": "Description, amount, merchant, tags and items will be cleared. Other fields will be kept.",
+    "TYPE_CHANGE_CONFIRM": "Change and clear"
   }
 }

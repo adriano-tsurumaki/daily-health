@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { useFinanceStore } from '@stores/finance';
@@ -11,6 +11,21 @@ import { Card } from '@components/ui/card';
 import { Alert, AlertDescription } from '@components/ui/alert';
 import { Badge } from '@components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from '@components/ui/dialog';
+import {
+  NumberField,
+  NumberFieldContent,
+  NumberFieldDecrement,
+  NumberFieldInput,
+  NumberFieldIncrement
+} from '@components/ui/number-field';
 
 const { t } = useI18n();
 const router = useRouter();
@@ -43,9 +58,91 @@ const formError = ref<string | null>(null);
 const showItems = ref(false);
 const showInstallment = ref(false);
 const showRecurrenceLink = ref(false);
+const keepFilling = ref(false);
+
+const pendingType = ref<string | null>(null);
+const showTypeChangeDialog = ref(false);
 
 const transactionTypes = ['expense', 'income', 'transfer', 'refund'];
 const statuses = ['pending', 'paid', 'cancelled', 'failed', 'expired'];
+
+const isIncome = computed(() => form.transaction_type === 'income');
+const isTransfer = computed(() => form.transaction_type === 'transfer');
+const isExpense = computed(() => form.transaction_type === 'expense' || form.transaction_type === 'refund');
+const isAlwaysPaid = computed(() => form.transaction_type === 'income' || form.transaction_type === 'refund');
+
+const descriptionPlaceholder = computed(() => {
+  const map: Record<string, string> = {
+    income: t('FINANCE_FORM.DESCRIPTION_PLACEHOLDER_INCOME'),
+    transfer: t('FINANCE_FORM.DESCRIPTION_PLACEHOLDER_TRANSFER'),
+    refund: t('FINANCE_FORM.DESCRIPTION_PLACEHOLDER_REFUND')
+  };
+
+  return map[form.transaction_type] ?? t('FINANCE_FORM.DESCRIPTION_PLACEHOLDER');
+});
+
+const typeIcons: Record<string, string> = {
+  expense: '↓',
+  income: '↑',
+  transfer: '⇄',
+  refund: '↩'
+};
+
+function isFormDirty(): boolean {
+  return (
+    form.amount !== 0 ||
+    form.description !== '' ||
+    form.merchant_name !== '' ||
+    form.tag_ids.length > 0 ||
+    form.items.length > 0
+  );
+}
+
+function requestTypeChange(type: string) {
+  if (type === form.transaction_type) return;
+
+  if (!isEdit.value && isFormDirty()) {
+    pendingType.value = type;
+    showTypeChangeDialog.value = true;
+  } else {
+    applyTypeChange(type);
+  }
+}
+
+function confirmTypeChange() {
+  if (pendingType.value) applyTypeChange(pendingType.value);
+  showTypeChangeDialog.value = false;
+  pendingType.value = null;
+}
+
+function cancelTypeChange() {
+  showTypeChangeDialog.value = false;
+  pendingType.value = null;
+}
+
+function applyTypeChange(type: string) {
+  form.transaction_type = type;
+  form.amount = 0;
+  form.description = '';
+  form.merchant_name = '';
+  form.tag_ids = [];
+  form.items = [];
+  showInstallment.value = false;
+  showItems.value = false;
+  showRecurrenceLink.value = false;
+
+  const expenseTypes = ['expense', 'refund'];
+
+  if (!expenseTypes.includes(type)) form.due_date = '';
+
+  if (type === 'income' || type === 'refund') {
+    form.status = 'paid';
+  }
+}
+
+watch(isAlwaysPaid, val => {
+  if (val) form.status = 'paid';
+});
 
 function addItem() {
   showItems.value = true;
@@ -94,6 +191,20 @@ function buildPayload(): TransactionPayload {
   };
 }
 
+function resetForNextEntry() {
+  form.amount = 0;
+  form.description = '';
+  form.tag_ids = [];
+  form.items = [];
+  form.installment_name = '';
+  form.total_installments = '2';
+  form.interval_in_months = '1';
+  showItems.value = false;
+  showInstallment.value = false;
+  showRecurrenceLink.value = false;
+  formError.value = null;
+}
+
 async function handleSubmit() {
   saving.value = true;
   formError.value = null;
@@ -111,7 +222,11 @@ async function handleSubmit() {
     return;
   }
 
-  router.push({ name: 'finance' });
+  if (keepFilling.value && !isEdit.value) {
+    resetForNextEntry();
+  } else {
+    router.push({ name: 'finance' });
+  }
 }
 
 onMounted(async () => {
@@ -173,42 +288,73 @@ onMounted(async () => {
       <AlertDescription>{{ formError }}</AlertDescription>
     </Alert>
 
+    <Card class="border-border/70 p-4">
+      <div class="flex flex-wrap gap-2">
+        <button
+          v-for="type in transactionTypes"
+          :key="type"
+          type="button"
+          :class="[
+            'flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium transition-colors',
+            form.transaction_type === type
+              ? 'border-primary bg-primary text-primary-foreground'
+              : 'border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground',
+            isEdit ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+          ]"
+          :disabled="isEdit"
+          @click="requestTypeChange(type)"
+        >
+          <span>{{ typeIcons[type] }}</span>
+          {{ t(`FINANCE.TYPES.${type}`) }}
+        </button>
+      </div>
+    </Card>
+
     <form class="space-y-5" @submit.prevent="handleSubmit">
       <Card class="border-border/70 p-4">
         <div class="grid gap-4 md:grid-cols-2">
           <div class="space-y-2 md:col-span-2">
             <Label>{{ t('FINANCE_FORM.DESCRIPTION') }}</Label>
-            <Input v-model="form.description" :placeholder="t('FINANCE_FORM.DESCRIPTION_PLACEHOLDER')" required />
+            <Input v-model="form.description" :placeholder="descriptionPlaceholder" required />
           </div>
 
           <div class="space-y-2">
-            <Label>{{ t('FINANCE_FORM.AMOUNT') }}</Label>
-            <Input
-              v-model.number="form.amount"
-              type="number"
-              step="0.01"
-              min="0"
-              :placeholder="t('FINANCE_FORM.AMOUNT_PLACEHOLDER')"
-              required
-            />
+            <Label for="amount">{{ t('FINANCE_FORM.AMOUNT') }}</Label>
+            <NumberField
+              id="amount"
+              v-model="form.amount"
+              :min="0"
+              :step="1"
+              :format-options="{
+                style: 'currency',
+                currency: 'BRL',
+                currencyDisplay: 'symbol',
+                currencySign: 'accounting'
+              }"
+              invert-wheel-change
+            >
+              <NumberFieldContent>
+                <NumberFieldDecrement />
+                <NumberFieldInput />
+                <NumberFieldIncrement />
+              </NumberFieldContent>
+            </NumberField>
           </div>
 
-          <div class="space-y-2">
+          <div v-if="!isIncome" class="space-y-2">
             <Label>
-              {{
-                form.transaction_type === 'transfer'
-                  ? t('FINANCE_FORM.TRANSFER_COUNTERPART')
-                  : t('FINANCE_FORM.MERCHANT_NAME')
-              }}
+              {{ isTransfer ? t('FINANCE_FORM.TRANSFER_COUNTERPART') : t('FINANCE_FORM.MERCHANT_NAME') }}
             </Label>
             <Input
               v-model="form.merchant_name"
               :placeholder="
-                form.transaction_type === 'transfer'
-                  ? t('FINANCE_FORM.TRANSFER_COUNTERPART_PLACEHOLDER')
-                  : t('FINANCE_FORM.MERCHANT_PLACEHOLDER')
+                isTransfer ? t('FINANCE_FORM.TRANSFER_COUNTERPART_PLACEHOLDER') : t('FINANCE_FORM.MERCHANT_PLACEHOLDER')
               "
             />
+          </div>
+          <div v-if="isIncome" class="space-y-2">
+            <Label>{{ t('FINANCE_FORM.INCOME_SOURCE') }}</Label>
+            <Input v-model="form.merchant_name" :placeholder="t('FINANCE_FORM.INCOME_SOURCE_PLACEHOLDER')" />
           </div>
 
           <div class="space-y-2">
@@ -216,26 +362,12 @@ onMounted(async () => {
             <Input v-model="form.payment_date" type="date" required />
           </div>
 
-          <div class="space-y-2">
+          <div v-if="isExpense" class="space-y-2">
             <Label>{{ t('FINANCE_FORM.DUE_DATE_OPTIONAL') }}</Label>
             <Input v-model="form.due_date" type="date" />
           </div>
 
-          <div class="space-y-2">
-            <Label>{{ t('FINANCE_FORM.TRANSACTION_TYPE') }}</Label>
-            <Select v-model="form.transaction_type">
-              <SelectTrigger class="w-full">
-                <SelectValue :placeholder="t('FINANCE_FORM.SELECT_TYPE')" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem v-for="transactionType in transactionTypes" :key="transactionType" :value="transactionType">
-                  {{ t(`FINANCE.TYPES.${transactionType}`) }}
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div class="space-y-2">
+          <div v-if="!isAlwaysPaid" class="space-y-2">
             <Label>{{ t('FINANCE_FORM.STATUS') }}</Label>
             <Select v-model="form.status">
               <SelectTrigger class="w-full">
@@ -281,12 +413,28 @@ onMounted(async () => {
               </SelectContent>
             </Select>
           </div>
+
+          <div v-if="store.tags.length > 0" class="space-y-2 md:col-span-2">
+            <Label>{{ t('FINANCE_FORM.TAGS') }}</Label>
+            <div class="flex flex-wrap gap-2">
+              <Badge
+                v-for="tag in store.tags"
+                :key="tag.id"
+                :variant="form.tag_ids.includes(tag.id) ? 'tag-active' : 'tag'"
+                class="cursor-pointer select-none transition-colors"
+                @click="toggleTag(tag.id)"
+              >
+                {{ tag.name }}
+              </Badge>
+            </div>
+          </div>
         </div>
       </Card>
 
       <Card class="border-border/70 p-4">
         <div class="flex flex-wrap items-center gap-2">
           <Button
+            v-if="isExpense"
             type="button"
             :variant="showInstallment ? 'secondary' : 'outline'"
             :disabled="isEdit"
@@ -301,7 +449,12 @@ onMounted(async () => {
           >
             {{ t('FINANCE_FORM.RECURRENCE_TOGGLE') }}
           </Button>
-          <Button type="button" :variant="showItems ? 'secondary' : 'outline'" @click="showItems = !showItems">
+          <Button
+            v-if="isExpense"
+            type="button"
+            :variant="showItems ? 'secondary' : 'outline'"
+            @click="showItems = !showItems"
+          >
             {{ t('FINANCE_FORM.ITEMS_TOGGLE') }}
           </Button>
         </div>
@@ -347,23 +500,6 @@ onMounted(async () => {
           </Select>
         </div>
 
-        <div class="mt-5 space-y-3">
-          <div class="flex items-center justify-between">
-            <Label>{{ t('FINANCE_FORM.TAGS') }}</Label>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <Badge
-              v-for="tag in store.tags"
-              :key="tag.id"
-              :variant="form.tag_ids.includes(tag.id) ? 'default' : 'outline'"
-              class="cursor-pointer transition-colors hover:bg-accent hover:text-accent-foreground"
-              @click="toggleTag(tag.id)"
-            >
-              {{ tag.name }}
-            </Badge>
-          </div>
-        </div>
-
         <div v-if="showItems" class="mt-5 space-y-3">
           <div class="flex items-center justify-between">
             <Label>{{ t('FINANCE_FORM.ITEMS') }}</Label>
@@ -389,14 +525,42 @@ onMounted(async () => {
         </div>
       </Card>
 
-      <div class="flex gap-3">
-        <Button type="submit" :disabled="saving">
-          {{ saving ? t('FINANCE_FORM.SAVING') : t('FINANCE_FORM.SAVE') }}
-        </Button>
-        <Button type="button" variant="outline" @click="router.push({ name: 'finance' })">
-          {{ t('FINANCE_FORM.CANCEL') }}
-        </Button>
+      <div class="flex items-center gap-4">
+        <div class="flex gap-3">
+          <Button type="submit" :disabled="saving">
+            {{ saving ? t('FINANCE_FORM.SAVING') : t('FINANCE_FORM.SAVE') }}
+          </Button>
+          <Button type="button" variant="outline" @click="router.push({ name: 'finance' })">
+            {{ t('FINANCE_FORM.CANCEL') }}
+          </Button>
+        </div>
+
+        <div v-if="!isEdit" class="ml-auto flex items-center gap-2">
+          <input
+            id="keep-filling"
+            v-model="keepFilling"
+            type="checkbox"
+            class="h-4 w-4 cursor-pointer rounded border-border accent-primary"
+          />
+          <Label for="keep-filling" class="cursor-pointer text-sm font-normal text-muted-foreground">
+            {{ t('FINANCE_FORM.KEEP_FILLING') }}
+          </Label>
+        </div>
       </div>
     </form>
+
+    <!-- Modal confirmação troca de tipo -->
+    <Dialog :open="showTypeChangeDialog" @update:open="cancelTypeChange">
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{{ t('FINANCE_FORM.TYPE_CHANGE_TITLE') }}</DialogTitle>
+          <DialogDescription>{{ t('FINANCE_FORM.TYPE_CHANGE_DESCRIPTION') }}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" @click="cancelTypeChange">{{ t('FINANCE_FORM.CANCEL') }}</Button>
+          <Button variant="destructive" @click="confirmTypeChange">{{ t('FINANCE_FORM.TYPE_CHANGE_CONFIRM') }}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   </div>
 </template>
